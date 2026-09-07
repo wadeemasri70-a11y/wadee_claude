@@ -1,9 +1,23 @@
-ضع هنا صور البوسترات وصور الاستوديو.
-المقاس المقترح للبوستر: 1200×750 (نسبة 16:10)، بصيغة .webp أو .jpg.
-ثم في index.html استبدل داخل كل بطاقة:
-  <div class="work__art" data-glyph="د"></div>
-بـ:
-  <img class="work__art" src="assets/img/اسم-الملف.webp" alt="اسم العمل">
+ضع هنا صور الموقع بهذه الأسماء بالضبط:
 
-Drop poster and studio images here (1200x750, .webp or .jpg) and replace the
-placeholder .work__art div inside each card in index.html with an <img>.
+  logo.png       اللوغو — مربّع، خلفية شفافة، ٥١٢×٥١٢ تقريباً
+  work-01.jpg    بوستر العمل الأول
+  work-02.jpg    ...
+  work-03.jpg
+  work-04.jpg
+  work-05.jpg
+  work-06.jpg    بوستر العمل السادس
+
+البوسترات بنسبة 3:2 (مثلاً ١٢٠٠×٨٠٠)، بصيغة .jpg أو .webp.
+
+لو استعملت أسماء ثانية، غيّر الـ src داخل كل <figure class="card"> في
+index.html، وكمان <link rel="icon"> و og:image في الـ <head> بالنسبة للّوغو.
+
+أي صورة ناقصة لا تكسر الموقع: البوستر يصير مستطيلاً متدرّجاً فيه أول حرف من
+اسم العمل، واللوغو يختفي ويبقى الاسم النصّي.
+
+---
+
+Drop the site images here using exactly these filenames: logo.png (square,
+transparent, ~512x512) and work-01.jpg … work-06.jpg (3:2, e.g. 1200x800,
+.jpg or .webp). Missing files degrade gracefully rather than breaking.

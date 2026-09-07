@@ -1,478 +1,313 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>أوان | استوديوهات الدوبلاج والإنتاج الصوتي</title>
-<meta name="description" content="استوديوهات أوان للدوبلاج — دبلجة وترجمة وتعليق صوتي ومكساج بجودة سينمائية، بأكثر من ٨ لغات ومع أكثر من ٤٠٠ موهبة صوتية.">
-<meta name="theme-color" content="#05060a">
-<meta property="og:title" content="أوان | استوديوهات الدوبلاج والإنتاج الصوتي">
-<meta property="og:description" content="نمنح الأعمال العالمية صوتاً عربياً — دوبلاج، ترجمة، تعليق صوتي، ومكساج.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أوان — استوديو دوبلاج وتعليق صوتي</title>
+<meta name="description" content="أوان استوديو دوبلاج وتعليق صوتي: دراما، أنمي، وثائقي وإعلانات — من الترجمة والاقتباس لتسجيل الأصوات والمكساج النهائي.">
+<meta name="theme-color" content="#f4f1ec">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
 <meta property="og:type" content="website">
+<meta property="og:title" content="أوان — استوديو دوبلاج وتعليق صوتي">
+<meta property="og:description" content="نُعطي القصص أصواتها.">
+<meta property="og:image" content="assets/img/logo.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@400;500;700&family=Amiri:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2305060a'/%3E%3Cpath d='M8 20l4-9 4 9M17 22V10M22 19v-6M27 21v-10' stroke='%23f5b544' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
-<body class="is-loading">
+<body>
 
-<!-- ============ CINEMATIC INTRO ============ -->
-<div class="intro" id="intro">
-  <span class="intro__curtain intro__curtain--t" aria-hidden="true"></span>
-  <span class="intro__curtain intro__curtain--b" aria-hidden="true"></span>
-  <div class="intro__stage">
-    <div class="intro__mark" aria-hidden="true">
-      <svg viewBox="0 0 40 28" width="66" height="46">
-        <path d="M3 22L9 6l6 16M17 25V3M23 21V7M29 24V4M35 19v-8" fill="none" stroke="currentColor"
-              stroke-width="2.4" stroke-linecap="round" pathLength="100"
-              stroke-dasharray="100" stroke-dashoffset="100" class="intro__draw"/>
-      </svg>
-    </div>
-    <div class="intro__word">AWAN<em>.</em></div>
-    <div class="intro__meter" aria-hidden="true"><span id="introFill"></span></div>
-    <div class="intro__pct" id="introPct" aria-hidden="true">0</div>
-  </div>
-</div>
+<a class="skip" href="#main" data-ar="تخطَّ إلى المحتوى" data-en="Skip to content">تخطَّ إلى المحتوى</a>
 
-<!-- ============ FIXED ATMOSPHERE LAYERS ============ -->
-<canvas class="dust" id="dust" aria-hidden="true"></canvas>
-<div class="leaks" id="leaks" aria-hidden="true"><i></i><i></i><i></i></div>
-<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
 
-<!-- ============ SCROLL PROGRESS ============ -->
-<div class="scroll-progress" id="scrollProgress" aria-hidden="true"><span></span></div>
-
-<!-- ============ CUSTOM CURSOR ============ -->
-<div class="cursor" id="cursor" aria-hidden="true">
-  <span class="cursor__ring"></span>
-  <span class="cursor__dot"></span>
-  <span class="cursor__label" id="cursorLabel"></span>
-</div>
-
-<!-- ============ NAV ============ -->
 <header class="nav" id="nav">
-  <a class="nav__logo magnet" href="#top" aria-label="أوان">
-    <svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true">
-      <path d="M3 22L9 6l6 16M17 25V3M23 21V7M29 24V4M35 19v-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-    </svg>
-    <span class="nav__logo-text">AWAN<em>.</em></span>
-  </a>
+  <div class="nav__in">
+    <a class="brand" href="#home" aria-label="أوان — الصفحة الرئيسية">
+      <img class="brand__logo" src="assets/img/logo.png" alt="" width="40" height="40">
+      <span class="brand__name" data-ar="أوان" data-en="Awan">أوان</span>
+    </a>
 
-  <nav class="nav__links" id="navLinks" aria-label="التنقل الرئيسي">
-    <a href="#about"    data-ar="من نحن"     data-en="About">من نحن</a>
-    <a href="#services" data-ar="خدماتنا"    data-en="Services">خدماتنا</a>
-    <a href="#works"    data-ar="أعمالنا"    data-en="Works">أعمالنا</a>
-    <a href="#process"  data-ar="كيف نشتغل"  data-en="Process">كيف نشتغل</a>
-    <a href="#studios"  data-ar="الاستوديو"  data-en="Studio">الاستوديو</a>
-    <a href="#contact"  data-ar="تواصل"      data-en="Contact">تواصل</a>
-  </nav>
+    <nav class="nav__links" id="navLinks" aria-label="التنقّل الرئيسي">
+      <a href="#about"    data-ar="من نحن" data-en="About">من نحن</a>
+      <a href="#services" data-ar="خدمات"  data-en="Services">خدمات</a>
+      <a href="#work"     data-ar="أعمال"  data-en="Work">أعمال</a>
+      <a href="#contact"  data-ar="تواصل"  data-en="Contact">تواصل</a>
+    </nav>
 
-  <div class="nav__actions">
-    <button class="lang-toggle" id="langToggle" type="button" aria-label="تبديل اللغة">
-      <span class="lang-toggle__pill" aria-hidden="true"></span>
-      <span>ع</span><span>EN</span>
-    </button>
-    <a class="btn btn--sm magnet" href="#contact" data-ar="اطلب عرض سعر" data-en="Get a quote">اطلب عرض سعر</a>
-    <button class="burger" id="burger" type="button" aria-label="القائمة" aria-expanded="false"><i></i><i></i></button>
+    <div class="nav__side">
+      <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة">
+        <span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
-<main id="top">
+<div class="menu" id="menu" hidden>
+  <nav class="menu__nav" aria-label="التنقّل">
+    <a href="#about"    data-ar="من نحن" data-en="About" style="--i:0">من نحن</a>
+    <a href="#services" data-ar="خدمات"  data-en="Services" style="--i:1">خدمات</a>
+    <a href="#work"     data-ar="أعمال"  data-en="Work" style="--i:2">أعمال</a>
+    <a href="#contact"  data-ar="تواصل"  data-en="Contact" style="--i:3">تواصل</a>
+  </nav>
+</div>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="hero">
-  <canvas class="hero__canvas" id="scene" aria-hidden="true"></canvas>
-  <div class="hero__veil" aria-hidden="true"></div>
+<div id="scroller">
+<main id="main">
 
-  <div class="hero__rail" aria-hidden="true">
-    <span class="hero__rail-line"></span>
-    <span class="hero__rail-txt" data-ar="دمشق" data-en="Damascus">دمشق</span>
-    <span class="hero__rail-dot"></span>
-    <span class="hero__rail-txt" data-ar="منذ ٢٠١٨" data-en="Since 2018">منذ ٢٠١٨</span>
-  </div>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home">
+    <canvas class="hero__wave" id="wave" data-par="0.06" aria-hidden="true"></canvas>
+    <div class="hero__glow" data-par="-0.05" aria-hidden="true"></div>
 
-  <div class="hero__content">
-    <p class="hero__eyebrow" data-reveal data-ar="استوديوهات أوان للدوبلاج" data-en="Awan Dubbing Studios">استوديوهات أوان للدوبلاج</p>
+    <div class="wrap hero__in">
+      <img class="hero__logo" id="heroLogo" src="assets/img/logo.png"
+           alt="شعار أوان" width="132" height="132">
 
-    <h1 class="hero__title split" data-stagger="34">
-      <span data-ar="نُعطي الأعمال العالمية" data-en="We give world cinema">نُعطي الأعمال العالمية</span>
-      <em data-ar="صوتاً عربياً" data-en="the Arabic voice">صوتاً عربياً</em>
-      <span data-ar="يليق بها" data-en="it deserves">يليق بها</span>
-    </h1>
+      <p class="eyebrow" data-rv="up" style="--i:0">
+        <span class="dot" aria-hidden="true"></span>
+        <span data-ar="استوديو دوبلاج وتعليق صوتي" data-en="Dubbing &amp; voice-over studio">استوديو دوبلاج وتعليق صوتي</span>
+      </p>
 
-    <p class="hero__sub" data-reveal data-delay="240" data-ar="أكثر من خمس سنوات من الدوبلاج المتكامل بثماني لغات، وأكثر من ٤٠٠ موهبة صوتية، في استوديوهات مجهّزة بأحدث تقنيات التسجيل والمكساج."
-       data-en="Over five years of full-service dubbing in eight languages, 400+ voice talents, in studios equipped with state-of-the-art recording and mixing technology.">
-      أكثر من خمس سنوات من الدوبلاج المتكامل بثماني لغات، وأكثر من ٤٠٠ موهبة صوتية، في استوديوهات مجهّزة بأحدث تقنيات التسجيل والمكساج.
-    </p>
+      <h1 class="hero__title" data-par="0.03">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:1" data-ar="نُعطي القصص" data-en="We give stories">نُعطي القصص</span></span>
+        <span class="line"><span class="line__in" data-rv="line" style="--i:2" data-ar="أصواتها" data-en="their voices">أصواتها</span></span>
+      </h1>
 
-    <div class="hero__cta" data-reveal data-delay="360">
-      <a class="btn btn--primary magnet" href="#works"><span data-ar="شاهد أعمالنا" data-en="See our work">شاهد أعمالنا</span>
-        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p class="hero__sub" data-rv="up" style="--i:4"
+         data-ar="دراما، أنمي، وثائقي وإعلانات — من الترجمة والاقتباس لتسجيل الأصوات والمكساج النهائي، تحت سقف واحد."
+         data-en="Drama, anime, documentary and commercials — from translation and adaptation to voice recording and the final mix, under one roof.">
+        دراما، أنمي، وثائقي وإعلانات — من الترجمة والاقتباس لتسجيل الأصوات والمكساج النهائي، تحت سقف واحد.
+      </p>
+
+      <div class="hero__cta" data-rv="up" style="--i:5">
+        <a class="btn btn--solid" href="#work" data-ar="شوف الأعمال" data-en="See the work">شوف الأعمال</a>
+        <a class="btn btn--ghost" href="#contact" data-ar="تواصل معنا" data-en="Get in touch">تواصل معنا</a>
+      </div>
+    </div>
+
+    <a class="cue" href="#about" data-rv="up" style="--i:7">
+      <span class="cue__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span data-ar="مرّر" data-en="Scroll">مرّر</span>
+    </a>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="sec about" id="about">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="من نحن" data-en="About">من نحن</span></p>
+
+      <h2 class="statement">
+        <span class="wipe" data-rv="wipe" style="--i:0" data-ar="بنشتغل على الصوت لحدّ ما يصير طبيعي:" data-en="We work a voice until it sounds inevitable:">بنشتغل على الصوت لحدّ ما يصير طبيعي:</span>
+        <span class="wipe" data-rv="wipe" style="--i:1" data-ar="نبرة تشبه الشخصية، وإيقاع يشبه المشهد،" data-en="a tone that fits the character, a rhythm that fits">نبرة تشبه الشخصية، وإيقاع يشبه المشهد،</span>
+        <span class="wipe" data-rv="wipe" style="--i:2" data-ar="وترجمة تحكي متل الناس." data-en="the scene, and a script that sounds like people talking.">وترجمة تحكي متل الناس.</span>
+      </h2>
+
+      <div class="about__grid">
+        <p class="about__text" data-rv="up"
+           data-ar="أوان استوديو مستقل، بيجمع مخرجين صوتيين ومترجمين ومهندسي صوت تحت سقف واحد. كل عمل بيمشي بنفس الطريق: قراءة النص، اختيار الأصوات، التسجيل بإشراف إخراجي، وبعدين المكساج والتسليم بالمواصفات اللي بيطلبها العميل."
+           data-en="Awan is an independent studio that brings voice directors, translators and sound engineers under one roof. Every title follows the same path: read the script, cast the voices, record with a director in the room, then mix and deliver to the client's spec.">
+          أوان استوديو مستقل، بيجمع مخرجين صوتيين ومترجمين ومهندسي صوت تحت سقف واحد. كل عمل بيمشي بنفس الطريق: قراءة النص، اختيار الأصوات، التسجيل بإشراف إخراجي، وبعدين المكساج والتسليم بالمواصفات اللي بيطلبها العميل.
+        </p>
+
+        <ul class="stats" data-rv="up">
+          <li><b class="num" data-to="400" data-suffix="+">0</b><span data-ar="صوت في بنك الأصوات" data-en="voices on the roster">صوت في بنك الأصوات</span></li>
+          <li><b class="num" data-to="8">0</b><span data-ar="لغات ولهجات" data-en="languages &amp; dialects">لغات ولهجات</span></li>
+          <li><b class="num" data-to="1200" data-suffix="+">0</b><span data-ar="ساعة مدبلجة" data-en="hours dubbed">ساعة مدبلجة</span></li>
+          <li><b class="num" data-to="5">0</b><span data-ar="سنوات شغل" data-en="years running">سنوات شغل</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="sec services" id="services">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="خدمات" data-en="Services">خدمات</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="كل شي بين النص والنسخة النهائية"
+          data-en="Everything between the script and the final master">كل شي بين النص والنسخة النهائية</h2>
+
+      <ol class="srv">
+        <li class="srv__row" data-rv="row" style="--i:0">
+          <span class="srv__no">01</span>
+          <h3 class="srv__name" data-ar="الدوبلاج" data-en="Dubbing">الدوبلاج</h3>
+          <p class="srv__txt" data-ar="مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة."
+             data-en="Full lip-sync for drama, anime and film, with a voice director on every session.">مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:1">
+          <span class="srv__no">02</span>
+          <h3 class="srv__name" data-ar="التعليق الصوتي" data-en="Voice-over">التعليق الصوتي</h3>
+          <p class="srv__txt" data-ar="إعلانات، وثائقيات، مواد تعليمية وأدلة صوتية — بأصوات مختارة حسب المزاج المطلوب."
+             data-en="Commercials, documentaries, e-learning and audio guides — cast to the mood you're after.">إعلانات، وثائقيات، مواد تعليمية وأدلة صوتية — بأصوات مختارة حسب المزاج المطلوب.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:2">
+          <span class="srv__no">03</span>
+          <h3 class="srv__name" data-ar="الترجمة والاقتباس" data-en="Translation &amp; adaptation">الترجمة والاقتباس</h3>
+          <p class="srv__txt" data-ar="نقل النص للعربي بلهجة تناسب العمل، ومعالجته ليمشي مع حركة الشفاه والإيقاع."
+             data-en="Scripts moved into Arabic in the right dialect, then reshaped to land on the lip movement and the beat.">نقل النص للعربي بلهجة تناسب العمل، ومعالجته ليمشي مع حركة الشفاه والإيقاع.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:3">
+          <span class="srv__no">04</span>
+          <h3 class="srv__name" data-ar="الكاستينغ" data-en="Casting">الكاستينغ</h3>
+          <p class="srv__txt" data-ar="بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل ما تبدأ الجلسات."
+             data-en="A deep roster and recorded auditions, so you pick the voices before a session is booked.">بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل ما تبدأ الجلسات.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:4">
+          <span class="srv__no">05</span>
+          <h3 class="srv__name" data-ar="الهندسة والمكساج" data-en="Mixing &amp; mastering">الهندسة والمكساج</h3>
+          <p class="srv__txt" data-ar="تنظيف، مونتاج صوتي، ومكساج ستيريو أو 5.1، مع تسليم بمواصفات المنصّات."
+             data-en="Clean-up, sound edit, stereo or 5.1 mix, delivered to platform spec.">تنظيف، مونتاج صوتي، ومكساج ستيريو أو 5.1، مع تسليم بمواصفات المنصّات.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ WORK ═══ -->
+  <section class="sec work" id="work">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="أعمال" data-en="Work">أعمال</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="مختارات من شغلنا" data-en="Selected work">مختارات من شغلنا</h2>
+
+      <div class="filters" id="filters" role="group" aria-label="تصفية الأعمال">
+        <button class="chip is-on" type="button" data-f="all"   aria-pressed="true"  data-ar="الكل" data-en="All">الكل</button>
+        <button class="chip" type="button" data-f="drama" aria-pressed="false" data-ar="دراما" data-en="Drama">دراما</button>
+        <button class="chip" type="button" data-f="anime" aria-pressed="false" data-ar="أنمي" data-en="Anime">أنمي</button>
+        <button class="chip" type="button" data-f="doc"   aria-pressed="false" data-ar="وثائقي" data-en="Documentary">وثائقي</button>
+        <button class="chip" type="button" data-f="ad"    aria-pressed="false" data-ar="إعلانات" data-en="Commercials">إعلانات</button>
+      </div>
+
+      <div class="grid" id="grid">
+
+        <figure class="card" data-cat="drama" data-rv="img" style="--i:0">
+          <button class="card__hit" type="button" data-title-ar="مسلسل درامي طويل" data-title-en="Long-form drama series">
+            <span class="card__frame">
+              <img src="assets/img/work-01.jpg" alt="مسلسل درامي طويل" loading="lazy" decoding="async" width="1200" height="800">
+              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+          </button>
+          <figcaption class="card__cap">
+            <h3 data-ar="مسلسل درامي طويل" data-en="Long-form drama series">مسلسل درامي طويل</h3>
+            <p data-ar="دوبلاج كامل · 60 حلقة" data-en="Full dub · 60 episodes">دوبلاج كامل · 60 حلقة</p>
+          </figcaption>
+        </figure>
+
+        <figure class="card" data-cat="anime" data-rv="img" style="--i:1">
+          <button class="card__hit" type="button" data-title-ar="أنمي — موسم كامل" data-title-en="Anime — full season">
+            <span class="card__frame">
+              <img src="assets/img/work-02.jpg" alt="أنمي — موسم كامل" loading="lazy" decoding="async" width="1200" height="800">
+              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+          </button>
+          <figcaption class="card__cap">
+            <h3 data-ar="أنمي — موسم كامل" data-en="Anime — full season">أنمي — موسم كامل</h3>
+            <p data-ar="كاستينغ ودوبلاج" data-en="Casting &amp; dub">كاستينغ ودوبلاج</p>
+          </figcaption>
+        </figure>
+
+        <figure class="card" data-cat="doc" data-rv="img" style="--i:2">
+          <button class="card__hit" type="button" data-title-ar="فيلم وثائقي" data-title-en="Feature documentary">
+            <span class="card__frame">
+              <img src="assets/img/work-03.jpg" alt="فيلم وثائقي" loading="lazy" decoding="async" width="1200" height="800">
+              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+          </button>
+          <figcaption class="card__cap">
+            <h3 data-ar="فيلم وثائقي" data-en="Feature documentary">فيلم وثائقي</h3>
+            <p data-ar="تعليق صوتي ومكساج" data-en="Narration &amp; mix">تعليق صوتي ومكساج</p>
+          </figcaption>
+        </figure>
+
+        <figure class="card" data-cat="ad" data-rv="img" style="--i:3">
+          <button class="card__hit" type="button" data-title-ar="حملة إعلانية" data-title-en="Brand campaign">
+            <span class="card__frame">
+              <img src="assets/img/work-04.jpg" alt="حملة إعلانية" loading="lazy" decoding="async" width="1200" height="800">
+              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+          </button>
+          <figcaption class="card__cap">
+            <h3 data-ar="حملة إعلانية" data-en="Brand campaign">حملة إعلانية</h3>
+            <p data-ar="تعليق صوتي · 4 نسخ" data-en="Voice-over · 4 cuts">تعليق صوتي · 4 نسخ</p>
+          </figcaption>
+        </figure>
+
+        <figure class="card" data-cat="anime" data-rv="img" style="--i:4">
+          <button class="card__hit" type="button" data-title-ar="سلسلة رسوم للأطفال" data-title-en="Kids animation series">
+            <span class="card__frame">
+              <img src="assets/img/work-05.jpg" alt="سلسلة رسوم للأطفال" loading="lazy" decoding="async" width="1200" height="800">
+              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+          </button>
+          <figcaption class="card__cap">
+            <h3 data-ar="سلسلة رسوم للأطفال" data-en="Kids animation series">سلسلة رسوم للأطفال</h3>
+            <p data-ar="دوبلاج وأغانٍ" data-en="Dub &amp; songs">دوبلاج وأغانٍ</p>
+          </figcaption>
+        </figure>
+
+        <figure class="card" data-cat="doc drama" data-rv="img" style="--i:5">
+          <button class="card__hit" type="button" data-title-ar="برنامج واقعي" data-title-en="Reality format">
+            <span class="card__frame">
+              <img src="assets/img/work-06.jpg" alt="برنامج واقعي" loading="lazy" decoding="async" width="1200" height="800">
+              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+          </button>
+          <figcaption class="card__cap">
+            <h3 data-ar="برنامج واقعي" data-en="Reality format">برنامج واقعي</h3>
+            <p data-ar="فويس أوفر ومزامنة" data-en="Voice-over &amp; sync">فويس أوفر ومزامنة</p>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="تواصل" data-en="Contact">تواصل</span></p>
+
+      <h2 class="contact__head">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:0" data-ar="خلّينا نشتغل" data-en="Let's make">خلّينا نشتغل</span></span>
+        <span class="line"><span class="line__in" data-rv="line" style="--i:1" data-ar="سوا" data-en="something">سوا</span></span>
+      </h2>
+
+      <p class="contact__note" data-rv="up"
+         data-ar="ابعتلنا النص أو الحلقة، وبنرجعلك بعيّنة صوتية وخطة تنفيذ."
+         data-en="Send us the script or one episode, and we'll come back with a voice sample and a plan.">
+        ابعتلنا النص أو الحلقة، وبنرجعلك بعيّنة صوتية وخطة تنفيذ.
+      </p>
+
+      <a class="mail" href="mailto:info@awan-group.com" data-rv="mail">
+        <span>info@awan-group.com</span>
       </a>
-      <a class="btn btn--ghost magnet" href="#services" data-ar="خدماتنا" data-en="Our services">خدماتنا</a>
-    </div>
-  </div>
-
-  <div class="hero__scroll" aria-hidden="true">
-    <span data-ar="مرّر للأسفل" data-en="Scroll">مرّر للأسفل</span>
-    <div class="hero__scroll-line"><i></i></div>
-  </div>
-</section>
-
-<!-- ============ LANGUAGES MARQUEE ============ -->
-<div class="marquee" data-speed="1" aria-hidden="true">
-  <div class="marquee__track" id="marqueeTrack">
-    <span>العربية</span><b>•</b><span>English</span><b>•</b><span>Türkçe</span><b>•</b><span>Español</span><b>•</b><span>हिन्दी</span><b>•</b><span>Kurdî</span><b>•</b><span>Français</span><b>•</b><span>فارسی</span><b>•</b>
-  </div>
-</div>
-
-<!-- ============ ABOUT ============ -->
-<section class="section about" id="about">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num" data-reveal>01</span>
-      <h2 class="sec-title split" data-stagger="26" data-ar="مَن نحن" data-en="Who we are">مَن نحن</h2>
     </div>
 
-    <p class="about__lead scroll-words" data-ar="في أوان لا نُترجم الكلمات فقط — نُعيد تمثيل المشهد بصوتٍ آخر. منذ أكثر من خمس سنوات ونحن ندبلج أضخم الأعمال العربية والعالمية، ونفتح الطريق للأعمال العربية نحو العالميّة عبر الدوبلاج العكسي."
-       data-en="At Awan we do not merely translate words — we re-perform the scene in another voice. For more than five years we have dubbed the largest Arabic and international productions, and opened the way for Arabic work to travel through reverse dubbing.">
-      في أوان لا نُترجم الكلمات فقط — نُعيد تمثيل المشهد بصوتٍ آخر. منذ أكثر من خمس سنوات ونحن ندبلج أضخم الأعمال العربية والعالمية، ونفتح الطريق للأعمال العربية نحو العالميّة عبر الدوبلاج العكسي.
-    </p>
-
-    <div class="about__grid">
-      <article class="pill-card tilt" data-reveal>
-        <span class="pill-card__glow" aria-hidden="true"></span>
-        <h3 data-ar="فريق متخصّص" data-en="A specialised team">فريق متخصّص</h3>
-        <p data-ar="مترجمون ومعدّو سيناريو ومهندسو صوت ومخرجو دوبلاج، كلٌّ في مجاله، يشتغلون على العمل الواحد كخط إنتاج واحد."
-           data-en="Translators, script adapters, sound engineers and dubbing directors — each a specialist, all working one title as a single production line.">مترجمون ومعدّو سيناريو ومهندسو صوت ومخرجو دوبلاج، كلٌّ في مجاله، يشتغلون على العمل الواحد كخط إنتاج واحد.</p>
-      </article>
-      <article class="pill-card tilt" data-reveal data-delay="90">
-        <span class="pill-card__glow" aria-hidden="true"></span>
-        <h3 data-ar="لهجة تصل للناس" data-en="A dialect that lands">لهجة تصل للناس</h3>
-        <p data-ar="اللهجة السورية التي حملت الدراما العالمية إلى البيت العربي، إضافة إلى الفصحى واللهجات الأخرى حسب حاجة العمل."
-           data-en="The Syrian dialect that carried world drama into Arab homes, alongside Modern Standard Arabic and other dialects as each title requires.">اللهجة السورية التي حملت الدراما العالمية إلى البيت العربي، إضافة إلى الفصحى واللهجات الأخرى حسب حاجة العمل.</p>
-      </article>
-      <article class="pill-card tilt" data-reveal data-delay="180">
-        <span class="pill-card__glow" aria-hidden="true"></span>
-        <h3 data-ar="جاهزية للبثّ" data-en="Broadcast ready">جاهزية للبثّ</h3>
-        <p data-ar="نسلّم ملفات مطابقة لمواصفات المنصّات والقنوات: مكساج، ستِمز، ترجمة مرفقة، وتقارير جودة."
-           data-en="We deliver to platform and broadcaster specs: final mix, stems, attached subtitles, and QC reports.">نسلّم ملفات مطابقة لمواصفات المنصّات والقنوات: مكساج، ستِمز، ترجمة مرفقة، وتقارير جودة.</p>
-      </article>
-    </div>
-
-    <div class="stats" id="stats">
-      <div class="stat" data-reveal><b class="counter" data-to="400" data-suffix="+">0</b><span data-ar="موهبة صوتية" data-en="voice talents">موهبة صوتية</span></div>
-      <div class="stat" data-reveal data-delay="80"><b class="counter" data-to="8" data-suffix="">0</b><span data-ar="لغات دوبلاج" data-en="dubbing languages">لغات دوبلاج</span></div>
-      <div class="stat" data-reveal data-delay="160"><b class="counter" data-to="1200" data-suffix="+">0</b><span data-ar="ساعة مدبلجة" data-en="hours dubbed">ساعة مدبلجة</span></div>
-      <div class="stat" data-reveal data-delay="240"><b class="counter" data-to="5" data-suffix="+">0</b><span data-ar="سنوات خبرة" data-en="years of work">سنوات خبرة</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SERVICES ============ -->
-<section class="section services" id="services">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num" data-reveal>02</span>
-      <h2 class="sec-title split" data-stagger="26" data-ar="ما نُقدّمه" data-en="What we do">ما نُقدّمه</h2>
-      <p class="sec-desc" data-reveal data-delay="120" data-ar="سلسلة إنتاج كاملة تحت سقف واحد — من النص الأول حتى المكساج النهائي."
-         data-en="A full production chain under one roof — from the first script to the final mix.">سلسلة إنتاج كاملة تحت سقف واحد — من النص الأول حتى المكساج النهائي.</p>
-    </div>
-
-    <div class="svc-grid">
-      <article class="svc tilt" data-reveal>
-        <div class="svc__inner">
-          <span class="svc__idx">01</span>
-          <svg class="svc__icon draw" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4a5 5 0 0 1 5 5v7a5 5 0 0 1-10 0V9a5 5 0 0 1 5-5Z"/><path d="M7 15v1a9 9 0 0 0 18 0v-1M16 25v4M11 29h10"/></svg>
-          <h3 data-ar="الدوبلاج" data-en="Dubbing">الدوبلاج</h3>
-          <p data-ar="دبلجة مسلسلات وأفلام وأنمي وبرامج وثائقية، مع كاستينغ أصوات مدروس وإخراج صوتي داخل الاستوديو."
-             data-en="Series, films, anime and documentaries — with considered voice casting and in-studio vocal direction.">دبلجة مسلسلات وأفلام وأنمي وبرامج وثائقية، مع كاستينغ أصوات مدروس وإخراج صوتي داخل الاستوديو.</p>
-        </div>
-      </article>
-
-      <article class="svc tilt" data-reveal data-delay="70">
-        <div class="svc__inner">
-          <span class="svc__idx">02</span>
-          <svg class="svc__icon draw" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 7h13M10 5v2M12 7c0 6-4 10-8 12M8 12c1 4 4 7 7 8"/><path d="M17 27l5-13 5 13M19 23h6"/></svg>
-          <h3 data-ar="الترجمة والتوطين" data-en="Translation &amp; localisation">الترجمة والتوطين</h3>
-          <p data-ar="ترجمة وتوطين النصوص والسيناريوهات بالعربية والإنجليزية، بما يحافظ على النكتة والإيقاع والمعنى لا على الحرف فقط."
-             data-en="Scripts and screenplays localised between Arabic and English — keeping the joke, the rhythm and the meaning, not just the words.">ترجمة وتوطين النصوص والسيناريوهات بالعربية والإنجليزية، بما يحافظ على النكتة والإيقاع والمعنى لا على الحرف فقط.</p>
-        </div>
-      </article>
-
-      <article class="svc tilt" data-reveal data-delay="140">
-        <div class="svc__inner">
-          <span class="svc__idx">03</span>
-          <svg class="svc__icon draw" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="7" width="26" height="18" rx="3"/><path d="M8 20h8M19 20h5"/></svg>
-          <h3 data-ar="السَبتايتل" data-en="Subtitling">السَبتايتل</h3>
-          <p data-ar="سحب وتوقيت وضبط الترجمة المكتوبة للأفلام والمسلسلات، بصيغ جاهزة لكل المنصّات."
-             data-en="Spotting, timing and QC of subtitles for films and series, delivered in every platform-ready format.">سحب وتوقيت وضبط الترجمة المكتوبة للأفلام والمسلسلات، بصيغ جاهزة لكل المنصّات.</p>
-        </div>
-      </article>
-
-      <article class="svc tilt" data-reveal data-delay="210">
-        <div class="svc__inner">
-          <span class="svc__idx">04</span>
-          <svg class="svc__icon draw" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 16h4l4-9 5 20 4-14 3 6h6"/></svg>
-          <h3 data-ar="التعليق الصوتي" data-en="Voice over">التعليق الصوتي</h3>
-          <p data-ar="تعليق صوتي للإعلانات والأفلام التعريفية للشركات والبرامج الوثائقية، بأصوات احترافية وبعدّة لغات."
-             data-en="Voice over for commercials, corporate films and documentaries — professional voices, multiple languages.">تعليق صوتي للإعلانات والأفلام التعريفية للشركات والبرامج الوثائقية، بأصوات احترافية وبعدّة لغات.</p>
-        </div>
-      </article>
-
-      <article class="svc tilt" data-reveal data-delay="280">
-        <div class="svc__inner">
-          <span class="svc__idx">05</span>
-          <svg class="svc__icon draw" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 6v20M13 10v12M19 4v24M25 9v14"/><circle cx="7" cy="19" r="2.6"/><circle cx="19" cy="12" r="2.6"/></svg>
-          <h3 data-ar="المكساج وهندسة الصوت" data-en="Mixing &amp; sound design">المكساج وهندسة الصوت</h3>
-          <p data-ar="تنظيف وتحرير ومزج الحوار مع الموسيقى والمؤثرات، وصولاً إلى مكساج نهائي مطابق لمعايير البثّ."
-             data-en="Dialogue cleanup, editing and mixing against music and effects, up to a broadcast-compliant final mix.">تنظيف وتحرير ومزج الحوار مع الموسيقى والمؤثرات، وصولاً إلى مكساج نهائي مطابق لمعايير البثّ.</p>
-        </div>
-      </article>
-
-      <article class="svc tilt" data-reveal data-delay="350">
-        <div class="svc__inner">
-          <span class="svc__idx">06</span>
-          <svg class="svc__icon draw" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l11 6-11 6L5 9l11-6Z"/><path d="M5 16l11 6 11-6M5 23l11 6 11-6"/></svg>
-          <h3 data-ar="الدوبلاج العكسي" data-en="Reverse dubbing">الدوبلاج العكسي</h3>
-          <p data-ar="نقل الأعمال العربية إلى الإنجليزية والإسبانية والتركية والهندية والكردية — وفتح سوق جديد لكل عمل."
-             data-en="Taking Arabic titles into English, Spanish, Turkish, Hindi and Kurdish — opening a new market for every production.">نقل الأعمال العربية إلى الإنجليزية والإسبانية والتركية والهندية والكردية — وفتح سوق جديد لكل عمل.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CINEMATIC STATEMENT ============ -->
-<section class="statement" id="statement">
-  <canvas class="statement__eq" id="eq" aria-hidden="true"></canvas>
-  <div class="wrap statement__inner">
-    <p class="statement__kicker" data-reveal data-ar="فلسفتنا" data-en="Our belief">فلسفتنا</p>
-    <blockquote class="statement__quote split" data-stagger="30"
-      data-ar="الصوت نصفُ الصورة. والمشهدُ لا يكتمل إلا حين يُصدّقه أذنُ المشاهد."
-      data-en="Sound is half the picture. A scene is only finished when the ear believes it.">
-      الصوت نصفُ الصورة. والمشهدُ لا يكتمل إلا حين يُصدّقه أذنُ المشاهد.
-    </blockquote>
-    <span class="statement__rule" aria-hidden="true"></span>
-  </div>
-</section>
-
-<!-- ============ WORKS ============ -->
-<section class="section works" id="works">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num" data-reveal>03</span>
-      <h2 class="sec-title split" data-stagger="26" data-ar="أعمالنا" data-en="Our works">أعمالنا</h2>
-      <p class="sec-desc" data-reveal data-delay="120" data-ar="مختارات من الأعمال التي مرّت من استوديوهاتنا — دراما، أنمي، وثائقيات، وإعلانات."
-         data-en="A selection of titles that passed through our studios — drama, anime, documentary and commercial.">مختارات من الأعمال التي مرّت من استوديوهاتنا — دراما، أنمي، وثائقيات، وإعلانات.</p>
-    </div>
-
-    <div class="filters" id="filters" data-reveal role="group" aria-label="تصفية الأعمال">
-      <button class="filter is-active" data-filter="all"    data-ar="الكل" data-en="All">الكل</button>
-      <button class="filter" data-filter="drama"  data-ar="دراما" data-en="Drama">دراما</button>
-      <button class="filter" data-filter="anime"  data-ar="أنمي وأطفال" data-en="Anime &amp; kids">أنمي وأطفال</button>
-      <button class="filter" data-filter="doc"    data-ar="وثائقي" data-en="Documentary">وثائقي</button>
-      <button class="filter" data-filter="ad"     data-ar="إعلانات" data-en="Commercial">إعلانات</button>
-      <button class="filter" data-filter="rev"    data-ar="دوبلاج عكسي" data-en="Reverse dub">دوبلاج عكسي</button>
-    </div>
-
-    <div class="work-grid" id="workGrid">
-
-      <article class="work tilt" data-cat="drama" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#1b2a4a;--c2:#f5b544">
-        <div class="work__media"><div class="work__art" data-glyph="د"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="دراما تركية" data-en="Turkish drama">دراما تركية</span>
-          <h3 data-ar="مواسم الدراما التركية" data-en="Turkish drama seasons">مواسم الدراما التركية</h3>
-          <p data-ar="عشرات المواسم مدبلجة إلى العربية باللهجة السورية، بإخراج صوتي وكاستينغ كامل."
-             data-en="Dozens of seasons dubbed into Arabic in the Syrian dialect, with full casting and vocal direction.">عشرات المواسم مدبلجة إلى العربية باللهجة السورية، بإخراج صوتي وكاستينغ كامل.</p>
-          <span class="work__meta">TR → AR</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="drama" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#3a1630;--c2:#ff7ac2">
-        <div class="work__media"><div class="work__art" data-glyph="ه"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="دراما هندية" data-en="Indian drama">دراما هندية</span>
-          <h3 data-ar="مسلسلات هندية طويلة" data-en="Long-running Indian series">مسلسلات هندية طويلة</h3>
-          <p data-ar="حلقات يومية بإيقاع إنتاجي سريع مع ثبات في الأصوات والجودة عبر مئات الحلقات."
-             data-en="Daily episodes at a fast production cadence, with voice and quality consistency across hundreds of episodes.">حلقات يومية بإيقاع إنتاجي سريع مع ثبات في الأصوات والجودة عبر مئات الحلقات.</p>
-          <span class="work__meta">HI → AR</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="anime" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#0d3b3a;--c2:#46e6d8">
-        <div class="work__media"><div class="work__art" data-glyph="أ"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="أنمي" data-en="Anime">أنمي</span>
-          <h3 data-ar="أعمال الرسوم المتحركة" data-en="Animation titles">أعمال الرسوم المتحركة</h3>
-          <p data-ar="دبلجة أنمي وكرتون أطفال بأصوات تناسب الفئة العمرية، مع أغانٍ مُعاد أداؤها بالعربية."
-             data-en="Anime and kids' animation dubbed with age-appropriate voices, including songs re-performed in Arabic.">دبلجة أنمي وكرتون أطفال بأصوات تناسب الفئة العمرية، مع أغانٍ مُعاد أداؤها بالعربية.</p>
-          <span class="work__meta">JP/EN → AR</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="doc" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#2a2410;--c2:#e8c25a">
-        <div class="work__media"><div class="work__art" data-glyph="و"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="وثائقي" data-en="Documentary">وثائقي</span>
-          <h3 data-ar="سلاسل وثائقية" data-en="Documentary series">سلاسل وثائقية</h3>
-          <p data-ar="تعليق صوتي وترجمة علمية دقيقة للمصطلحات، بإيقاع هادئ يخدم الصورة."
-             data-en="Voice over with precise terminology, at a calm pace that serves the picture.">تعليق صوتي وترجمة علمية دقيقة للمصطلحات، بإيقاع هادئ يخدم الصورة.</p>
-          <span class="work__meta">EN → AR</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="rev" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#141a3a;--c2:#7f8cff">
-        <div class="work__media"><div class="work__art" data-glyph="ع"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="دوبلاج عكسي" data-en="Reverse dubbing">دوبلاج عكسي</span>
-          <h3 data-ar="دراما عربية إلى العالم" data-en="Arabic drama, worldwide">دراما عربية إلى العالم</h3>
-          <p data-ar="نقل أعمال عربية إلى الإنجليزية والإسبانية والتركية، بأصوات ناطقة أصلية بكل لغة."
-             data-en="Arabic titles taken into English, Spanish and Turkish with native-speaking voices in each language.">نقل أعمال عربية إلى الإنجليزية والإسبانية والتركية، بأصوات ناطقة أصلية بكل لغة.</p>
-          <span class="work__meta">AR → EN/ES/TR</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="ad" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#3a1414;--c2:#ff8a5c">
-        <div class="work__media"><div class="work__art" data-glyph="إ"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="إعلانات" data-en="Commercial">إعلانات</span>
-          <h3 data-ar="إعلانات وأفلام شركات" data-en="Ads &amp; corporate films">إعلانات وأفلام شركات</h3>
-          <p data-ar="تعليق صوتي وإنتاج سمعي كامل للإعلانات التلفزيونية والأفلام التعريفية، بتسليم سريع."
-             data-en="Voice over and full audio production for TV spots and corporate films, on short turnarounds.">تعليق صوتي وإنتاج سمعي كامل للإعلانات التلفزيونية والأفلام التعريفية، بتسليم سريع.</p>
-          <span class="work__meta">MULTI</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="drama rev" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#10322a;--c2:#7ee89a">
-        <div class="work__media"><div class="work__art" data-glyph="ك"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="كردي" data-en="Kurdish">كردي</span>
-          <h3 data-ar="قسم الدوبلاج الكردي" data-en="Kurdish dubbing desk">قسم الدوبلاج الكردي</h3>
-          <p data-ar="دبلجة من الكردية إلى العربية وبالعكس، بفريق ناطق أصلي ومراجعة لغوية مستقلة."
-             data-en="Kurdish to Arabic and back, with native talent and independent linguistic review.">دبلجة من الكردية إلى العربية وبالعكس، بفريق ناطق أصلي ومراجعة لغوية مستقلة.</p>
-          <span class="work__meta">KU ↔ AR</span>
-        </div>
-      </article>
-
-      <article class="work tilt" data-cat="doc anime" data-cursor-ar="استمع" data-cursor-en="Listen" style="--c1:#251438;--c2:#c08cff">
-        <div class="work__media"><div class="work__art" data-glyph="ب"></div><span class="work__play" aria-hidden="true"></span><span class="work__sheen" aria-hidden="true"></span></div>
-        <div class="work__body">
-          <span class="work__tag" data-ar="برامج" data-en="Programmes">برامج</span>
-          <h3 data-ar="برامج تعليمية وترفيهية" data-en="Educational &amp; entertainment">برامج تعليمية وترفيهية</h3>
-          <p data-ar="إعداد وترجمة ودبلجة برامج للأطفال واليافعين بلغة سليمة وقريبة."
-             data-en="Adapted, translated and dubbed programming for children and teens in clear, close-to-home language.">إعداد وترجمة ودبلجة برامج للأطفال واليافعين بلغة سليمة وقريبة.</p>
-          <span class="work__meta">EN → AR</span>
-        </div>
-      </article>
-
-    </div>
-
-    <p class="works__note" data-reveal data-ar="* هذه بطاقات نموذجية — بدّل العناوين والصور من ملف index.html وضع صور البوسترات في مجلد assets/img."
-       data-en="* Placeholder cards — swap titles and posters in index.html and drop real images into assets/img.">
-      * هذه بطاقات نموذجية — بدّل العناوين والصور من ملف index.html وضع صور البوسترات في مجلد assets/img.
-    </p>
-  </div>
-</section>
-
-<!-- ============ CAPABILITIES MARQUEE ============ -->
-<div class="marquee marquee--big" id="capabilities" data-speed="-1.4" aria-hidden="true">
-  <div class="marquee__track" id="marqueeTrack2">
-    <span>DUBBING</span><b>✦</b><span>VOICE OVER</span><b>✦</b><span>SUBTITLING</span><b>✦</b><span>MIXING</span><b>✦</b><span>LOCALISATION</span><b>✦</b><span>CASTING</span><b>✦</b>
-  </div>
-</div>
-
-<!-- ============ PROCESS (horizontal scroll) ============ -->
-<section class="process" id="process">
-  <div class="process__sticky">
-    <div class="wrap process__head">
-      <span class="sec-num">04</span>
-      <h2 class="sec-title" data-ar="كيف نشتغل" data-en="How we work">كيف نشتغل</h2>
-    </div>
-    <div class="process__viewport">
-      <div class="process__track" id="processTrack">
-        <article class="step"><span class="step__n">1</span><h3 data-ar="استلام العمل" data-en="Intake">استلام العمل</h3><p data-ar="نستلم النسخة الأصلية وقوائم الحوار، ونحدّد الجدول واللغة واللهجة المطلوبة." data-en="We receive the original master and dialogue lists, then set schedule, language and dialect.">نستلم النسخة الأصلية وقوائم الحوار، ونحدّد الجدول واللغة واللهجة المطلوبة.</p></article>
-        <article class="step"><span class="step__n">2</span><h3 data-ar="الترجمة والإعداد" data-en="Translation &amp; adaptation">الترجمة والإعداد</h3><p data-ar="ترجمة ثم إعداد درامي للنص ليطابق حركة الشفاه وإيقاع المشهد." data-en="Translation, then dramatic adaptation so the script matches lip movement and scene rhythm.">ترجمة ثم إعداد درامي للنص ليطابق حركة الشفاه وإيقاع المشهد.</p></article>
-        <article class="step"><span class="step__n">3</span><h3 data-ar="اختيار الأصوات" data-en="Casting">اختيار الأصوات</h3><p data-ar="كاستينغ من بنك أصوات يضم أكثر من ٤٠٠ موهبة، مع عيّنات تُعتمد من العميل." data-en="Casting from a bank of 400+ talents, with samples approved by the client.">كاستينغ من بنك أصوات يضم أكثر من ٤٠٠ موهبة، مع عيّنات تُعتمد من العميل.</p></article>
-        <article class="step"><span class="step__n">4</span><h3 data-ar="التسجيل" data-en="Recording">التسجيل</h3><p data-ar="تسجيل داخل غرف معزولة بإشراف مخرج دوبلاج يضبط الأداء مشهداً بمشهد." data-en="Recording in isolated booths under a dubbing director who shapes the performance scene by scene.">تسجيل داخل غرف معزولة بإشراف مخرج دوبلاج يضبط الأداء مشهداً بمشهد.</p></article>
-        <article class="step"><span class="step__n">5</span><h3 data-ar="المونتاج والمكساج" data-en="Edit &amp; mix">المونتاج والمكساج</h3><p data-ar="تنظيف الحوار وضبط التزامن ثم مزجه مع الموسيقى والمؤثرات بمعايير البثّ." data-en="Dialogue cleanup and sync, then mixing against music and effects to broadcast standards.">تنظيف الحوار وضبط التزامن ثم مزجه مع الموسيقى والمؤثرات بمعايير البثّ.</p></article>
-        <article class="step"><span class="step__n">6</span><h3 data-ar="المراجعة والتسليم" data-en="QC &amp; delivery">المراجعة والتسليم</h3><p data-ar="مراجعة لغوية وفنية، تقرير جودة، ثم تسليم بالصيغ التي تطلبها القناة أو المنصّة." data-en="Linguistic and technical review, a QC report, then delivery in the broadcaster's or platform's formats.">مراجعة لغوية وفنية، تقرير جودة، ثم تسليم بالصيغ التي تطلبها القناة أو المنصّة.</p></article>
+    <footer class="foot">
+      <div class="wrap foot__in">
+        <span class="foot__c">© <span id="year">2026</span> <span data-ar="أوان للدوبلاج" data-en="Awan Dubbing">أوان للدوبلاج</span></span>
+        <a class="foot__top" href="#home" data-ar="لأعلى" data-en="Back to top">لأعلى</a>
       </div>
-    </div>
-    <div class="process__bar" aria-hidden="true"><span id="processBar"></span></div>
-  </div>
-</section>
-
-<!-- ============ STUDIOS ============ -->
-<section class="section studios" id="studios">
-  <div class="wrap studios__grid">
-    <div class="studios__text">
-      <div class="sec-head">
-        <span class="sec-num" data-reveal>05</span>
-        <h2 class="sec-title split" data-stagger="26" data-ar="داخل الاستوديو" data-en="Inside the studio">داخل الاستوديو</h2>
-      </div>
-      <p data-reveal data-delay="100" data-ar="غرف تسجيل معزولة صوتياً، ميكروفونات ومعالجات من الفئة الأولى، وغرفة مكساج مضبوطة أكوستيكياً. الجدولة تسمح بتشغيل أكثر من عمل في اليوم نفسه دون أن تتأثر الجودة."
-         data-en="Acoustically isolated booths, first-tier microphones and preamps, and a treated mixing room. Our scheduling runs several titles a day without letting quality slip.">غرف تسجيل معزولة صوتياً، ميكروفونات ومعالجات من الفئة الأولى، وغرفة مكساج مضبوطة أكوستيكياً. الجدولة تسمح بتشغيل أكثر من عمل في اليوم نفسه دون أن تتأثر الجودة.</p>
-      <ul class="ticks">
-        <li data-reveal data-ar="غرف تسجيل معزولة ومعالَجة أكوستيكياً" data-en="Isolated, acoustically treated booths">غرف تسجيل معزولة ومعالَجة أكوستيكياً</li>
-        <li data-reveal data-delay="70" data-ar="مكساج ستيريو و5.1 حسب المتطلبات" data-en="Stereo and 5.1 mixing on request">مكساج ستيريو و5.1 حسب المتطلبات</li>
-        <li data-reveal data-delay="140" data-ar="تسليم ستِمز منفصلة (حوار / موسيقى / مؤثرات)" data-en="Separate stems delivered (dialogue / music / effects)">تسليم ستِمز منفصلة (حوار / موسيقى / مؤثرات)</li>
-        <li data-reveal data-delay="210" data-ar="جلسات متابعة عن بُعد مع العميل" data-en="Remote client attendance sessions">جلسات متابعة عن بُعد مع العميل</li>
-      </ul>
-    </div>
-
-    <div class="studios__visual" data-reveal aria-hidden="true">
-      <div class="booth" id="booth">
-        <div class="booth__face booth__face--back"></div>
-        <div class="booth__face booth__face--left"></div>
-        <div class="booth__face booth__face--right"></div>
-        <div class="booth__face booth__face--floor"></div>
-        <div class="booth__beam"></div>
-        <div class="mic">
-          <span class="mic__head"></span><span class="mic__stem"></span><span class="mic__base"></span>
-        </div>
-        <div class="wave-rings"><i></i><i></i><i></i><i></i></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTACT ============ -->
-<section class="section contact" id="contact">
-  <div class="wrap">
-    <div class="contact__card" data-reveal>
-      <span class="contact__sheen" aria-hidden="true"></span>
-      <div>
-        <h2 class="contact__title split" data-stagger="28" data-ar="عندك عمل يستحق صوتاً؟" data-en="Got a title that deserves a voice?">عندك عمل يستحق صوتاً؟</h2>
-        <p class="contact__sub" data-reveal data-delay="160" data-ar="ابعتلنا تفاصيل العمل واللغة المطلوبة، ومنرجعلك بعرض وجدول زمني."
-           data-en="Send us the title, the target language and the deadline — we'll come back with a quote and a schedule.">ابعتلنا تفاصيل العمل واللغة المطلوبة، ومنرجعلك بعرض وجدول زمني.</p>
-      </div>
-      <div class="contact__actions">
-        <a class="btn btn--primary magnet" href="mailto:info@awan-group.com"><span data-ar="راسلنا" data-en="Email us">راسلنا</span></a>
-        <a class="btn btn--ghost magnet" href="https://awan-group.com/" target="_blank" rel="noopener" data-ar="الموقع الرسمي" data-en="Official site">الموقع الرسمي</a>
-      </div>
-    </div>
-  </div>
-</section>
+    </footer>
+  </section>
 
 </main>
+</div>
 
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer__mark" aria-hidden="true">AWAN<em>.</em></div>
-    <div class="footer__inner">
-      <p data-ar="استوديوهات أوان للدوبلاج — دمشق" data-en="Awan Dubbing Studios — Damascus">استوديوهات أوان للدوبلاج — دمشق</p>
-      <button class="to-top magnet" id="toTop" type="button">
-        <span data-ar="للأعلى" data-en="Back to top">للأعلى</span>
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 13V3M3 8l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <span class="footer__year">© <span id="year">2026</span></span>
-    </div>
-  </div>
-</footer>
+<dialog class="lb" id="lb" aria-label="عرض العمل">
+  <button class="lb__x" id="lbClose" type="button" aria-label="إغلاق">&times;</button>
+  <figure class="lb__fig">
+    <img id="lbImg" src="" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+</dialog>
 
-<script src="assets/js/scene.js" defer></script>
+<script src="assets/js/wave.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>

@@ -117,3 +117,20 @@ assets/img/           مكان صور البوسترات (فارغ حالياً)
   «تواصل» بآخر `index.html`.
 - الخطوط من Google Fonts (Tajawal + Space Grotesk)؛ إن أردت الموقع يعمل بلا
   إنترنت خارجي، نزّل الخطوط محلياً وبدّل رابط `<link>`.
+
+---
+
+## نسخة Vite + R3F / The Vite + R3F landing
+
+في مجلد `landing/` نسخة صفحة هبوط مبنية على React + Vite + React Three Fiber
+(مشهد ثلاثي الأبعاد حقيقي بـ WebGL بدل الكانفاس اليدوي). الموقع الأصلي في الجذر
+لم يتغيّر ويعمل كما هو.
+
+A separate Vite + React Three Fiber landing page lives in `landing/` (a real
+WebGL scene instead of the hand-drawn canvas). The root site is untouched.
+
+```bash
+cd landing && npm install && npm run dev
+```
+
+انظر `landing/README.md` للتفاصيل / see `landing/README.md`.

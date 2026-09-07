@@ -99,7 +99,7 @@ h1, h2, h3 { line-height: 1.18; font-weight: 800; letter-spacing: -0.015em; }
 /* ─────────────────────────────────────────── hero */
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: 88svh;
   display: grid;
   align-items: center;
   overflow: hidden;

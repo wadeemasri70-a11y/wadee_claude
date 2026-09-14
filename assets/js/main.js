@@ -299,7 +299,7 @@
     if (img.complete && img.naturalWidth === 0) markMissing(img);
     img.addEventListener('error', function () { markMissing(img); });
   });
-  $$('.brand__logo, .hero__logo').forEach(function (img) {
+  $$('.brand__logo, .hero__logo, .foot__logo').forEach(function (img) {
     var hide = function () { img.style.display = 'none'; };
     if (img.complete && img.naturalWidth === 0) hide();
     img.addEventListener('error', hide);

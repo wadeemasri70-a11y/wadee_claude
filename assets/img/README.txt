@@ -1,6 +1,9 @@
 ضع هنا صور الموقع بهذه الأسماء بالضبط:
 
-  logo.png       اللوغو — مربّع، خلفية شفافة، ٥١٢×٥١٢ تقريباً
+  logo.png       اللوغو الملوّن (العصفور + AWAN PRODUCTION LLC) — خلفية
+                 شفافة، عرضه أكبر من طوله، مثلاً ١٢٠٠×٨٥٠
+  logo-light.png النسخة البيضا من اللوغو — بتظهر بالفوتر عالخلفية الغامقة،
+                 خلفية شفافة كمان. اختيارية: إذا ما حطّيتها ما بتبان.
 
   studio-01.jpg  غرفة الدوبلاج          ← قسم «الاستوديو» (row scroll)
   studio-02.jpg  غرفة التحكّم
@@ -13,6 +16,7 @@
   work-03.jpg    النوايا
   work-04.jpg    العربجي
   work-05.jpg    التسعة
+  work-06.jpg    سوق الحرير
 
 صور الاستوديو أفقية بنسبة 3:2 (مثلاً ٢٠٠٠×١٣٢٨).
 بوسترات الأعمال عمودية بنسبة 3:4 (مثلاً ١٢٠٠×١٦٠٠).
@@ -26,8 +30,9 @@
 
 ---
 
-Drop the site images here using exactly these filenames: logo.png (square,
-transparent, ~512x512), studio-01.jpg … studio-05.jpg (landscape 3:2, e.g.
-2000x1328) for the studio row, and work-01.jpg … work-05.jpg (portrait 3:4,
-e.g. 1200x1600) for the work row. Missing files degrade gracefully rather
+Drop the site images here using exactly these filenames: logo.png (the colour mark,
+transparent background, landscape ~1200x850), studio-01.jpg … studio-05.jpg (landscape 3:2, e.g.
+2000x1328) for the studio row, and work-01.jpg … work-06.jpg (portrait 3:4,
+e.g. 1200x1600) for the work row, plus an optional logo-light.png (the white
+version of the mark, used on the dark footer). Missing files degrade gracefully rather
 than breaking.

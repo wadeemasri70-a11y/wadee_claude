@@ -434,14 +434,15 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .rv-in[data-rv="img"] .rcard__frame{ clip-path:inset(0 0 0 0); }
 .rv-in[data-rv="img"] .rcard__cap{ opacity:1; transform:none; }
 
-/* missing photo → a quiet tile with the title's first letter */
+/* missing photo → a quiet tile carrying the title, so the row still reads */
 .rcard__frame.is-empty{ background:linear-gradient(135deg,var(--paper-2),var(--paper-3)); }
 .rcard__frame.is-empty img{ display:none; }
 .rcard__frame.is-empty .rcard__eq{ display:none; }
 .rcard__frame.is-empty::after{
   content:attr(data-glyph); position:absolute; inset:0;
-  display:grid; place-items:center;
-  font-size:clamp(3rem,8vw,5rem); font-weight:200; color:rgba(23,21,15,.16);
+  display:grid; place-items:center; padding:2rem; text-align:center;
+  font-size:clamp(1.05rem,1.8vw,1.4rem); font-weight:300; line-height:1.6;
+  color:rgba(23,21,15,.30);
 }
 
 .rail__ui{

@@ -49,12 +49,13 @@ assets/img/           اللوغو وصور الاستوديو وبوسترات 
 لو صورك بأسماء ثانية، غيّر `src` بالـ `<img>` جوّا كل `<li class="rcard">`
 في `index.html` (وكمان الـ `<link rel="icon">` و `og:image` بالـ `<head>` للّوغو).
 
-**لو صورة ناقصة الموقع ما بينكسر:** البطاقة بتصير مستطيل متدرّج فيه أول حرف من
-الاسم، واللوغو بينخفي ويبقى الاسم النصّي. بس حطّ الصور الحقيقية قبل النشر.
+**لو صورة ناقصة الموقع ما بينكسر:** البطاقة بتصير مستطيل متدرّج مكتوب فيه اسم
+العمل أو الغرفة، واللوغو بينخفي ويبقى الاسم النصّي. بس حطّ الصور الحقيقية قبل
+النشر.
 
 `assets/img/` is empty in the repo. The page requests exactly the filenames
-above; a missing poster degrades to a gradient tile with the title's first
-letter, and a missing logo simply hides, so nothing looks broken meanwhile.
+above; a missing poster degrades to a gradient tile carrying the title, and a
+missing logo simply hides, so nothing looks broken meanwhile.
 
 ---
 

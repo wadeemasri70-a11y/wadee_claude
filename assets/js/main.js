@@ -293,7 +293,7 @@
     frame.classList.add('is-empty');
     var item = img.closest('.rcard');
     var cap = item && $('h3', item);
-    frame.setAttribute('data-glyph', cap ? cap.textContent.trim().charAt(0) : 'أ');
+    frame.setAttribute('data-glyph', cap ? cap.textContent.trim() : 'أوان');
   }
   $$('.rcard__frame img').forEach(function (img) {
     if (img.complete && img.naturalWidth === 0) markMissing(img);

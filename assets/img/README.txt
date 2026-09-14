@@ -11,12 +11,18 @@
   studio-04.jpg  غرفة المكساج
   studio-05.jpg  المحطة الرئيسية
 
-  work-01.jpg    وردة شامية            ← قسم «أعمال» (row scroll)
+  work-01.jpg    وردة شامية
   work-02.jpg    سلاسل دهب
   work-03.jpg    النوايا
   work-04.jpg    العربجي
   work-05.jpg    التسعة
   work-06.jpg    سوق الحرير
+  work-07.jpg    مقامات العشق
+  work-08.jpg    رحلتي إلى الشهرة
+  work-09.jpg    باب الحارة
+  work-10.jpg    لم يكن حبيبي
+  work-11.jpg    ملخص كرة القدم
+  work-12.jpg    عهد الوفا
 
 صور الاستوديو أفقية بنسبة 3:2 (مثلاً ٢٠٠٠×١٣٢٨).
 بوسترات الأعمال عمودية بنسبة 3:4 (مثلاً ١٢٠٠×١٦٠٠).
@@ -32,7 +38,7 @@
 
 Drop the site images here using exactly these filenames: logo.png (the colour mark,
 transparent background, landscape ~1200x850), studio-01.jpg … studio-05.jpg (landscape 3:2, e.g.
-2000x1328) for the studio row, and work-01.jpg … work-06.jpg (portrait 3:4,
+2000x1328) for the studio row, and work-01.jpg … work-12.jpg (portrait 3:4,
 e.g. 1200x1600) for the work row, plus an optional logo-light.png (the white
 version of the mark, used on the dark footer). Missing files degrade gracefully rather
 than breaking.

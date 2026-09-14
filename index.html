@@ -35,6 +35,7 @@
     <nav class="nav__links" id="navLinks" aria-label="التنقّل الرئيسي">
       <a href="#about"    data-ar="من نحن" data-en="About">من نحن</a>
       <a href="#services" data-ar="خدمات"  data-en="Services">خدمات</a>
+      <a href="#rooms"    data-ar="الاستوديو" data-en="Studio">الاستوديو</a>
       <a href="#work"     data-ar="أعمال"  data-en="Work">أعمال</a>
       <a href="#contact"  data-ar="تواصل"  data-en="Contact">تواصل</a>
     </nav>
@@ -52,8 +53,9 @@
   <nav class="menu__nav" aria-label="التنقّل">
     <a href="#about"    data-ar="من نحن" data-en="About" style="--i:0">من نحن</a>
     <a href="#services" data-ar="خدمات"  data-en="Services" style="--i:1">خدمات</a>
-    <a href="#work"     data-ar="أعمال"  data-en="Work" style="--i:2">أعمال</a>
-    <a href="#contact"  data-ar="تواصل"  data-en="Contact" style="--i:3">تواصل</a>
+    <a href="#rooms"    data-ar="الاستوديو" data-en="Studio" style="--i:2">الاستوديو</a>
+    <a href="#work"     data-ar="أعمال"  data-en="Work" style="--i:3">أعمال</a>
+    <a href="#contact"  data-ar="تواصل"  data-en="Contact" style="--i:4">تواصل</a>
   </nav>
 </div>
 
@@ -168,101 +170,231 @@
     </div>
   </section>
 
+  <!-- ═══ STUDIO ═══ -->
+  <section class="sec rooms" id="rooms">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="الاستوديو" data-en="Studio">الاستوديو</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="الغرف اللي بيتسجّل فيها الشغل"
+          data-en="The rooms the work is made in">الغرف اللي بيتسجّل فيها الشغل</h2>
+      <p class="rail__lead" data-rv="up" style="--i:1"
+         data-ar="غرف معزولة ومعالَجة صوتياً، كل وحدة مجهّزة لمرحلة من مراحل العمل — من التسجيل لحدّ المكساج النهائي."
+         data-en="Treated, isolated rooms — each one set up for a different stage of the job, from the first take to the final mix.">
+        غرف معزولة ومعالَجة صوتياً، كل وحدة مجهّزة لمرحلة من مراحل العمل — من التسجيل لحدّ المكساج النهائي.
+      </p>
+    </div>
+
+    <!-- Full-bleed horizontal rail: native scroll + snap, so a swipe on
+         touch and a trackpad flick both work without any hijacking. -->
+    <div class="rail" id="rail-studio" tabindex="0" role="region"
+         aria-label="جولة في غرف الاستوديو">
+      <ul class="rail__track">
+
+        <li class="rcard" data-rv="img" style="--i:0">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة الدوبلاج" data-title-en="Dubbing room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-01.jpg" alt="غرفة الدوبلاج" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة الدوبلاج" data-en="Dubbing room">غرفة الدوبلاج</h3>
+              <p data-ar="الصورة على شاشة والصوت على التانية، فالمزامنة تنضبط على حركة الشفاه بالزبط."
+                 data-en="Picture on one screen, audio on the other, so the sync lands exactly on the lip movement.">الصورة على شاشة والصوت على التانية، فالمزامنة تنضبط على حركة الشفاه بالزبط.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:1">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة التحكّم" data-title-en="Control room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-02.jpg" alt="غرفة التحكّم" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة التحكّم" data-en="Control room">غرفة التحكّم</h3>
+              <p data-ar="شاشتان وميكروفون توجيه للممثّل، وإطلالة مباشرة على الكابينة من خلف الزجاج."
+                 data-en="Two screens, a talkback mic to the actor, and a clear line of sight into the booth.">شاشتان وميكروفون توجيه للممثّل، وإطلالة مباشرة على الكابينة من خلف الزجاج.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:2">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة الموسيقى والمؤثّرات" data-title-en="Music &amp; FX room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-03.jpg" alt="غرفة الموسيقى والمؤثّرات" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة الموسيقى والمؤثّرات" data-en="Music &amp; FX room">غرفة الموسيقى والمؤثّرات</h3>
+              <p data-ar="كيبورد MIDI وميكسر تناظري، لتأليف الموسيقى وبناء المؤثّرات فوق الصورة مباشرة."
+                 data-en="A MIDI keyboard and an analog desk, for scoring and building effects straight to picture.">كيبورد MIDI وميكسر تناظري، لتأليف الموسيقى وبناء المؤثّرات فوق الصورة مباشرة.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:3">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة المكساج" data-title-en="Mix room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-04.jpg" alt="غرفة المكساج" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة المكساج" data-en="Mix room">غرفة المكساج</h3>
+              <p data-ar="تنظيف ومونتاج صوتي ومكساج نهائي، بإضاءة خافتة وألواح معالجة على الجدران."
+                 data-en="Clean-up, sound edit and the final mix — low light, treated panels on every wall.">تنظيف ومونتاج صوتي ومكساج نهائي، بإضاءة خافتة وألواح معالجة على الجدران.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:4">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="المحطة الرئيسية" data-title-en="The main desk">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-05.jpg" alt="المحطة الرئيسية" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="المحطة الرئيسية" data-en="The main desk">المحطة الرئيسية</h3>
+              <p data-ar="واجهة صوت ومراقبة قريبة على الجهتين، والنصوص عالطاولة جنب الكيبورد."
+                 data-en="Audio interface, nearfield monitoring either side, and the scripts on the desk.">واجهة صوت ومراقبة قريبة على الجهتين، والنصوص عالطاولة جنب الكيبورد.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="wrap rail__ui">
+      <div class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></div>
+      <div class="rail__btns">
+        <button class="rail__btn rail__btn--prev" type="button" aria-label="السابق" aria-controls="rail-studio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button class="rail__btn rail__btn--next" type="button" aria-label="التالي" aria-controls="rail-studio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ WORK ═══ -->
   <section class="sec work" id="work">
     <div class="wrap">
       <p class="label" data-rv="up"><span data-ar="أعمال" data-en="Work">أعمال</span></p>
       <h2 class="sec__title" data-rv="up"
           data-ar="مختارات من شغلنا" data-en="Selected work">مختارات من شغلنا</h2>
+      <p class="rail__lead" data-rv="up" style="--i:1"
+         data-ar="دراما شامية اشتغلنا عليها من أول قراءة النص لحدّ المكساج النهائي."
+         data-en="Syrian drama we worked on, from the first read of the script to the final mix.">
+        دراما شامية اشتغلنا عليها من أول قراءة النص لحدّ المكساج النهائي.
+      </p>
+    </div>
 
-      <div class="filters" id="filters" role="group" aria-label="تصفية الأعمال">
-        <button class="chip is-on" type="button" data-f="all"   aria-pressed="true"  data-ar="الكل" data-en="All">الكل</button>
-        <button class="chip" type="button" data-f="drama" aria-pressed="false" data-ar="دراما" data-en="Drama">دراما</button>
-        <button class="chip" type="button" data-f="anime" aria-pressed="false" data-ar="أنمي" data-en="Anime">أنمي</button>
-        <button class="chip" type="button" data-f="doc"   aria-pressed="false" data-ar="وثائقي" data-en="Documentary">وثائقي</button>
-        <button class="chip" type="button" data-f="ad"    aria-pressed="false" data-ar="إعلانات" data-en="Commercials">إعلانات</button>
-      </div>
+    <div class="rail rail--posters" id="rail-work" tabindex="0" role="region"
+         aria-label="مختارات من الأعمال">
+      <ul class="rail__track">
 
-      <div class="grid" id="grid">
+        <li class="rcard" data-rv="img" style="--i:0">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="وردة شامية" data-title-en="Warda Shamiya">
+              <span class="rcard__frame">
+                <img src="assets/img/work-01.jpg" alt="وردة شامية" loading="lazy" decoding="async" width="1200" height="1600">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="وردة شامية" data-en="Warda Shamiya">وردة شامية</h3>
+              <p data-ar="دراما شامية · دوبلاج" data-en="Syrian drama · dubbing">دراما شامية · دوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
 
-        <figure class="card" data-cat="drama" data-rv="img" style="--i:0">
-          <button class="card__hit" type="button" data-title-ar="مسلسل درامي طويل" data-title-en="Long-form drama series">
-            <span class="card__frame">
-              <img src="assets/img/work-01.jpg" alt="مسلسل درامي طويل" loading="lazy" decoding="async" width="1200" height="800">
-              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            </span>
-          </button>
-          <figcaption class="card__cap">
-            <h3 data-ar="مسلسل درامي طويل" data-en="Long-form drama series">مسلسل درامي طويل</h3>
-            <p data-ar="دوبلاج كامل · 60 حلقة" data-en="Full dub · 60 episodes">دوبلاج كامل · 60 حلقة</p>
-          </figcaption>
-        </figure>
+        <li class="rcard" data-rv="img" style="--i:1">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سلاسل دهب" data-title-en="Salasel Dahab">
+              <span class="rcard__frame">
+                <img src="assets/img/work-02.jpg" alt="سلاسل دهب" loading="lazy" decoding="async" width="1200" height="1600">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سلاسل دهب" data-en="Salasel Dahab">سلاسل دهب</h3>
+              <p data-ar="دراما شامية · دوبلاج" data-en="Syrian drama · dubbing">دراما شامية · دوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
 
-        <figure class="card" data-cat="anime" data-rv="img" style="--i:1">
-          <button class="card__hit" type="button" data-title-ar="أنمي — موسم كامل" data-title-en="Anime — full season">
-            <span class="card__frame">
-              <img src="assets/img/work-02.jpg" alt="أنمي — موسم كامل" loading="lazy" decoding="async" width="1200" height="800">
-              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            </span>
-          </button>
-          <figcaption class="card__cap">
-            <h3 data-ar="أنمي — موسم كامل" data-en="Anime — full season">أنمي — موسم كامل</h3>
-            <p data-ar="كاستينغ ودوبلاج" data-en="Casting &amp; dub">كاستينغ ودوبلاج</p>
-          </figcaption>
-        </figure>
+        <li class="rcard" data-rv="img" style="--i:2">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="النوايا" data-title-en="Al Nawaya">
+              <span class="rcard__frame">
+                <img src="assets/img/work-03.jpg" alt="النوايا" loading="lazy" decoding="async" width="1200" height="1600">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="النوايا" data-en="Al Nawaya">النوايا</h3>
+              <p data-ar="دراما شامية · دوبلاج" data-en="Syrian drama · dubbing">دراما شامية · دوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
 
-        <figure class="card" data-cat="doc" data-rv="img" style="--i:2">
-          <button class="card__hit" type="button" data-title-ar="فيلم وثائقي" data-title-en="Feature documentary">
-            <span class="card__frame">
-              <img src="assets/img/work-03.jpg" alt="فيلم وثائقي" loading="lazy" decoding="async" width="1200" height="800">
-              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            </span>
-          </button>
-          <figcaption class="card__cap">
-            <h3 data-ar="فيلم وثائقي" data-en="Feature documentary">فيلم وثائقي</h3>
-            <p data-ar="تعليق صوتي ومكساج" data-en="Narration &amp; mix">تعليق صوتي ومكساج</p>
-          </figcaption>
-        </figure>
+        <li class="rcard" data-rv="img" style="--i:3">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="العربجي" data-title-en="Al Arabji">
+              <span class="rcard__frame">
+                <img src="assets/img/work-04.jpg" alt="العربجي" loading="lazy" decoding="async" width="1200" height="1600">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="العربجي" data-en="Al Arabji">العربجي</h3>
+              <p data-ar="دراما شامية · دوبلاج" data-en="Syrian drama · dubbing">دراما شامية · دوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
 
-        <figure class="card" data-cat="ad" data-rv="img" style="--i:3">
-          <button class="card__hit" type="button" data-title-ar="حملة إعلانية" data-title-en="Brand campaign">
-            <span class="card__frame">
-              <img src="assets/img/work-04.jpg" alt="حملة إعلانية" loading="lazy" decoding="async" width="1200" height="800">
-              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            </span>
-          </button>
-          <figcaption class="card__cap">
-            <h3 data-ar="حملة إعلانية" data-en="Brand campaign">حملة إعلانية</h3>
-            <p data-ar="تعليق صوتي · 4 نسخ" data-en="Voice-over · 4 cuts">تعليق صوتي · 4 نسخ</p>
-          </figcaption>
-        </figure>
+        <li class="rcard" data-rv="img" style="--i:4">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="التسعة" data-title-en="Al Tis'a">
+              <span class="rcard__frame">
+                <img src="assets/img/work-05.jpg" alt="التسعة" loading="lazy" decoding="async" width="1200" height="1600">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="التسعة" data-en="Al Tis'a">التسعة</h3>
+              <p data-ar="دراما شامية · دوبلاج" data-en="Syrian drama · dubbing">دراما شامية · دوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
 
-        <figure class="card" data-cat="anime" data-rv="img" style="--i:4">
-          <button class="card__hit" type="button" data-title-ar="سلسلة رسوم للأطفال" data-title-en="Kids animation series">
-            <span class="card__frame">
-              <img src="assets/img/work-05.jpg" alt="سلسلة رسوم للأطفال" loading="lazy" decoding="async" width="1200" height="800">
-              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            </span>
-          </button>
-          <figcaption class="card__cap">
-            <h3 data-ar="سلسلة رسوم للأطفال" data-en="Kids animation series">سلسلة رسوم للأطفال</h3>
-            <p data-ar="دوبلاج وأغانٍ" data-en="Dub &amp; songs">دوبلاج وأغانٍ</p>
-          </figcaption>
-        </figure>
+      </ul>
+    </div>
 
-        <figure class="card" data-cat="doc drama" data-rv="img" style="--i:5">
-          <button class="card__hit" type="button" data-title-ar="برنامج واقعي" data-title-en="Reality format">
-            <span class="card__frame">
-              <img src="assets/img/work-06.jpg" alt="برنامج واقعي" loading="lazy" decoding="async" width="1200" height="800">
-              <span class="card__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            </span>
-          </button>
-          <figcaption class="card__cap">
-            <h3 data-ar="برنامج واقعي" data-en="Reality format">برنامج واقعي</h3>
-            <p data-ar="فويس أوفر ومزامنة" data-en="Voice-over &amp; sync">فويس أوفر ومزامنة</p>
-          </figcaption>
-        </figure>
-
+    <div class="wrap rail__ui">
+      <div class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></div>
+      <div class="rail__btns">
+        <button class="rail__btn rail__btn--prev" type="button" aria-label="السابق" aria-controls="rail-work">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button class="rail__btn rail__btn--next" type="button" aria-label="التالي" aria-controls="rail-work">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
       </div>
     </div>
   </section>

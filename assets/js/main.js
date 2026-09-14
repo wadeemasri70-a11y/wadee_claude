@@ -269,7 +269,7 @@
     langBtn.textContent = COPY[lang].btn;
     langBtn.setAttribute('aria-label', COPY[lang].aria);
     burger.setAttribute('aria-label', COPY[lang].menu);
-    $$('.card__hit').forEach(function (b) {
+    $$('.rcard__hit').forEach(function (b) {
       var t = b.getAttribute('data-title-' + lang) || '';
       b.setAttribute('aria-label', t);
       var img = $('img', b); if (img) img.alt = t;
@@ -285,42 +285,17 @@
   });
 
   /* ═══ 5. Gallery ═══════════════════════════════════════════════ */
-  var grid = $('#grid'), cards = $$('.card', grid);
-
-  $$('.chip', $('#filters')).forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      var f = chip.getAttribute('data-f');
-      $$('.chip').forEach(function (c) {
-        var on = c === chip;
-        c.classList.toggle('is-on', on);
-        c.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      var i = 0;
-      cards.forEach(function (card) {
-        var cats = (card.getAttribute('data-cat') || '').split(/\s+/);
-        var show = f === 'all' || cats.indexOf(f) > -1;
-        card.classList.toggle('is-out', !show);
-        if (show && !reduced) {
-          /* replay the section's reveal moment with a fresh stagger */
-          card.style.setProperty('--i', i++);
-          card.classList.remove('rv-in');
-          void card.offsetWidth;
-          requestAnimationFrame(function () { card.classList.add('rv-in'); });
-        }
-      });
-      if (smooth) setTimeout(setBodyHeight, 60);
-    });
-  });
 
   /* ── missing-image fallback: never show a broken poster ──────── */
   function markMissing(img) {
-    var frame = img.closest('.card__frame');
+    var frame = img.closest('.rcard__frame');
     if (!frame) return;
     frame.classList.add('is-empty');
-    var cap = img.closest('.card') && $('.card__cap h3', img.closest('.card'));
+    var item = img.closest('.rcard');
+    var cap = item && $('h3', item);
     frame.setAttribute('data-glyph', cap ? cap.textContent.trim().charAt(0) : 'أ');
   }
-  $$('.card__frame img').forEach(function (img) {
+  $$('.rcard__frame img').forEach(function (img) {
     if (img.complete && img.naturalWidth === 0) markMissing(img);
     img.addEventListener('error', function () { markMissing(img); });
   });
@@ -330,10 +305,126 @@
     img.addEventListener('error', hide);
   });
 
+  /* ── rails: native horizontal scroll, nothing hijacked ────────
+     Each row is a real scroll container, so a touch swipe, a trackpad
+     flick and the arrow keys all work for free. We only add what the
+     browser doesn't give us: a progress bar, two buttons that move by
+     exactly one card, pointer-drag on desktop, and a slight drift of
+     each photo inside its frame to build depth as the row moves.
+     Runs once per .rail — the studio photos and the work posters. */
+  $$('.rail').forEach(function (rail) {
+    /* the bar and the buttons live outside the scroller, below it */
+    var scope = rail.closest('section') || document;
+    var track = $('.rail__track', rail);
+    var cards = $$('.rcard', rail);
+    var fill = $('.rail__fill', scope);
+    var prev = $('.rail__btn--prev', scope), next = $('.rail__btn--next', scope);
+    if (!track || !cards.length) return;
+
+    /* RTL reports scrollLeft as 0 → -max, LTR as 0 → +max. */
+    function maxScroll() { return rail.scrollWidth - rail.clientWidth; }
+    function progress() {
+      var m = maxScroll();
+      return m > 1 ? Math.min(1, Math.abs(rail.scrollLeft) / m) : 1;
+    }
+    function sign() { return html.getAttribute('dir') === 'rtl' ? -1 : 1; }
+    function step() {
+      var r = cards[0].getBoundingClientRect();
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return r.width + gap;
+    }
+
+    /* Scroll the rail ourselves so it lands on the site's own curve
+       rather than the browser's built-in smooth-scroll easing. */
+    var anim = 0;
+    function glideTo(x) {
+      cancelAnimationFrame(anim);
+      var m = maxScroll(), s = sign();
+      x = s > 0 ? clamp(x, 0, m) : clamp(x, -m, 0);
+      if (reduced) { rail.scrollLeft = x; return; }
+      var from = rail.scrollLeft, d = x - from, t0 = 0;
+      var dur = clamp(Math.abs(d) * 0.7, 320, 900);
+      anim = requestAnimationFrame(function run(ts) {
+        if (!t0) t0 = ts;
+        var p = clamp((ts - t0) / dur, 0, 1);
+        rail.scrollLeft = from + d * easeOutExpo(p);
+        if (p < 1) anim = requestAnimationFrame(run);
+      });
+    }
+
+    function paint() {
+      var p = progress();
+      if (fill) fill.style.transform = 'scaleX(' + Math.max(0.08, p).toFixed(3) + ')';
+      if (prev) prev.disabled = p <= 0.001;
+      if (next) next.disabled = p >= 0.999;
+
+      if (reduced) return;
+      /* photo drifts the opposite way to the card, inside its frame */
+      var rr = rail.getBoundingClientRect(), mid = rr.left + rr.width / 2;
+      for (var i = 0; i < cards.length; i++) {
+        var b = cards[i].getBoundingClientRect();
+        if (b.right < rr.left - 200 || b.left > rr.right + 200) continue;
+        var img = cards[i].querySelector('.rcard__frame img');
+        if (!img) continue;
+        var off = clamp(((b.left + b.width / 2) - mid) / rr.width * -26, -26, 26);
+        img.style.transform = 'translate3d(' + off.toFixed(1) + 'px,0,0) scale(1.08)';
+      }
+    }
+
+    var queued = false;
+    rail.addEventListener('scroll', function () {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; paint(); });
+    }, { passive: true });
+
+    if (prev) prev.addEventListener('click', function () {
+      glideTo(rail.scrollLeft - sign() * step());
+    });
+    if (next) next.addEventListener('click', function () {
+      glideTo(rail.scrollLeft + sign() * step());
+    });
+
+    /* drag to scroll (mouse/pen only — touch already scrolls natively) */
+    var down = false, startX = 0, startLeft = 0, moved = 0;
+    rail.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      down = true; moved = 0;
+      startX = e.clientX; startLeft = rail.scrollLeft;
+      cancelAnimationFrame(anim);
+      rail.style.scrollSnapType = 'none';       /* let the drag run free */
+      rail.classList.add('is-grabbing');
+    });
+    rail.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) {
+        if (!moved) rail.setPointerCapture(e.pointerId);
+        moved = Math.max(moved, Math.abs(dx));
+        rail.scrollLeft = startLeft - dx;
+      }
+    });
+    function endDrag() {
+      if (!down) return;
+      down = false;
+      rail.classList.remove('is-grabbing');
+      rail.style.scrollSnapType = '';           /* snap to the nearest card */
+    }
+    rail.addEventListener('pointerup', endDrag);
+    rail.addEventListener('pointercancel', endDrag);
+    /* a drag that moved is not a click on the photo underneath */
+    rail.addEventListener('click', function (e) {
+      if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
+
+    window.addEventListener('resize', function () { setTimeout(paint, 160); }, { passive: true });
+    paint();
+  });
+
   /* ── lightbox ────────────────────────────────────────────────── */
   var lb = $('#lb'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
   var supportsDialog = lb && typeof lb.showModal === 'function';
-  $$('.card__hit').forEach(function (btn) {
+  $$('.rcard__hit').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var img = $('img', btn);
       if (!supportsDialog || !img || !img.naturalWidth) return;   /* nothing to enlarge */

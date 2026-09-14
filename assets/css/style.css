@@ -4,18 +4,11 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ─── 1. Tokens ─────────────────────────────────────────────────── */
+/* Colour lives in swappable palettes: every other rule reads the tokens
+   below, never a literal colour, so switching [data-palette] on <html>
+   re-skins the whole site — the canvas wave included, since it reads
+   --accent straight off the root. */
 :root{
-  /* colour — calm neutrals + a single accent */
-  --paper:#f4f1ec;
-  --paper-2:#ece7df;
-  --paper-3:#e1dad0;
-  --ink:#17150f;
-  --ink-2:rgba(23,21,15,.66);
-  --ink-3:rgba(23,21,15,.50);
-  --rule:rgba(23,21,15,.13);
-  --accent:#c9552f;
-  --accent-soft:rgba(201,85,47,.10);
-
   /* one motion language — no `linear`, ever */
   --e-out:cubic-bezier(.16,1,.3,1);          /* expo out — entrances    */
   --e-soft:cubic-bezier(.22,.61,.36,1);      /* gentle out — hovers     */
@@ -30,6 +23,87 @@
   --origin:right;                            /* flipped for LTR below   */
 }
 :root[dir="ltr"]{ --origin:left; }
+
+/* ── palette 1 · رملي — white, beige, brown (the default) ────────── */
+:root,
+:root[data-palette="sand"]{
+  --paper:#ffffff;
+  --paper-2:#f6f0e7;
+  --paper-3:#e8dbc8;
+  --ink:#3a2a1c;
+  --ink-2:rgba(58,42,28,.70);
+  --ink-3:rgba(58,42,28,.54);
+  --rule:rgba(58,42,28,.15);
+  --accent:#8a5a33;
+  --accent-soft:rgba(138,90,51,.10);
+  --glow:rgba(138,90,51,.15);
+  --veil:rgba(255,255,255,.60);
+  --deep:#2b1e13;                            /* the dark contact block  */
+  --on-deep:#f6f0e7;
+  --on-deep-2:rgba(246,240,231,.66);
+  --on-deep-3:rgba(246,240,231,.52);
+  --deep-rule:rgba(246,240,231,.17);
+}
+
+/* ── palette 2 · ورق — warm paper and a rust accent ──────────────── */
+:root[data-palette="paper"]{
+  --paper:#f4f1ec;
+  --paper-2:#ece7df;
+  --paper-3:#e1dad0;
+  --ink:#17150f;
+  --ink-2:rgba(23,21,15,.66);
+  --ink-3:rgba(23,21,15,.50);
+  --rule:rgba(23,21,15,.13);
+  --accent:#c9552f;
+  --accent-soft:rgba(201,85,47,.10);
+  --glow:rgba(201,85,47,.16);
+  --veil:rgba(244,241,236,.58);
+  --deep:#17150f;
+  --on-deep:#f4f1ec;
+  --on-deep-2:rgba(244,241,236,.62);
+  --on-deep-3:rgba(244,241,236,.52);
+  --deep-rule:rgba(244,241,236,.16);
+}
+
+/* ── palette 3 · قهوة — beige on deep brown, cinema-dark ─────────── */
+:root[data-palette="espresso"]{
+  --paper:#241a12;
+  --paper-2:#2e2218;
+  --paper-3:#3a2c20;
+  --ink:#f2e8da;
+  --ink-2:rgba(242,232,218,.68);
+  --ink-3:rgba(242,232,218,.52);
+  --rule:rgba(242,232,218,.16);
+  --accent:#d39a5c;
+  --accent-soft:rgba(211,154,92,.12);
+  --glow:rgba(211,154,92,.14);
+  --veil:rgba(36,26,18,.52);
+  --deep:#f2e8da;                            /* inverted: light block   */
+  --on-deep:#241a12;
+  --on-deep-2:rgba(36,26,18,.70);
+  --on-deep-3:rgba(36,26,18,.54);
+  --deep-rule:rgba(36,26,18,.17);
+}
+
+/* ── palette 4 · كتّان — pale linen, soft cocoa, low contrast ─────── */
+:root[data-palette="linen"]{
+  --paper:#faf6f0;
+  --paper-2:#f0e7da;
+  --paper-3:#ddcdb8;
+  --ink:#4a3526;
+  --ink-2:rgba(74,53,38,.68);
+  --ink-3:rgba(74,53,38,.52);
+  --rule:rgba(74,53,38,.14);
+  --accent:#a8744a;
+  --accent-soft:rgba(168,116,74,.10);
+  --glow:rgba(168,116,74,.14);
+  --veil:rgba(250,246,240,.60);
+  --deep:#3d2b1e;
+  --on-deep:#f0e7da;
+  --on-deep-2:rgba(240,231,218,.66);
+  --on-deep-3:rgba(240,231,218,.52);
+  --deep-rule:rgba(240,231,218,.17);
+}
 
 /* ─── 2. Base ───────────────────────────────────────────────────── */
 *,*::before,*::after{ box-sizing:border-box; }
@@ -150,7 +224,8 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   border-block-end:1px solid transparent;
 }
 .nav.is-stuck{
-  background:rgba(244,241,236,.82);
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 84%,transparent);
   backdrop-filter:blur(14px) saturate(1.4);
   -webkit-backdrop-filter:blur(14px) saturate(1.4);
   border-block-end-color:var(--rule);
@@ -218,15 +293,33 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   padding-block:clamp(6.5rem,13vh,9rem) clamp(4rem,9vh,6rem);
   overflow:hidden; isolation:isolate;
 }
+/* the reel, its veil, and the wave that stands in when there is no reel */
+.hero__media{ position:absolute; inset:0; z-index:-3; overflow:hidden; background:var(--paper-2); }
+.hero__video{ width:100%; height:100%; object-fit:cover; display:block; }
+.hero__media.is-empty{ background:linear-gradient(140deg,var(--paper-2),var(--paper-3)); }
+.hero__media.is-empty .hero__video{ display:none; }
+.hero__veil{
+  position:absolute; inset:0;
+  background:var(--veil);
+}
+/* melt the reel into the page colour at the bottom edge */
+.hero__veil::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(to bottom,transparent 34%,var(--paper) 100%);
+}
+
 .hero__wave{
   position:absolute; inset-block-end:0; inset-inline:0;
   width:100%; height:min(52vh,460px); z-index:-1; opacity:.9;
   pointer-events:none;
 }
+/* with a reel playing the wave would only muddy it */
+.hero.has-reel .hero__wave,
+.hero.has-reel .hero__glow{ display:none; }
 .hero__glow{
   position:absolute; z-index:-2; inset-block-start:-18%; inset-inline-end:-10%;
   width:min(76vw,860px); aspect-ratio:1; border-radius:50%;
-  background:radial-gradient(circle at 50% 50%,rgba(201,85,47,.16),rgba(201,85,47,0) 66%);
+  background:radial-gradient(circle at 50% 50%,var(--glow),transparent 66%);
   will-change:transform;
 }
 .hero__in{ position:relative; }
@@ -245,7 +338,11 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   margin-block-end:clamp(1.5rem,3.2vw,2.1rem);
   max-width:14ch;
 }
-.hero__title .line:last-child .line__in{ color:var(--accent); }
+.hero__name{ font-weight:300; letter-spacing:-.02em; unicode-bidi:isolate; }
+.hero__tag{
+  font-size:clamp(1.3rem,.8rem + 2.2vw,2.5rem); font-weight:200;
+  line-height:1.35; color:var(--accent); letter-spacing:-.015em;
+}
 .hero__sub{ max-width:48ch; color:var(--ink-2); font-size:clamp(1rem,.95rem + .35vw,1.2rem); }
 
 .hero__cta{ display:flex; flex-wrap:wrap; gap:.85rem; margin-block-start:clamp(1.9rem,4vw,2.6rem); }
@@ -375,6 +472,9 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .rail.is-grabbing{ cursor:grabbing; }
 @media (hover:hover){ .rail{ cursor:grab; } }
 
+.rail[data-auto]{ scroll-snap-type:none; }
+.rail__item--clone{ pointer-events:none; }
+
 .rail__track{
   display:flex; gap:clamp(1rem,2.4vw,2rem);
   padding-inline:var(--rail-pad);
@@ -415,7 +515,9 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .rcard__eq{
   position:absolute; inset-block-end:14px; inset-inline-start:14px;
   display:flex; align-items:flex-end; gap:3px; height:22px;
-  padding:8px 10px; border-radius:100px; background:rgba(244,241,236,.9);
+  padding:8px 10px; border-radius:100px;
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 90%,transparent);
   opacity:0; transform:translateY(8px);
   transition:opacity var(--d2) var(--e-out), transform var(--d2) var(--e-out);
 }
@@ -445,7 +547,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   content:attr(data-glyph); position:absolute; inset:0;
   display:grid; place-items:center; padding:2rem; text-align:center;
   font-size:clamp(1.05rem,1.8vw,1.4rem); font-weight:300; line-height:1.6;
-  color:rgba(23,21,15,.30);
+  color:var(--ink-3);
 }
 
 .rail__ui{
@@ -482,10 +584,11 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 
 /* ─── 8. Contact + footer ───────────────────────────────────────── */
 .contact{
-  background:var(--ink); color:var(--paper);
-  --ink-2:rgba(244,241,236,.62);
-  --ink-3:rgba(244,241,236,.52);
-  --rule:rgba(244,241,236,.16);
+  background:var(--deep); color:var(--on-deep);
+  --paper:var(--on-deep);                    /* so anything paper-tinted flips */
+  --ink-2:var(--on-deep-2);
+  --ink-3:var(--on-deep-3);
+  --rule:var(--deep-rule);
   margin-block-start:clamp(3rem,8vw,6rem);
   padding-block-end:0;
 }
@@ -592,6 +695,32 @@ body.no-scroll{ overflow:hidden; }
   .btn{ flex:1 1 100%; }
   .foot__in{ flex-direction:column; align-items:flex-start; }
 }
+
+/* ─── 11b. Palette preview (delete with the markup) ─────────────── */
+.palettes{
+  position:fixed; z-index:60;
+  inset-block-end:clamp(1rem,2.5vw,1.75rem);
+  inset-inline-start:clamp(1rem,2.5vw,1.75rem);
+  display:flex; align-items:center; gap:.5rem;
+  padding:.5rem .7rem; border-radius:100px;
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  border:1px solid var(--rule);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+}
+.palettes__lbl{ font-size:.7rem; color:var(--ink-3); padding-inline-end:.15rem; }
+.palettes button{
+  width:24px; height:24px; border-radius:50%; padding:0;
+  outline:1px solid var(--rule); outline-offset:1px;
+  transition:transform var(--d1) var(--e-out), outline-color var(--d1) var(--e-soft);
+}
+.palettes button:hover{ transform:scale(1.14); }
+.palettes button[aria-pressed="true"]{ outline:2px solid var(--accent); }
+.palettes i{
+  display:block; width:100%; height:100%; border-radius:50%;
+  background:conic-gradient(var(--a) 0 33%,var(--b) 0 66%,var(--c) 0);
+}
+@media (max-width:640px){ .palettes__lbl{ display:none; } }
 
 /* ─── 12. Reduced motion ────────────────────────────────────────── */
 @media (prefers-reduced-motion:reduce){

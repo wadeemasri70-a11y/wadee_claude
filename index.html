@@ -33,10 +33,10 @@
     </a>
 
     <nav class="nav__links" id="navLinks" aria-label="التنقّل الرئيسي">
+      <a href="#work"     data-ar="أعمال"  data-en="Work">أعمال</a>
       <a href="#about"    data-ar="من نحن" data-en="About">من نحن</a>
       <a href="#services" data-ar="خدمات"  data-en="Services">خدمات</a>
       <a href="#rooms"    data-ar="الاستوديو" data-en="Studio">الاستوديو</a>
-      <a href="#work"     data-ar="أعمال"  data-en="Work">أعمال</a>
       <a href="#contact"  data-ar="تواصل"  data-en="Contact">تواصل</a>
     </nav>
 
@@ -51,10 +51,10 @@
 
 <div class="menu" id="menu" hidden>
   <nav class="menu__nav" aria-label="التنقّل">
-    <a href="#about"    data-ar="من نحن" data-en="About" style="--i:0">من نحن</a>
-    <a href="#services" data-ar="خدمات"  data-en="Services" style="--i:1">خدمات</a>
-    <a href="#rooms"    data-ar="الاستوديو" data-en="Studio" style="--i:2">الاستوديو</a>
-    <a href="#work"     data-ar="أعمال"  data-en="Work" style="--i:3">أعمال</a>
+    <a href="#work"     data-ar="أعمال"  data-en="Work" style="--i:0">أعمال</a>
+    <a href="#about"    data-ar="من نحن" data-en="About" style="--i:1">من نحن</a>
+    <a href="#services" data-ar="خدمات"  data-en="Services" style="--i:2">خدمات</a>
+    <a href="#rooms"    data-ar="الاستوديو" data-en="Studio" style="--i:3">الاستوديو</a>
     <a href="#contact"  data-ar="تواصل"  data-en="Contact" style="--i:4">تواصل</a>
   </nav>
 </div>
@@ -64,6 +64,17 @@
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="home">
+    <!-- The company reel sits behind everything, under a translucent veil
+         so the wordmark stays readable. No video file → the poster shows;
+         no poster either → the paper colour and the sound wave carry it. -->
+    <div class="hero__media" aria-hidden="true">
+      <video class="hero__video" id="heroVideo" poster="assets/img/hero-poster.jpg"
+             autoplay muted loop playsinline preload="metadata">
+        <source src="assets/video/awan-reel.mp4" type="video/mp4">
+      </video>
+      <span class="hero__veil"></span>
+    </div>
+
     <canvas class="hero__wave" id="wave" data-par="0.06" aria-hidden="true"></canvas>
     <div class="hero__glow" data-par="-0.05" aria-hidden="true"></div>
 
@@ -77,212 +88,24 @@
       </p>
 
       <h1 class="hero__title" data-par="0.03">
-        <span class="line"><span class="line__in" data-rv="line" style="--i:1" data-ar="نُعطي القصص" data-en="We give stories">نُعطي القصص</span></span>
-        <span class="line"><span class="line__in" data-rv="line" style="--i:2" data-ar="أصواتها" data-en="their voices">أصواتها</span></span>
+        <span class="line"><span class="line__in hero__name" dir="ltr" data-rv="line" style="--i:1">Awan Group</span></span>
       </h1>
 
-      <p class="hero__sub" data-rv="up" style="--i:4"
-         data-ar="دراما، أنمي، وثائقي وإعلانات — من الترجمة والاقتباس لتسجيل الأصوات والمكساج النهائي، تحت سقف واحد."
-         data-en="Drama, anime, documentary and commercials — from translation and adaptation to voice recording and the final mix, under one roof.">
-        دراما، أنمي، وثائقي وإعلانات — من الترجمة والاقتباس لتسجيل الأصوات والمكساج النهائي، تحت سقف واحد.
+      <p class="hero__tag">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:2"
+              data-ar="معاً نصنع المستقبل" data-en="Together we make the future">معاً نصنع المستقبل</span></span>
       </p>
 
-      <div class="hero__cta" data-rv="up" style="--i:5">
+      <div class="hero__cta" data-rv="up" style="--i:4">
         <a class="btn btn--solid" href="#work" data-ar="شوف الأعمال" data-en="See the work">شوف الأعمال</a>
         <a class="btn btn--ghost" href="#contact" data-ar="تواصل معنا" data-en="Get in touch">تواصل معنا</a>
       </div>
     </div>
 
-    <a class="cue" href="#about" data-rv="up" style="--i:7">
+    <a class="cue" href="#work" data-rv="up" style="--i:6">
       <span class="cue__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span data-ar="مرّر" data-en="Scroll">مرّر</span>
     </a>
-  </section>
-
-  <!-- ═══ ABOUT ═══ -->
-  <section class="sec about" id="about">
-    <div class="wrap">
-      <p class="label" data-rv="up"><span data-ar="من نحن" data-en="About">من نحن</span></p>
-
-      <h2 class="statement">
-        <span class="wipe" data-rv="wipe" style="--i:0" data-ar="الاستثمار في الفنّ هو استثمار" data-en="Investing in art is investing">الاستثمار في الفنّ هو استثمار</span>
-        <span class="wipe" data-rv="wipe" style="--i:1" data-ar="في الإنسان، وفي المعرفة." data-en="in people, and in knowledge.">في الإنسان، وفي المعرفة.</span>
-        <span class="wipe" data-rv="wipe" style="--i:2" data-ar="ولمّا آن الأوان، وُلدت أوان." data-en="And when the time came, Awan was born.">ولمّا آن الأوان، وُلدت أوان.</span>
-      </h2>
-
-      <div class="about__grid">
-        <p class="about__text" data-rv="up"
-           data-ar="استديوهات أوان للدوبلاج بتقدّم خدمات دوبلاج متكاملة بلغات عدّة — إنكليزية، إسبانية، هندية، تركية وكردية — من ترجمة العمل الدقيقة والمنقّحة على يد نخبة من المختصّين، لاختيار الأصوات والتسجيل بإشراف إخراجي، وصولاً للمكساج والتسليم بالمواصفات اللي بيطلبها العميل."
-           data-en="Awan Dubbing Studios offers complete dubbing in several languages — English, Spanish, Hindi, Turkish and Kurdish — from a precise, edited translation by a team of specialists, through casting and directed recording, to the mix and delivery to the client's spec.">
-          استديوهات أوان للدوبلاج بتقدّم خدمات دوبلاج متكاملة بلغات عدّة — إنكليزية، إسبانية، هندية، تركية وكردية — من ترجمة العمل الدقيقة والمنقّحة على يد نخبة من المختصّين، لاختيار الأصوات والتسجيل بإشراف إخراجي، وصولاً للمكساج والتسليم بالمواصفات اللي بيطلبها العميل.
-        </p>
-
-        <ul class="stats" data-rv="up">
-          <li><b class="num" data-to="15">0</b><span data-ar="سنة خبرة لمجموعة أوان" data-en="years behind Awan Group">سنة خبرة لمجموعة أوان</span></li>
-          <li><b class="num" data-to="5">0</b><span data-ar="لغات دوبلاج" data-en="dubbing languages">لغات دوبلاج</span></li>
-          <li><b class="num" data-to="5">0</b><span data-ar="غرف مجهّزة بالاستوديو" data-en="treated rooms in the studio">غرف مجهّزة بالاستوديو</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ SERVICES ═══ -->
-  <section class="sec services" id="services">
-    <div class="wrap">
-      <p class="label" data-rv="up"><span data-ar="خدمات" data-en="Services">خدمات</span></p>
-      <h2 class="sec__title" data-rv="up"
-          data-ar="كل شي بين النص والنسخة النهائية"
-          data-en="Everything between the script and the final master">كل شي بين النص والنسخة النهائية</h2>
-
-      <ol class="srv">
-        <li class="srv__row" data-rv="row" style="--i:0">
-          <span class="srv__no">01</span>
-          <h3 class="srv__name" data-ar="الدوبلاج" data-en="Dubbing">الدوبلاج</h3>
-          <p class="srv__txt" data-ar="مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة."
-             data-en="Full lip-sync for drama, anime and film, with a voice director on every session.">مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة.</p>
-        </li>
-        <li class="srv__row" data-rv="row" style="--i:1">
-          <span class="srv__no">02</span>
-          <h3 class="srv__name" data-ar="التعليق الصوتي" data-en="Voice-over">التعليق الصوتي</h3>
-          <p class="srv__txt" data-ar="إعلانات، وثائقيات، مواد تعليمية وأدلة صوتية — بأصوات مختارة حسب المزاج المطلوب."
-             data-en="Commercials, documentaries, e-learning and audio guides — cast to the mood you're after.">إعلانات، وثائقيات، مواد تعليمية وأدلة صوتية — بأصوات مختارة حسب المزاج المطلوب.</p>
-        </li>
-        <li class="srv__row" data-rv="row" style="--i:2">
-          <span class="srv__no">03</span>
-          <h3 class="srv__name" data-ar="الترجمة والاقتباس" data-en="Translation &amp; adaptation">الترجمة والاقتباس</h3>
-          <p class="srv__txt" data-ar="نقل النص للعربي بلهجة تناسب العمل، ومعالجته ليمشي مع حركة الشفاه والإيقاع."
-             data-en="Scripts moved into Arabic in the right dialect, then reshaped to land on the lip movement and the beat.">نقل النص للعربي بلهجة تناسب العمل، ومعالجته ليمشي مع حركة الشفاه والإيقاع.</p>
-        </li>
-        <li class="srv__row" data-rv="row" style="--i:3">
-          <span class="srv__no">04</span>
-          <h3 class="srv__name" data-ar="الكاستينغ" data-en="Casting">الكاستينغ</h3>
-          <p class="srv__txt" data-ar="بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل ما تبدأ الجلسات."
-             data-en="A deep roster and recorded auditions, so you pick the voices before a session is booked.">بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل ما تبدأ الجلسات.</p>
-        </li>
-        <li class="srv__row" data-rv="row" style="--i:4">
-          <span class="srv__no">05</span>
-          <h3 class="srv__name" data-ar="الهندسة والمكساج" data-en="Mixing &amp; mastering">الهندسة والمكساج</h3>
-          <p class="srv__txt" data-ar="تنظيف، مونتاج صوتي، ومكساج ستيريو أو 5.1، مع تسليم بمواصفات المنصّات."
-             data-en="Clean-up, sound edit, stereo or 5.1 mix, delivered to platform spec.">تنظيف، مونتاج صوتي، ومكساج ستيريو أو 5.1، مع تسليم بمواصفات المنصّات.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ═══ STUDIO ═══ -->
-  <section class="sec rooms" id="rooms">
-    <div class="wrap">
-      <p class="label" data-rv="up"><span data-ar="الاستوديو" data-en="Studio">الاستوديو</span></p>
-      <h2 class="sec__title" data-rv="up"
-          data-ar="الغرف اللي بيتسجّل فيها الشغل"
-          data-en="The rooms the work is made in">الغرف اللي بيتسجّل فيها الشغل</h2>
-      <p class="rail__lead" data-rv="up" style="--i:1"
-         data-ar="غرف معزولة ومعالَجة صوتياً، كل وحدة مجهّزة لمرحلة من مراحل العمل — من التسجيل لحدّ المكساج النهائي."
-         data-en="Treated, isolated rooms — each one set up for a different stage of the job, from the first take to the final mix.">
-        غرف معزولة ومعالَجة صوتياً، كل وحدة مجهّزة لمرحلة من مراحل العمل — من التسجيل لحدّ المكساج النهائي.
-      </p>
-    </div>
-
-    <!-- Full-bleed horizontal rail: native scroll + snap, so a swipe on
-         touch and a trackpad flick both work without any hijacking. -->
-    <div class="rail" id="rail-studio" tabindex="0" role="region"
-         aria-label="جولة في غرف الاستوديو">
-      <ul class="rail__track">
-
-        <li class="rcard" data-rv="img" style="--i:0">
-          <figure class="rcard__fig">
-            <button class="rcard__hit" type="button"
-                    data-title-ar="غرفة الدوبلاج" data-title-en="Dubbing room">
-              <span class="rcard__frame">
-                <img src="assets/img/studio-01.jpg" alt="غرفة الدوبلاج" loading="lazy" decoding="async" width="2000" height="1328">
-              </span>
-            </button>
-            <figcaption class="rcard__cap">
-              <h3 data-ar="غرفة الدوبلاج" data-en="Dubbing room">غرفة الدوبلاج</h3>
-              <p data-ar="الصورة على شاشة والصوت على التانية، فالمزامنة تنضبط على حركة الشفاه بالزبط."
-                 data-en="Picture on one screen, audio on the other, so the sync lands exactly on the lip movement.">الصورة على شاشة والصوت على التانية، فالمزامنة تنضبط على حركة الشفاه بالزبط.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="rcard" data-rv="img" style="--i:1">
-          <figure class="rcard__fig">
-            <button class="rcard__hit" type="button"
-                    data-title-ar="غرفة التحكّم" data-title-en="Control room">
-              <span class="rcard__frame">
-                <img src="assets/img/studio-02.jpg" alt="غرفة التحكّم" loading="lazy" decoding="async" width="2000" height="1328">
-              </span>
-            </button>
-            <figcaption class="rcard__cap">
-              <h3 data-ar="غرفة التحكّم" data-en="Control room">غرفة التحكّم</h3>
-              <p data-ar="شاشتان وميكروفون توجيه للممثّل، وإطلالة مباشرة على الكابينة من خلف الزجاج."
-                 data-en="Two screens, a talkback mic to the actor, and a clear line of sight into the booth.">شاشتان وميكروفون توجيه للممثّل، وإطلالة مباشرة على الكابينة من خلف الزجاج.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="rcard" data-rv="img" style="--i:2">
-          <figure class="rcard__fig">
-            <button class="rcard__hit" type="button"
-                    data-title-ar="غرفة الموسيقى والمؤثّرات" data-title-en="Music &amp; FX room">
-              <span class="rcard__frame">
-                <img src="assets/img/studio-03.jpg" alt="غرفة الموسيقى والمؤثّرات" loading="lazy" decoding="async" width="2000" height="1328">
-              </span>
-            </button>
-            <figcaption class="rcard__cap">
-              <h3 data-ar="غرفة الموسيقى والمؤثّرات" data-en="Music &amp; FX room">غرفة الموسيقى والمؤثّرات</h3>
-              <p data-ar="كيبورد MIDI وميكسر تناظري، لتأليف الموسيقى وبناء المؤثّرات فوق الصورة مباشرة."
-                 data-en="A MIDI keyboard and an analog desk, for scoring and building effects straight to picture.">كيبورد MIDI وميكسر تناظري، لتأليف الموسيقى وبناء المؤثّرات فوق الصورة مباشرة.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="rcard" data-rv="img" style="--i:3">
-          <figure class="rcard__fig">
-            <button class="rcard__hit" type="button"
-                    data-title-ar="غرفة المكساج" data-title-en="Mix room">
-              <span class="rcard__frame">
-                <img src="assets/img/studio-04.jpg" alt="غرفة المكساج" loading="lazy" decoding="async" width="2000" height="1328">
-              </span>
-            </button>
-            <figcaption class="rcard__cap">
-              <h3 data-ar="غرفة المكساج" data-en="Mix room">غرفة المكساج</h3>
-              <p data-ar="تنظيف ومونتاج صوتي ومكساج نهائي، بإضاءة خافتة وألواح معالجة على الجدران."
-                 data-en="Clean-up, sound edit and the final mix — low light, treated panels on every wall.">تنظيف ومونتاج صوتي ومكساج نهائي، بإضاءة خافتة وألواح معالجة على الجدران.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="rcard" data-rv="img" style="--i:4">
-          <figure class="rcard__fig">
-            <button class="rcard__hit" type="button"
-                    data-title-ar="المحطة الرئيسية" data-title-en="The main desk">
-              <span class="rcard__frame">
-                <img src="assets/img/studio-05.jpg" alt="المحطة الرئيسية" loading="lazy" decoding="async" width="2000" height="1328">
-              </span>
-            </button>
-            <figcaption class="rcard__cap">
-              <h3 data-ar="المحطة الرئيسية" data-en="The main desk">المحطة الرئيسية</h3>
-              <p data-ar="واجهة صوت ومراقبة قريبة على الجهتين، والنصوص عالطاولة جنب الكيبورد."
-                 data-en="Audio interface, nearfield monitoring either side, and the scripts on the desk.">واجهة صوت ومراقبة قريبة على الجهتين، والنصوص عالطاولة جنب الكيبورد.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-      </ul>
-    </div>
-
-    <div class="wrap rail__ui">
-      <div class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></div>
-      <div class="rail__btns">
-        <button class="rail__btn rail__btn--prev" type="button" aria-label="السابق" aria-controls="rail-studio">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
-        </button>
-        <button class="rail__btn rail__btn--next" type="button" aria-label="التالي" aria-controls="rail-studio">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
   </section>
 
   <!-- ═══ WORK ═══ -->
@@ -292,13 +115,13 @@
       <h2 class="sec__title" data-rv="up"
           data-ar="مختارات من شغلنا" data-en="Selected work">مختارات من شغلنا</h2>
       <p class="rail__lead" data-rv="up" style="--i:1"
-         data-ar="دراما شامية اشتغلنا عليها من أول قراءة النص لحدّ المكساج النهائي."
-         data-en="Syrian drama we worked on, from the first read of the script to the final mix.">
-        دراما شامية اشتغلنا عليها من أول قراءة النص لحدّ المكساج النهائي.
+         data-ar="دراما ومسلسلات وبرامج اشتغلنا عليها من أول قراءة النص لحدّ المكساج النهائي."
+         data-en="Drama, series and programmes we worked on, from the first read of the script to the final mix.">
+        دراما ومسلسلات وبرامج اشتغلنا عليها من أول قراءة النص لحدّ المكساج النهائي.
       </p>
     </div>
 
-    <div class="rail rail--posters" id="rail-work" tabindex="0" role="region"
+    <div class="rail rail--posters" id="rail-work" data-auto="26" tabindex="0" role="region"
          aria-label="مختارات من الأعمال">
       <ul class="rail__track">
         <li class="rcard" data-rv="img" style="--i:0">
@@ -509,6 +332,194 @@
     </div>
   </section>
 
+  <!-- ═══ ABOUT ═══ -->
+  <section class="sec about" id="about">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="من نحن" data-en="About">من نحن</span></p>
+
+      <h2 class="statement">
+        <span class="wipe" data-rv="wipe" style="--i:0" data-ar="الاستثمار في الفنّ هو استثمار" data-en="Investing in art is investing">الاستثمار في الفنّ هو استثمار</span>
+        <span class="wipe" data-rv="wipe" style="--i:1" data-ar="في الإنسان، وفي المعرفة." data-en="in people, and in knowledge.">في الإنسان، وفي المعرفة.</span>
+        <span class="wipe" data-rv="wipe" style="--i:2" data-ar="ولمّا آن الأوان، وُلدت أوان." data-en="And when the time came, Awan was born.">ولمّا آن الأوان، وُلدت أوان.</span>
+      </h2>
+
+      <div class="about__grid">
+        <p class="about__text" data-rv="up"
+           data-ar="استديوهات أوان للدوبلاج بتقدّم خدمات دوبلاج متكاملة بلغات عدّة — إنكليزية، إسبانية، هندية، تركية وكردية — من ترجمة العمل الدقيقة والمنقّحة على يد نخبة من المختصّين، لاختيار الأصوات والتسجيل بإشراف إخراجي، وصولاً للمكساج والتسليم بالمواصفات اللي بيطلبها العميل."
+           data-en="Awan Dubbing Studios offers complete dubbing in several languages — English, Spanish, Hindi, Turkish and Kurdish — from a precise, edited translation by a team of specialists, through casting and directed recording, to the mix and delivery to the client's spec.">
+          استديوهات أوان للدوبلاج بتقدّم خدمات دوبلاج متكاملة بلغات عدّة — إنكليزية، إسبانية، هندية، تركية وكردية — من ترجمة العمل الدقيقة والمنقّحة على يد نخبة من المختصّين، لاختيار الأصوات والتسجيل بإشراف إخراجي، وصولاً للمكساج والتسليم بالمواصفات اللي بيطلبها العميل.
+        </p>
+
+        <ul class="stats" data-rv="up">
+          <li><b class="num" data-to="15">0</b><span data-ar="سنة خبرة لمجموعة أوان" data-en="years behind Awan Group">سنة خبرة لمجموعة أوان</span></li>
+          <li><b class="num" data-to="5">0</b><span data-ar="لغات دوبلاج" data-en="dubbing languages">لغات دوبلاج</span></li>
+          <li><b class="num" data-to="5">0</b><span data-ar="غرف مجهّزة بالاستوديو" data-en="treated rooms in the studio">غرف مجهّزة بالاستوديو</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="sec services" id="services">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="خدمات" data-en="Services">خدمات</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="كل شي بين النص والنسخة النهائية"
+          data-en="Everything between the script and the final master">كل شي بين النص والنسخة النهائية</h2>
+
+      <ol class="srv">
+        <li class="srv__row" data-rv="row" style="--i:0">
+          <span class="srv__no">01</span>
+          <h3 class="srv__name" data-ar="الدوبلاج" data-en="Dubbing">الدوبلاج</h3>
+          <p class="srv__txt" data-ar="مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة."
+             data-en="Full lip-sync for drama, anime and film, with a voice director on every session.">مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:1">
+          <span class="srv__no">02</span>
+          <h3 class="srv__name" data-ar="التعليق الصوتي" data-en="Voice-over">التعليق الصوتي</h3>
+          <p class="srv__txt" data-ar="إعلانات، وثائقيات، مواد تعليمية وأدلة صوتية — بأصوات مختارة حسب المزاج المطلوب."
+             data-en="Commercials, documentaries, e-learning and audio guides — cast to the mood you're after.">إعلانات، وثائقيات، مواد تعليمية وأدلة صوتية — بأصوات مختارة حسب المزاج المطلوب.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:2">
+          <span class="srv__no">03</span>
+          <h3 class="srv__name" data-ar="الترجمة والاقتباس" data-en="Translation &amp; adaptation">الترجمة والاقتباس</h3>
+          <p class="srv__txt" data-ar="نقل النص للعربي بلهجة تناسب العمل، ومعالجته ليمشي مع حركة الشفاه والإيقاع."
+             data-en="Scripts moved into Arabic in the right dialect, then reshaped to land on the lip movement and the beat.">نقل النص للعربي بلهجة تناسب العمل، ومعالجته ليمشي مع حركة الشفاه والإيقاع.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:3">
+          <span class="srv__no">04</span>
+          <h3 class="srv__name" data-ar="الكاستينغ" data-en="Casting">الكاستينغ</h3>
+          <p class="srv__txt" data-ar="بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل ما تبدأ الجلسات."
+             data-en="A deep roster and recorded auditions, so you pick the voices before a session is booked.">بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل ما تبدأ الجلسات.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:4">
+          <span class="srv__no">05</span>
+          <h3 class="srv__name" data-ar="الهندسة والمكساج" data-en="Mixing &amp; mastering">الهندسة والمكساج</h3>
+          <p class="srv__txt" data-ar="تنظيف، مونتاج صوتي، ومكساج ستيريو أو 5.1، مع تسليم بمواصفات المنصّات."
+             data-en="Clean-up, sound edit, stereo or 5.1 mix, delivered to platform spec.">تنظيف، مونتاج صوتي، ومكساج ستيريو أو 5.1، مع تسليم بمواصفات المنصّات.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ STUDIO ═══ -->
+  <section class="sec rooms" id="rooms">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="الاستوديو" data-en="Studio">الاستوديو</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="الغرف اللي بيتسجّل فيها الشغل"
+          data-en="The rooms the work is made in">الغرف اللي بيتسجّل فيها الشغل</h2>
+      <p class="rail__lead" data-rv="up" style="--i:1"
+         data-ar="غرف معزولة ومعالَجة صوتياً، كل وحدة مجهّزة لمرحلة من مراحل العمل — من التسجيل لحدّ المكساج النهائي."
+         data-en="Treated, isolated rooms — each one set up for a different stage of the job, from the first take to the final mix.">
+        غرف معزولة ومعالَجة صوتياً، كل وحدة مجهّزة لمرحلة من مراحل العمل — من التسجيل لحدّ المكساج النهائي.
+      </p>
+    </div>
+
+    <!-- Full-bleed horizontal rail: native scroll + snap, so a swipe on
+         touch and a trackpad flick both work without any hijacking. -->
+    <div class="rail" id="rail-studio" tabindex="0" role="region"
+         aria-label="جولة في غرف الاستوديو">
+      <ul class="rail__track">
+
+        <li class="rcard" data-rv="img" style="--i:0">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة الدوبلاج" data-title-en="Dubbing room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-01.jpg" alt="غرفة الدوبلاج" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة الدوبلاج" data-en="Dubbing room">غرفة الدوبلاج</h3>
+              <p data-ar="الصورة على شاشة والصوت على التانية، فالمزامنة تنضبط على حركة الشفاه بالزبط."
+                 data-en="Picture on one screen, audio on the other, so the sync lands exactly on the lip movement.">الصورة على شاشة والصوت على التانية، فالمزامنة تنضبط على حركة الشفاه بالزبط.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:1">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة التحكّم" data-title-en="Control room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-02.jpg" alt="غرفة التحكّم" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة التحكّم" data-en="Control room">غرفة التحكّم</h3>
+              <p data-ar="شاشتان وميكروفون توجيه للممثّل، وإطلالة مباشرة على الكابينة من خلف الزجاج."
+                 data-en="Two screens, a talkback mic to the actor, and a clear line of sight into the booth.">شاشتان وميكروفون توجيه للممثّل، وإطلالة مباشرة على الكابينة من خلف الزجاج.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:2">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة الموسيقى والمؤثّرات" data-title-en="Music &amp; FX room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-03.jpg" alt="غرفة الموسيقى والمؤثّرات" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة الموسيقى والمؤثّرات" data-en="Music &amp; FX room">غرفة الموسيقى والمؤثّرات</h3>
+              <p data-ar="كيبورد MIDI وميكسر تناظري، لتأليف الموسيقى وبناء المؤثّرات فوق الصورة مباشرة."
+                 data-en="A MIDI keyboard and an analog desk, for scoring and building effects straight to picture.">كيبورد MIDI وميكسر تناظري، لتأليف الموسيقى وبناء المؤثّرات فوق الصورة مباشرة.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:3">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرفة المكساج" data-title-en="Mix room">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-04.jpg" alt="غرفة المكساج" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرفة المكساج" data-en="Mix room">غرفة المكساج</h3>
+              <p data-ar="تنظيف ومونتاج صوتي ومكساج نهائي، بإضاءة خافتة وألواح معالجة على الجدران."
+                 data-en="Clean-up, sound edit and the final mix — low light, treated panels on every wall.">تنظيف ومونتاج صوتي ومكساج نهائي، بإضاءة خافتة وألواح معالجة على الجدران.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:4">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="المحطة الرئيسية" data-title-en="The main desk">
+              <span class="rcard__frame">
+                <img src="assets/img/studio-05.jpg" alt="المحطة الرئيسية" loading="lazy" decoding="async" width="2000" height="1328">
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="المحطة الرئيسية" data-en="The main desk">المحطة الرئيسية</h3>
+              <p data-ar="واجهة صوت ومراقبة قريبة على الجهتين، والنصوص عالطاولة جنب الكيبورد."
+                 data-en="Audio interface, nearfield monitoring either side, and the scripts on the desk.">واجهة صوت ومراقبة قريبة على الجهتين، والنصوص عالطاولة جنب الكيبورد.</p>
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="wrap rail__ui">
+      <div class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></div>
+      <div class="rail__btns">
+        <button class="rail__btn rail__btn--prev" type="button" aria-label="السابق" aria-controls="rail-studio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button class="rail__btn rail__btn--next" type="button" aria-label="التالي" aria-controls="rail-studio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+
   <!-- ═══ CONTACT ═══ -->
   <section class="sec contact" id="contact">
     <div class="wrap">
@@ -555,6 +566,19 @@
     <figcaption id="lbCap"></figcaption>
   </figure>
 </dialog>
+
+<!-- ─── PREVIEW ONLY ────────────────────────────────────────────────
+     Four colour directions to choose between. Once you have picked one,
+     delete this block, drop the #palettes rules from style.css and the
+     palette section from main.js, and keep that palette's tokens as the
+     only :root block. Nothing else in the site depends on it. -->
+<div class="palettes" id="palettes" role="group" aria-label="معاينة الألوان">
+  <span class="palettes__lbl" data-ar="الألوان" data-en="Palette">الألوان</span>
+  <button type="button" data-p="sand"     aria-label="رملي — أبيض وبيج وبني"><i style="--a:#ffffff;--b:#e8dbc8;--c:#8a5a33"></i></button>
+  <button type="button" data-p="linen"    aria-label="كتّان — كتّان وكاكاو"><i style="--a:#faf6f0;--b:#ddcdb8;--c:#a8744a"></i></button>
+  <button type="button" data-p="paper"    aria-label="ورق — ورق دافئ وصدئي"><i style="--a:#f4f1ec;--b:#e1dad0;--c:#c9552f"></i></button>
+  <button type="button" data-p="espresso" aria-label="قهوة — بيج على بنّي غامق"><i style="--a:#241a12;--b:#3a2c20;--c:#d39a5c"></i></button>
+</div>
 
 <script src="assets/js/wave.js" defer></script>
 <script src="assets/js/main.js" defer></script>

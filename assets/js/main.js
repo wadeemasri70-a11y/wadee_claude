@@ -299,6 +299,35 @@
     if (img.complete && img.naturalWidth === 0) markMissing(img);
     img.addEventListener('error', function () { markMissing(img); });
   });
+  /* ── the hero reel ────────────────────────────────────────────
+     A missing or unplayable file must never leave a black rectangle:
+     the stage falls back to its poster, then to the paper gradient with
+     the sound wave drawn back over it. */
+  (function () {
+    var stage = $('.hero__media'), vid = $('#heroVideo'), hero = $('#home');
+    if (!stage || !vid || !hero) return;
+
+    function haveReel() {
+      /* readyState climbs past 0 only once real data has arrived */
+      return vid.readyState > 0 || (vid.currentSrc && vid.videoWidth > 0);
+    }
+    function drop() {
+      stage.classList.add('is-empty');
+      hero.classList.remove('has-reel');
+      try { vid.pause(); } catch (err) {}
+    }
+    function keep() { hero.classList.add('has-reel'); }
+
+    vid.addEventListener('loadeddata', keep);
+    vid.addEventListener('error', drop, true);
+    $$('source', vid).forEach(function (src) { src.addEventListener('error', drop); });
+    /* autoplay can be refused (data saver, a policy) — not a reason to hide */
+    var p = vid.play && vid.play();
+    if (p && p.catch) p.catch(function () {});
+    setTimeout(function () { if (!haveReel()) drop(); }, 2500);
+    if (vid.poster) { var pi = new Image(); pi.onerror = function () { if (!haveReel()) drop(); }; pi.src = vid.poster; }
+  })();
+
   $$('.brand__logo, .hero__logo, .foot__logo').forEach(function (img) {
     var hide = function () { img.style.display = 'none'; };
     if (img.complete && img.naturalWidth === 0) hide();
@@ -417,6 +446,70 @@
       if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; }
     }, true);
 
+    /* ── auto-drift: the work row moves on its own ──────────────
+       The cards are cloned once and the row is wrapped back by exactly
+       one set when it passes it, so the loop has no seam. It yields the
+       moment anyone touches it — hover, focus, drag — and never runs
+       off-screen, on a hidden tab, or under prefers-reduced-motion. */
+    var auto = parseFloat(rail.getAttribute('data-auto')) || 0;
+    if (auto > 0 && !reduced) {
+      if (fill && fill.parentNode) fill.parentNode.style.display = 'none';  /* a loop has no progress */
+
+      cards.forEach(function (card) {
+        var c = card.cloneNode(true);
+        c.classList.add('rail__item--clone', 'rv-in');    /* clones arrive already revealed */
+        c.setAttribute('aria-hidden', 'true');
+        $$('a, button', c).forEach(function (el) { el.tabIndex = -1; });
+        track.appendChild(c);
+      });
+      cards = $$('.rcard', rail);                          /* drift the clones too */
+
+      var lap = 0;                                         /* width of one full set */
+      function measure() {
+        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        lap = (track.scrollWidth - parseFloat(getComputedStyle(track).paddingInlineStart || 0)
+                                 - parseFloat(getComputedStyle(track).paddingInlineEnd || 0) + gap) / 2;
+      }
+      measure();
+
+      var pos = 0, held = 0, wrote = null, onScreen = true, raf = 0, prevTs = 0;
+      function hold(on) { held += on ? 1 : -1; if (held < 0) held = 0; }
+
+      rail.addEventListener('pointerenter', function () { hold(true); });
+      rail.addEventListener('pointerleave', function () { hold(false); });
+      rail.addEventListener('focusin', function () { hold(true); });
+      rail.addEventListener('focusout', function () { hold(false); });
+      rail.addEventListener('touchstart', function () { hold(true); }, { passive: true });
+      rail.addEventListener('touchend', function () { hold(false); }, { passive: true });
+
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; },
+                                 { rootMargin: '120px' }).observe(rail);
+      }
+
+      function drift(ts) {
+        raf = requestAnimationFrame(drift);
+        var dt = prevTs ? Math.min((ts - prevTs) / 1000, 0.05) : 0.016;
+        prevTs = ts;
+        if (held || down || !onScreen || document.hidden || !lap) return;
+        /* if the row sits anywhere but where we last put it, someone else
+           moved it (a drag, the arrows, a wheel) — pick up from there
+           rather than yanking it back */
+        if (wrote !== null && Math.abs(rail.scrollLeft - wrote) > 1.5) pos = Math.abs(rail.scrollLeft);
+        pos += auto * dt;
+        while (pos >= lap) pos -= lap;                     /* seamless wrap: one full set */
+        rail.scrollLeft = sign() * pos;
+        wrote = rail.scrollLeft;                           /* read back what the browser kept */
+      }
+      raf = requestAnimationFrame(drift);
+
+      document.addEventListener('visibilitychange', function () { prevTs = 0; });
+      window.addEventListener('resize', function () {
+        setTimeout(function () { measure(); pos = Math.abs(rail.scrollLeft) % (lap || 1); }, 200);
+      }, { passive: true });
+    }
+
     window.addEventListener('resize', function () { setTimeout(paint, 160); }, { passive: true });
     paint();
   });
@@ -424,22 +517,44 @@
   /* ── lightbox ────────────────────────────────────────────────── */
   var lb = $('#lb'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
   var supportsDialog = lb && typeof lb.showModal === 'function';
-  $$('.rcard__hit').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var img = $('img', btn);
-      if (!supportsDialog || !img || !img.naturalWidth) return;   /* nothing to enlarge */
-      var lang = html.getAttribute('lang');
-      lbImg.src = img.currentSrc || img.src;
-      lbImg.alt = img.alt;
-      lbCap.textContent = btn.getAttribute('data-title-' + lang) || '';
-      lb.showModal();
-    });
+  /* delegated: the marquee clones its cards after this runs */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.rcard__hit');
+    if (!btn) return;
+    var img = $('img', btn);
+    if (!supportsDialog || !img || !img.naturalWidth) return;     /* nothing to enlarge */
+    var lang = html.getAttribute('lang');
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    lbCap.textContent = btn.getAttribute('data-title-' + lang) || '';
+    lb.showModal();
   });
   if (supportsDialog) {
     $('#lbClose').addEventListener('click', function () { lb.close(); });
     lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
     lb.addEventListener('close', function () { lbImg.removeAttribute('src'); });
   }
+
+  /* ── palette preview (delete along with the markup) ──────────── */
+  (function () {
+    var box = $('#palettes');
+    if (!box) return;
+    var btns = $$('button', box);
+    function apply(name) {
+      if (name === 'sand') html.removeAttribute('data-palette');
+      else html.setAttribute('data-palette', name);
+      btns.forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-p') === name ? 'true' : 'false');
+      });
+      try { localStorage.setItem('awan-palette', name); } catch (err) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('awan-palette'); } catch (err) {}
+    apply(saved && /^(sand|linen|paper|espresso)$/.test(saved) ? saved : 'sand');
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { apply(b.getAttribute('data-p')); });
+    });
+  })();
 
   /* ═══ 6. Boot ══════════════════════════════════════════════════ */
   $('#year').textContent = new Date().getFullYear();

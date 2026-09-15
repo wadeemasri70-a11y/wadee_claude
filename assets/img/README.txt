@@ -1,47 +1,46 @@
-ضع هنا صور الموقع بهذه الأسماء بالضبط:
+صور الموقع. الموجود هون كلّه جاهز ومقصوص ومضغوط للويب.
 
-  logo.png       اللوغو الملوّن (العصفور + AWAN PRODUCTION LLC) — خلفية
-                 شفافة، عرضه أكبر من طوله، مثلاً ١٢٠٠×٨٥٠
-  hero-poster.jpg  الكادر الثابت اللي بيبان قبل ما يشتغل فيديو الهيرو
-                   (وبيضلّ ظاهر لو ما في فيديو) — أفقي، مثلاً ١٩٢٠×١٠٨٠
+  logo.png         اللوغو الملوّن (العصفور + AWAN PRODUCTION LLC) — خلفية شفافة.
+                   الخلفية البيضا انشالت من الأصل بتعبئة من الحواف، فالأبيض
+                   اللي جوّا العصفور والفيلم ضلّ متل ما هو.
+  logo-light.png   النسخة البيضا (AWAN GROUP) — بتظهر بالفوتر عالخلفية الغامقة،
+                   وبتحلّ محلّ اللوغو الملوّن كلّه لمّا تختار بالِت «قهوة».
+  hero-poster.jpg  الكادر الثابت تحت الهيرو — بيبان لحدّ ما يشتغل الفيديو،
+                   وبيضلّ ظاهر لو ما في فيديو أصلاً.
 
-  logo-light.png النسخة البيضا من اللوغو — بتظهر بالفوتر عالخلفية الغامقة،
-                 خلفية شفافة كمان. اختيارية: إذا ما حطّيتها ما بتبان.
+  studio-01.jpg    غرفة الموسيقى والمؤثّرات          ← صفّ «الاستوديو»
+  studio-02.jpg    غرفة التحكّم
+  studio-03.jpg    غرفة المونتاج الصوتي
+  studio-04.jpg    غرفة الماستر
+  studio-05.jpg    كابينة التسجيل
+  studio-06.jpg    المحطة الرئيسية
 
-  studio-01.jpg  غرفة الدوبلاج          ← قسم «الاستوديو» (row scroll)
-  studio-02.jpg  غرفة التحكّم
-  studio-03.jpg  غرفة الموسيقى والمؤثّرات
-  studio-04.jpg  غرفة المكساج
-  studio-05.jpg  المحطة الرئيسية
+  work-01.jpg      وردة شامية                        ← صفّ «أعمال»
+  work-02.jpg      سلاسل دهب
+  work-03.jpg      النوايا
+  work-04.jpg      العربجي
+  work-05.jpg      العربجي ٢
+  work-06.jpg      التسعة
+  work-07.jpg      سوق الحرير
 
-  work-01.jpg    وردة شامية
-  work-02.jpg    سلاسل دهب
-  work-03.jpg    النوايا
-  work-04.jpg    العربجي
-  work-05.jpg    التسعة
-  work-06.jpg    سوق الحرير
-  work-07.jpg    مقامات العشق
-  work-08.jpg    رحلتي إلى الشهرة
-  work-09.jpg    باب الحارة
-  work-10.jpg    لم يكن حبيبي
-  work-11.jpg    ملخص كرة القدم
-  work-12.jpg    عهد الوفا
+ناقص لسّه (البطاقة بتبان مستطيل متدرّج مكتوب فيه الاسم لحدّ ما توصل):
 
-صور الاستوديو أفقية بنسبة 3:2 (مثلاً ٢٠٠٠×١٣٢٨).
-بوسترات الأعمال عمودية بنسبة 3:4 (مثلاً ١٢٠٠×١٦٠٠).
-الصيغة .jpg أو .webp.
+  work-08.jpg      مقامات العشق
+  work-09.jpg      رحلتي إلى الشهرة
+  work-10.jpg      باب الحارة
+  work-11.jpg      لم يكن حبيبي
+  work-12.jpg      ملخص كرة القدم
+  work-13.jpg      عهد الوفا
 
-لو استعملت أسماء ثانية، غيّر الـ src داخل كل <li class="rcard"> في index.html،
-وكمان <link rel="icon"> و og:image في الـ <head> بالنسبة للّوغو.
-
-أي صورة ناقصة لا تكسر الموقع: البطاقة تصير مستطيلاً متدرّجاً مكتوباً فيه الاسم،
-واللوغو يختفي ويبقى الاسم النصّي.
+صور الاستوديو أفقية 3:2. بوسترات الأعمال بتقبل أي نسبة — الصفّ بيثبّت الارتفاع
+وبيعطي كل بوستر عرضه حسب شكله، فما في قصّ. بس لازم تحدّث `width` و`height`
+و`--ar` على الـ <img> بـ index.html لتطابق مقاس الصورة الجديدة.
 
 ---
 
-Drop the site images here using exactly these filenames: logo.png (the colour mark,
-transparent background, landscape ~1200x850), studio-01.jpg … studio-05.jpg (landscape 3:2, e.g.
-2000x1328) for the studio row, and work-01.jpg … work-12.jpg (portrait 3:4,
-e.g. 1200x1600) for the work row, plus an optional logo-light.png (the white
-version of the mark, used on the dark footer). Missing files degrade gracefully rather
-than breaking.
+Everything here is cropped and compressed for the web. Studio photos are 3:2;
+work posters may be any ratio — the row pins the height and lets each card take
+the width its artwork asks for, so nothing is cropped. When you swap a poster,
+update its width/height and --ar on the <img> in index.html. Six work posters
+(work-08 … work-13) are still missing; those cards show a gradient tile with
+the title until the files land.

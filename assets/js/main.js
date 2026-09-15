@@ -307,16 +307,21 @@
     var stage = $('.hero__media'), vid = $('#heroVideo'), hero = $('#home');
     if (!stage || !vid || !hero) return;
 
+    var posterOk = false;
     function haveReel() {
       /* readyState climbs past 0 only once real data has arrived */
       return vid.readyState > 0 || (vid.currentSrc && vid.videoWidth > 0);
     }
+    function keep() { hero.classList.add('has-reel'); }
+    /* No video is not the same as nothing: the <video> keeps painting its
+       poster when the media fails, so only an empty stage falls back to the
+       gradient and the wave. */
     function drop() {
+      try { vid.pause(); } catch (err) {}
+      if (posterOk) return;
       stage.classList.add('is-empty');
       hero.classList.remove('has-reel');
-      try { vid.pause(); } catch (err) {}
     }
-    function keep() { hero.classList.add('has-reel'); }
 
     vid.addEventListener('loadeddata', keep);
     vid.addEventListener('error', drop, true);
@@ -325,7 +330,12 @@
     var p = vid.play && vid.play();
     if (p && p.catch) p.catch(function () {});
     setTimeout(function () { if (!haveReel()) drop(); }, 2500);
-    if (vid.poster) { var pi = new Image(); pi.onerror = function () { if (!haveReel()) drop(); }; pi.src = vid.poster; }
+    if (vid.poster) {
+      var pi = new Image();
+      pi.onload = function () { posterOk = true; stage.classList.remove('is-empty'); keep(); };
+      pi.onerror = function () { if (!haveReel()) drop(); };
+      pi.src = vid.poster;
+    }
   })();
 
   $$('.brand__logo, .hero__logo, .foot__logo').forEach(function (img) {
@@ -357,10 +367,25 @@
       return m > 1 ? Math.min(1, Math.abs(rail.scrollLeft) / m) : 1;
     }
     function sign() { return html.getAttribute('dir') === 'rtl' ? -1 : 1; }
-    function step() {
+    /* Cards are not all the same width any more, so "one card along" means
+       the next card's leading edge, not a fixed number of pixels. */
+    function edges() {
+      var pad = parseFloat(getComputedStyle(track).paddingInlineStart) || 0;
+      var t = track.getBoundingClientRect(), rtl = sign() < 0;
+      return cards.map(function (c) {
+        var b = c.getBoundingClientRect();
+        return Math.round(Math.abs(rtl ? t.right - b.right : b.left - t.left) - pad);
+      });
+    }
+    function step(dir) {
+      var here = Math.abs(rail.scrollLeft), e = edges(), i;
+      if (dir > 0) {
+        for (i = 0; i < e.length; i++) if (e[i] > here + 4) return e[i] - here;
+      } else {
+        for (i = e.length - 1; i >= 0; i--) if (e[i] < here - 4) return here - e[i];
+      }
       var r = cards[0].getBoundingClientRect();
-      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      return r.width + gap;
+      return r.width + (parseFloat(getComputedStyle(track).columnGap) || 0);
     }
 
     /* Scroll the rail ourselves so it lands on the site's own curve
@@ -408,10 +433,10 @@
     }, { passive: true });
 
     if (prev) prev.addEventListener('click', function () {
-      glideTo(rail.scrollLeft - sign() * step());
+      glideTo(rail.scrollLeft - sign() * step(-1));
     });
     if (next) next.addEventListener('click', function () {
-      glideTo(rail.scrollLeft + sign() * step());
+      glideTo(rail.scrollLeft + sign() * step(1));
     });
 
     /* drag to scroll (mouse/pen only — touch already scrolls natively) */
@@ -543,6 +568,13 @@
     function apply(name) {
       if (name === 'sand') html.removeAttribute('data-palette');
       else html.setAttribute('data-palette', name);
+      /* the colour mark has a dark wordmark — swap in the white one on dark */
+      var light = name === 'espresso';
+      $$('.brand__logo, .hero__logo').forEach(function (img) {
+        var want = 'assets/img/' + (light ? 'logo-light.png' : 'logo.png');
+        if (!/logo(-light)?\.png$/.test(img.getAttribute('src') || '')) return;
+        if (img.getAttribute('src') !== want) img.setAttribute('src', want);
+      });
       btns.forEach(function (b) {
         b.setAttribute('aria-pressed', b.getAttribute('data-p') === name ? 'true' : 'false');
       });

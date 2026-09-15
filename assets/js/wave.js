@@ -120,6 +120,12 @@
     document.hidden ? stop() : start();
   });
 
+  /* the palette can change under us — re-read the accent and redraw */
+  window.addEventListener('awan:theme', function () {
+    COLOR = accent(); RGB = hexToRgb(COLOR);
+    if (!running) draw(reduced ? 0.4 : t);
+  });
+
   var rt;
   window.addEventListener('resize', function () {
     clearTimeout(rt);

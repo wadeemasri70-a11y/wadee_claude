@@ -6,6 +6,16 @@
 <title>أوان — استوديو دوبلاج وتعليق صوتي</title>
 <meta name="description" content="أوان استوديو دوبلاج وتعليق صوتي: دراما، أنمي، وثائقي وإعلانات — من الترجمة والاقتباس لتسجيل الأصوات والمكساج النهائي.">
 <meta name="theme-color" content="#f4f1ec">
+<script>
+/* before first paint, so the page never flashes the wrong theme */
+(function () {
+  var t = null;
+  try { t = localStorage.getItem('awan-theme'); } catch (e) {}
+  if (t !== 'day' && t !== 'night')
+    t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <link rel="icon" href="assets/img/logo.png">
 <link rel="apple-touch-icon" href="assets/img/logo.png">
 <meta property="og:type" content="website">
@@ -27,9 +37,11 @@
 
 <header class="nav" id="nav">
   <div class="nav__in">
-    <a class="brand" href="#home" aria-label="أوان — الصفحة الرئيسية">
-      <img class="brand__logo" src="assets/img/logo.png" alt="" width="160" height="113">
-      <span class="brand__name" data-ar="أوان" data-en="Awan">أوان</span>
+    <a class="brand" href="#home" aria-label="Awan Group — الصفحة الرئيسية">
+      <img class="brand__logo mark--ink" src="assets/img/awan-group-ink.png"
+           alt="Awan Group" width="760" height="202" decoding="async">
+      <img class="brand__logo mark--cream" src="assets/img/awan-group-cream.png"
+           alt="Awan Group" width="760" height="202" decoding="async">
     </a>
 
     <nav class="nav__links" id="navLinks" aria-label="التنقّل الرئيسي">
@@ -41,6 +53,16 @@
     </nav>
 
     <div class="nav__side">
+      <button class="theme" id="themeBtn" type="button" aria-pressed="false"
+              aria-label="التبديل بين النهاري والليلي" title="نهاري / ليلي">
+        <svg class="theme__sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/>
+        </svg>
+        <svg class="theme__moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/>
+        </svg>
+      </button>
       <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
       <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة">
         <span></span><span></span>
@@ -79,10 +101,6 @@
     <div class="hero__glow" data-par="-0.05" aria-hidden="true"></div>
 
     <div class="wrap hero__in">
-      <!-- stands in for the flying bird when motion is not welcome -->
-      <img class="hero__mark" src="assets/img/logo.png" alt="شعار أوان"
-           width="742" height="750" decoding="async">
-
       <p class="eyebrow" data-rv="up" style="--i:0">
         <span class="dot" aria-hidden="true"></span>
         <span data-ar="استوديو دوبلاج وتعليق صوتي" data-en="Dubbing &amp; voice-over studio">استوديو دوبلاج وتعليق صوتي</span>
@@ -575,7 +593,8 @@
 
     <footer class="foot">
       <div class="wrap foot__in">
-        <img class="foot__logo" src="assets/img/logo-light.png" alt="" width="320" height="226" loading="lazy" decoding="async">
+        <img class="foot__logo mark--cream" src="assets/img/awan-group-cream.png" alt="" width="760" height="202" loading="lazy" decoding="async">
+        <img class="foot__logo mark--ink" src="assets/img/awan-group-ink.png" alt="" width="760" height="202" loading="lazy" decoding="async">
         <span class="foot__c">© <span id="year">2026</span> <span data-ar="أوان للدوبلاج" data-en="Awan Dubbing">أوان للدوبلاج</span></span>
         <a class="foot__top" href="#home" data-ar="لأعلى" data-en="Back to top">لأعلى</a>
       </div>
@@ -585,40 +604,13 @@
 </main>
 </div>
 
-<!-- The goldfinch crosses the whole site as you scroll, beating its wings,
-     and settles on its branch at the end. It sits OUTSIDE #scroller on
-     purpose: the smooth-scroll shell transforms that wrapper, and a
-     position:fixed child of a transformed element is positioned against the
-     element instead of the viewport. -->
-<div class="flier" id="flier" aria-hidden="true">
-  <img class="flier__branch" id="flierBranch" src="assets/img/branch.png"
-       width="452" height="167" decoding="async" alt="">
-  <span class="flier__bird" id="flierBird">
-    <img class="flier__body" src="assets/img/bird-fly.png" width="679" height="468" decoding="async" alt="">
-    <img class="flier__wing" id="flierWing" src="assets/img/bird-wing.png" width="389" height="209" decoding="async" alt="">
-  </span>
-</div>
-
 <dialog class="lb" id="lb" aria-label="عرض العمل">
   <button class="lb__x" id="lbClose" type="button" aria-label="إغلاق">&times;</button>
   <figure class="lb__fig">
-    <img id="lbImg" src="" alt="">
+    <img id="lbImg" alt="">
     <figcaption id="lbCap"></figcaption>
   </figure>
 </dialog>
-
-<!-- ─── PREVIEW ONLY ────────────────────────────────────────────────
-     Four colour directions to choose between. Once you have picked one,
-     delete this block, drop the #palettes rules from style.css and the
-     palette section from main.js, and keep that palette's tokens as the
-     only :root block. Nothing else in the site depends on it. -->
-<div class="palettes" id="palettes" role="group" aria-label="معاينة الألوان">
-  <span class="palettes__lbl" data-ar="الألوان" data-en="Palette">الألوان</span>
-  <button type="button" data-p="sand"     aria-label="رملي — أبيض وبيج وبني"><i style="--a:#ffffff;--b:#e8dbc8;--c:#8a5a33"></i></button>
-  <button type="button" data-p="linen"    aria-label="كتّان — كتّان وكاكاو"><i style="--a:#faf6f0;--b:#ddcdb8;--c:#a8744a"></i></button>
-  <button type="button" data-p="paper"    aria-label="ورق — ورق دافئ وصدئي"><i style="--a:#f4f1ec;--b:#e1dad0;--c:#c9552f"></i></button>
-  <button type="button" data-p="espresso" aria-label="قهوة — بيج على بنّي غامق"><i style="--a:#241a12;--b:#3a2c20;--c:#d39a5c"></i></button>
-</div>
 
 <script src="assets/js/wave.js" defer></script>
 <script src="assets/js/main.js" defer></script>

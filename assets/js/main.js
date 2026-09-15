@@ -9,10 +9,6 @@
   var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var reduced = mqReduce.matches;
 
-  /* The hero only claims the extra height it needs for the bird's flight
-     when motion is welcome. Set before anything measures it. */
-  if (!reduced) html.classList.add('can-fly');
-
   /* ── 0. tiny helpers ─────────────────────────────────────────── */
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -55,95 +51,6 @@
     measureParallax();
   }
 
-  /* ── the goldfinch ─────────────────────────────────────────────
-     It crosses the whole page: scroll position picks the point on a
-     smooth path through a handful of waypoints, scroll DISTANCE drives
-     the wing beat, and scroll speed decides how hard it is working. Stop
-     scrolling and it glides — the wing eases back to rest. At the bottom
-     it stops beating and settles onto its branch, which is the very piece
-     that was cut out from under its feet, so the two lock back together
-     into the original drawing. */
-  var flier = (function () {
-    var box = $('#flier'), bird = $('#flierBird'), wing = $('#flierWing'), branch = $('#flierBranch');
-    if (!box || !bird || !wing || !branch) return { measure: function () {}, render: function () {} };
-
-    /* waypoints as fractions of the viewport, written for RTL (it starts
-       over the text column on the right); LTR mirrors them */
-    var WP = [[0.74,0.13],[0.15,0.30],[0.70,0.48],[0.18,0.34],[0.13,0.60]];
-    var MARK = 679;                     /* the body's width inside the mark */
-    var BODY_X = 51, BRANCH_Y = 331;    /* where each piece sat in the mark */
-
-    var vw = 1200, vh = 800, bw = 140, span = 1000;
-    var phase = 0, act = 0, face = 1, lastY = null, lastT = null, lastB = null;
-
-    function measure() {
-      vw = window.innerWidth; vh = window.innerHeight;
-      bw = bird.offsetWidth || 140;
-      span = Math.max(1, document.documentElement.scrollHeight - vh);
-    }
-    /* Catmull-Rom: C1-continuous, so the bird never stops at a waypoint */
-    function spline(t, i0) {
-      var n = WP.length - 1, f = clamp(t, 0, 1) * n;
-      var i = Math.min(n - 1, Math.floor(f)), u = f - i;
-      var p0 = WP[Math.max(0, i - 1)], p1 = WP[i], p2 = WP[i + 1], p3 = WP[Math.min(n, i + 2)];
-      var u2 = u * u, u3 = u2 * u;
-      return 0.5 * ((2 * p1[i0]) + (-p0[i0] + p2[i0]) * u +
-                    (2 * p0[i0] - 5 * p1[i0] + 4 * p2[i0] - p3[i0]) * u2 +
-                    (-p0[i0] + 3 * p1[i0] - 3 * p2[i0] + p3[i0]) * u3);
-    }
-    function pos(t) {
-      var fx = spline(t, 0), fy = spline(t, 1);
-      var rtl = html.getAttribute('dir') === 'rtl';
-      return [rtl ? fx * vw : vw - fx * vw - bw, fy * vh];
-    }
-
-    function render(y, dt) {
-      if (reduced) return;
-      var p = clamp(y / span, 0, 1);
-      var here = pos(p);
-
-      /* how hard it is flying: scroll speed, smoothed, and off at the end */
-      if (lastY === null) lastY = y;
-      var moved = Math.abs(y - lastY);
-      phase += moved / 110 * Math.PI * 2;        /* a beat every ~110px */
-      var want = clamp(moved / Math.max(dt, 0.001) / 260, 0, 1);
-      /* picks up speed fast, settles slowly — a bird beats then glides */
-      act += (want - act) * Math.min(1, dt * (want > act ? 11 : 3));
-      act *= clamp((0.97 - p) / 0.07, 0, 1);     /* settle before it lands */
-      lastY = y;
-
-      /* Which way it is headed — it turns through edge-on, like a real bird.
-         The drawing faces left, so heading left is the un-mirrored 1. When it
-         is barely moving sideways, commit to the nearer of the two rather
-         than freezing half-turned; by the landing it must be facing the way
-         it was drawn, or it will not sit back on its branch. */
-      var ahead = pos(clamp(p + 0.01, 0, 1)), dx = ahead[0] - here[0];
-      var turn = Math.abs(dx) > 0.5 ? (dx > 0 ? -1 : 1) : (face >= 0 ? 1 : -1);
-      if (p > 0.9) turn = 1;
-      face += (turn - face) * Math.min(1, dt * 5);
-
-      var beat = 0.5 - 0.5 * Math.cos(phase);    /* 0 down … 1 up */
-      var lift = beat * act;
-      var bob = -4 * Math.sin(phase) * act;
-      var pitch = -5 * Math.cos(phase) * act;
-
-      var t = 'translate3d(' + here[0].toFixed(1) + 'px,' + (here[1] + bob).toFixed(1) + 'px,0)' +
-              ' rotate(' + pitch.toFixed(2) + 'deg) scaleX(' + face.toFixed(3) + ')';
-      if (t !== lastT) { lastT = t; bird.style.transform = t; }
-      wing.style.transform = 'rotate(' + (-46 * lift).toFixed(2) + 'deg)' +
-                             ' scaleY(' + (1 - 0.2 * lift).toFixed(3) + ')';
-
-      /* the branch waits at the landing spot, placed so the two pieces
-         line back up exactly as they were drawn */
-      var k = bw / MARK;
-      var b = 'translate3d(' + (here[0] - BODY_X * k).toFixed(1) + 'px,' +
-              (here[1] + BRANCH_Y * k).toFixed(1) + 'px,0)';
-      if (b !== lastB) { lastB = b; branch.style.transform = b; }
-      box.classList.toggle('is-landing', p > 0.9);
-    }
-    return { measure: measure, render: render, busy: function () { return act; } };
-  })();
-
   /* ── layered parallax (transform only, a few elements) ───────── */
   var pars = $$('[data-par]').map(function (el) {
     return { el: el, speed: parseFloat(el.getAttribute('data-par')) || 0, base: 0, h: 0, on: true };
@@ -151,7 +58,6 @@
 
   function measureParallax() {
     var y = window.scrollY;
-    flier.measure();
     pars.forEach(function (p) {
       p.el.style.transform = '';
       var r = p.el.getBoundingClientRect();
@@ -195,10 +101,9 @@
     window.__awanEnergy = energy;
 
     renderParallax(cur);
-    flier.render(cur, dt);
     onScrollUI(cur);
 
-    if (smooth || Math.abs(target - cur) > 0.08 || energy > 0.004 || flier.busy() > 0.01) {
+    if (smooth || Math.abs(target - cur) > 0.08 || energy > 0.004) {
       requestAnimationFrame(frame);
     } else {
       ticking = false;
@@ -371,7 +276,6 @@
     });
     try { localStorage.setItem('awan-lang', lang); } catch (err) {}
     measureParallax();
-    kick();                       /* the bird's path mirrors — redraw it now */
   }
   var saved = null;
   try { saved = localStorage.getItem('awan-lang'); } catch (err) {}
@@ -656,32 +560,35 @@
     lb.addEventListener('close', function () { lbImg.removeAttribute('src'); });
   }
 
-  /* ── palette preview (delete along with the markup) ──────────── */
+  /* ── day / night ──────────────────────────────────────────────
+     The theme is already on <html> before first paint (see the inline
+     script in the head), so this only has to handle the button and
+     keep following the system until someone overrides it. */
   (function () {
-    var box = $('#palettes');
-    if (!box) return;
-    var btns = $$('button', box);
-    function apply(name) {
-      if (name === 'sand') html.removeAttribute('data-palette');
-      else html.setAttribute('data-palette', name);
-      /* the colour mark has a dark wordmark — swap in the white one on dark */
-      var light = name === 'espresso';
-      $$('.brand__logo').forEach(function (img) {
-        var want = 'assets/img/' + (light ? 'logo-light.png' : 'logo.png');
-        if (!/logo(-light)?\.png$/.test(img.getAttribute('src') || '')) return;
-        if (img.getAttribute('src') !== want) img.setAttribute('src', want);
-      });
-      btns.forEach(function (b) {
-        b.setAttribute('aria-pressed', b.getAttribute('data-p') === name ? 'true' : 'false');
-      });
-      try { localStorage.setItem('awan-palette', name); } catch (err) {}
+    var btn = $('#themeBtn');
+    if (!btn) return;
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var chosen = null;
+    try { chosen = localStorage.getItem('awan-theme'); } catch (err) {}
+    if (chosen !== 'day' && chosen !== 'night') chosen = null;
+
+    function apply(t, remember) {
+      html.setAttribute('data-theme', t);
+      btn.setAttribute('aria-pressed', t === 'night' ? 'true' : 'false');
+      var meta = $('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content',
+        getComputedStyle(html).getPropertyValue('--paper').trim() || '#f4f1ec');
+      if (remember) { chosen = t; try { localStorage.setItem('awan-theme', t); } catch (err) {} }
+      /* the canvas wave picks its colour off --accent, so tell it to re-read */
+      window.dispatchEvent(new CustomEvent('awan:theme'));
     }
-    var saved = null;
-    try { saved = localStorage.getItem('awan-palette'); } catch (err) {}
-    apply(saved && /^(sand|linen|paper|espresso)$/.test(saved) ? saved : 'sand');
-    btns.forEach(function (b) {
-      b.addEventListener('click', function () { apply(b.getAttribute('data-p')); });
+    apply(chosen || (mq.matches ? 'night' : 'day'), false);
+    btn.addEventListener('click', function () {
+      apply(html.getAttribute('data-theme') === 'night' ? 'day' : 'night', true);
     });
+    var follow = function () { if (!chosen) apply(mq.matches ? 'night' : 'day', false); };
+    if (mq.addEventListener) mq.addEventListener('change', follow);
+    else if (mq.addListener) mq.addListener(follow);
   })();
 
   /* ═══ 6. Boot ══════════════════════════════════════════════════ */

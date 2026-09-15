@@ -9,6 +9,10 @@
   var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var reduced = mqReduce.matches;
 
+  /* The hero only claims the extra height it needs for the bird's flight
+     when motion is welcome. Set before anything measures it. */
+  if (!reduced) html.classList.add('can-fly');
+
   /* ── 0. tiny helpers ─────────────────────────────────────────── */
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -51,6 +55,58 @@
     measureParallax();
   }
 
+  /* ── the goldfinch's descent ───────────────────────────────────
+     One element, one transform, written from the same frame loop as the
+     parallax. The scroll position IS the timeline: the bird glides down
+     and across the hero, wing-beats fading out, until it comes to rest
+     on its branch. Nothing here runs under prefers-reduced-motion. */
+  var bird = (function () {
+    var stage = $('#heroStage'), perch = $('#heroPerch'), hero = $('#home');
+    if (!stage || !perch || !hero) return { measure: function () {}, render: function () {} };
+    var range = 600, drop = 300, amp = 28, lastT = null, lastS = null;
+
+    function dir() { return html.getAttribute('dir') === 'rtl' ? -1 : 1; }
+    var glide = 0;
+    function measure() {
+      var sh = stage.offsetHeight || 700, sw = stage.offsetWidth || 1200;
+      /* the flight lasts exactly as long as the hero has spare height */
+      range = Math.max(1, hero.offsetHeight - sh);
+      var top = perch.offsetTop || 0, left = perch.offsetLeft || 0;
+      var bh = perch.offsetHeight || 140, bw = perch.offsetWidth || 150;
+      /* land in the empty column — the far side from the text */
+      var target = dir() < 0 ? sw * 0.11 : sw * 0.89 - bw;
+      glide = target - left;
+      drop = Math.max(0, Math.min(sh * 0.58 - top, sh - top - bh * 0.92 - 16));
+      amp = Math.max(12, Math.min(30, sh * 0.032));
+    }
+    function render(y) {
+      if (reduced) return;
+      /* hold the stage still under the scroll until the bird has landed */
+      var held = Math.min(y, range);
+      var st = 'translate3d(0,' + held.toFixed(1) + 'px,0)';
+      if (st !== lastS) { lastS = st; stage.style.transform = st; }
+
+      var p = clamp(y / range, 0, 1);
+      /* it breaks sideways off the perch first and only then loses height,
+         so it never crosses the text column head-on */
+      var ex = 1 - Math.pow(1 - p, 2.4);         /* away, quickly */
+      var ey = p * p * (3 - 2 * p);              /* down, smoothly */
+      var fade = Math.pow(1 - p, 1.7);           /* the calming down */
+      var beat = p * Math.PI * 6;                /* six wing beats on the way */
+      var d = dir();
+      var x = glide * ex + d * amp * 1.3 * Math.sin(p * Math.PI * 2) * fade;
+      var yy = drop * ey - Math.sin(beat) * amp * fade;
+      var rot = -8 * Math.cos(beat) * fade + d * 5 * Math.sin(p * Math.PI) * fade;
+      var sc = 1 - 0.3 * ey;
+      var t = 'translate3d(' + x.toFixed(1) + 'px,' + yy.toFixed(1) + 'px,0)' +
+              ' rotate(' + rot.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+      if (t === lastT) return;                   /* nothing moved, nothing to do */
+      lastT = t;
+      perch.style.transform = t;
+    }
+    return { measure: measure, render: render };
+  })();
+
   /* ── layered parallax (transform only, a few elements) ───────── */
   var pars = $$('[data-par]').map(function (el) {
     return { el: el, speed: parseFloat(el.getAttribute('data-par')) || 0, base: 0, h: 0, on: true };
@@ -58,6 +114,7 @@
 
   function measureParallax() {
     var y = window.scrollY;
+    bird.measure();
     pars.forEach(function (p) {
       p.el.style.transform = '';
       var r = p.el.getBoundingClientRect();
@@ -101,6 +158,7 @@
     window.__awanEnergy = energy;
 
     renderParallax(cur);
+    bird.render(cur);
     onScrollUI(cur);
 
     if (smooth || Math.abs(target - cur) > 0.08 || energy > 0.004) {
@@ -338,7 +396,7 @@
     }
   })();
 
-  $$('.brand__logo, .hero__logo, .foot__logo').forEach(function (img) {
+  $$('.brand__logo, .hero__bird, .foot__logo').forEach(function (img) {
     var hide = function () { img.style.display = 'none'; };
     if (img.complete && img.naturalWidth === 0) hide();
     img.addEventListener('error', hide);
@@ -570,7 +628,7 @@
       else html.setAttribute('data-palette', name);
       /* the colour mark has a dark wordmark — swap in the white one on dark */
       var light = name === 'espresso';
-      $$('.brand__logo, .hero__logo').forEach(function (img) {
+      $$('.brand__logo').forEach(function (img) {
         var want = 'assets/img/' + (light ? 'logo-light.png' : 'logo.png');
         if (!/logo(-light)?\.png$/.test(img.getAttribute('src') || '')) return;
         if (img.getAttribute('src') !== want) img.setAttribute('src', want);

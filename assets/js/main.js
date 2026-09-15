@@ -55,56 +55,93 @@
     measureParallax();
   }
 
-  /* ── the goldfinch's descent ───────────────────────────────────
-     One element, one transform, written from the same frame loop as the
-     parallax. The scroll position IS the timeline: the bird glides down
-     and across the hero, wing-beats fading out, until it comes to rest
-     on its branch. Nothing here runs under prefers-reduced-motion. */
-  var bird = (function () {
-    var stage = $('#heroStage'), perch = $('#heroPerch'), hero = $('#home');
-    if (!stage || !perch || !hero) return { measure: function () {}, render: function () {} };
-    var range = 600, drop = 300, amp = 28, lastT = null, lastS = null;
+  /* ── the goldfinch ─────────────────────────────────────────────
+     It crosses the whole page: scroll position picks the point on a
+     smooth path through a handful of waypoints, scroll DISTANCE drives
+     the wing beat, and scroll speed decides how hard it is working. Stop
+     scrolling and it glides — the wing eases back to rest. At the bottom
+     it stops beating and settles onto its branch, which is the very piece
+     that was cut out from under its feet, so the two lock back together
+     into the original drawing. */
+  var flier = (function () {
+    var box = $('#flier'), bird = $('#flierBird'), wing = $('#flierWing'), branch = $('#flierBranch');
+    if (!box || !bird || !wing || !branch) return { measure: function () {}, render: function () {} };
 
-    function dir() { return html.getAttribute('dir') === 'rtl' ? -1 : 1; }
-    var glide = 0;
+    /* waypoints as fractions of the viewport, written for RTL (it starts
+       over the text column on the right); LTR mirrors them */
+    var WP = [[0.74,0.13],[0.15,0.30],[0.70,0.48],[0.18,0.34],[0.13,0.60]];
+    var MARK = 679;                     /* the body's width inside the mark */
+    var BODY_X = 51, BRANCH_Y = 331;    /* where each piece sat in the mark */
+
+    var vw = 1200, vh = 800, bw = 140, span = 1000;
+    var phase = 0, act = 0, face = 1, lastY = null, lastT = null, lastB = null;
+
     function measure() {
-      var sh = stage.offsetHeight || 700, sw = stage.offsetWidth || 1200;
-      /* the flight lasts exactly as long as the hero has spare height */
-      range = Math.max(1, hero.offsetHeight - sh);
-      var top = perch.offsetTop || 0, left = perch.offsetLeft || 0;
-      var bh = perch.offsetHeight || 140, bw = perch.offsetWidth || 150;
-      /* land in the empty column — the far side from the text */
-      var target = dir() < 0 ? sw * 0.11 : sw * 0.89 - bw;
-      glide = target - left;
-      drop = Math.max(0, Math.min(sh * 0.58 - top, sh - top - bh * 0.92 - 16));
-      amp = Math.max(12, Math.min(30, sh * 0.032));
+      vw = window.innerWidth; vh = window.innerHeight;
+      bw = bird.offsetWidth || 140;
+      span = Math.max(1, document.documentElement.scrollHeight - vh);
     }
-    function render(y) {
-      if (reduced) return;
-      /* hold the stage still under the scroll until the bird has landed */
-      var held = Math.min(y, range);
-      var st = 'translate3d(0,' + held.toFixed(1) + 'px,0)';
-      if (st !== lastS) { lastS = st; stage.style.transform = st; }
+    /* Catmull-Rom: C1-continuous, so the bird never stops at a waypoint */
+    function spline(t, i0) {
+      var n = WP.length - 1, f = clamp(t, 0, 1) * n;
+      var i = Math.min(n - 1, Math.floor(f)), u = f - i;
+      var p0 = WP[Math.max(0, i - 1)], p1 = WP[i], p2 = WP[i + 1], p3 = WP[Math.min(n, i + 2)];
+      var u2 = u * u, u3 = u2 * u;
+      return 0.5 * ((2 * p1[i0]) + (-p0[i0] + p2[i0]) * u +
+                    (2 * p0[i0] - 5 * p1[i0] + 4 * p2[i0] - p3[i0]) * u2 +
+                    (-p0[i0] + 3 * p1[i0] - 3 * p2[i0] + p3[i0]) * u3);
+    }
+    function pos(t) {
+      var fx = spline(t, 0), fy = spline(t, 1);
+      var rtl = html.getAttribute('dir') === 'rtl';
+      return [rtl ? fx * vw : vw - fx * vw - bw, fy * vh];
+    }
 
-      var p = clamp(y / range, 0, 1);
-      /* it breaks sideways off the perch first and only then loses height,
-         so it never crosses the text column head-on */
-      var ex = 1 - Math.pow(1 - p, 2.4);         /* away, quickly */
-      var ey = p * p * (3 - 2 * p);              /* down, smoothly */
-      var fade = Math.pow(1 - p, 1.7);           /* the calming down */
-      var beat = p * Math.PI * 6;                /* six wing beats on the way */
-      var d = dir();
-      var x = glide * ex + d * amp * 1.3 * Math.sin(p * Math.PI * 2) * fade;
-      var yy = drop * ey - Math.sin(beat) * amp * fade;
-      var rot = -8 * Math.cos(beat) * fade + d * 5 * Math.sin(p * Math.PI) * fade;
-      var sc = 1 - 0.3 * ey;
-      var t = 'translate3d(' + x.toFixed(1) + 'px,' + yy.toFixed(1) + 'px,0)' +
-              ' rotate(' + rot.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
-      if (t === lastT) return;                   /* nothing moved, nothing to do */
-      lastT = t;
-      perch.style.transform = t;
+    function render(y, dt) {
+      if (reduced) return;
+      var p = clamp(y / span, 0, 1);
+      var here = pos(p);
+
+      /* how hard it is flying: scroll speed, smoothed, and off at the end */
+      if (lastY === null) lastY = y;
+      var moved = Math.abs(y - lastY);
+      phase += moved / 110 * Math.PI * 2;        /* a beat every ~110px */
+      var want = clamp(moved / Math.max(dt, 0.001) / 260, 0, 1);
+      /* picks up speed fast, settles slowly — a bird beats then glides */
+      act += (want - act) * Math.min(1, dt * (want > act ? 11 : 3));
+      act *= clamp((0.97 - p) / 0.07, 0, 1);     /* settle before it lands */
+      lastY = y;
+
+      /* Which way it is headed — it turns through edge-on, like a real bird.
+         The drawing faces left, so heading left is the un-mirrored 1. When it
+         is barely moving sideways, commit to the nearer of the two rather
+         than freezing half-turned; by the landing it must be facing the way
+         it was drawn, or it will not sit back on its branch. */
+      var ahead = pos(clamp(p + 0.01, 0, 1)), dx = ahead[0] - here[0];
+      var turn = Math.abs(dx) > 0.5 ? (dx > 0 ? -1 : 1) : (face >= 0 ? 1 : -1);
+      if (p > 0.9) turn = 1;
+      face += (turn - face) * Math.min(1, dt * 5);
+
+      var beat = 0.5 - 0.5 * Math.cos(phase);    /* 0 down … 1 up */
+      var lift = beat * act;
+      var bob = -4 * Math.sin(phase) * act;
+      var pitch = -5 * Math.cos(phase) * act;
+
+      var t = 'translate3d(' + here[0].toFixed(1) + 'px,' + (here[1] + bob).toFixed(1) + 'px,0)' +
+              ' rotate(' + pitch.toFixed(2) + 'deg) scaleX(' + face.toFixed(3) + ')';
+      if (t !== lastT) { lastT = t; bird.style.transform = t; }
+      wing.style.transform = 'rotate(' + (-46 * lift).toFixed(2) + 'deg)' +
+                             ' scaleY(' + (1 - 0.2 * lift).toFixed(3) + ')';
+
+      /* the branch waits at the landing spot, placed so the two pieces
+         line back up exactly as they were drawn */
+      var k = bw / MARK;
+      var b = 'translate3d(' + (here[0] - BODY_X * k).toFixed(1) + 'px,' +
+              (here[1] + BRANCH_Y * k).toFixed(1) + 'px,0)';
+      if (b !== lastB) { lastB = b; branch.style.transform = b; }
+      box.classList.toggle('is-landing', p > 0.9);
     }
-    return { measure: measure, render: render };
+    return { measure: measure, render: render, busy: function () { return act; } };
   })();
 
   /* ── layered parallax (transform only, a few elements) ───────── */
@@ -114,7 +151,7 @@
 
   function measureParallax() {
     var y = window.scrollY;
-    bird.measure();
+    flier.measure();
     pars.forEach(function (p) {
       p.el.style.transform = '';
       var r = p.el.getBoundingClientRect();
@@ -158,10 +195,10 @@
     window.__awanEnergy = energy;
 
     renderParallax(cur);
-    bird.render(cur);
+    flier.render(cur, dt);
     onScrollUI(cur);
 
-    if (smooth || Math.abs(target - cur) > 0.08 || energy > 0.004) {
+    if (smooth || Math.abs(target - cur) > 0.08 || energy > 0.004 || flier.busy() > 0.01) {
       requestAnimationFrame(frame);
     } else {
       ticking = false;
@@ -334,6 +371,7 @@
     });
     try { localStorage.setItem('awan-lang', lang); } catch (err) {}
     measureParallax();
+    kick();                       /* the bird's path mirrors — redraw it now */
   }
   var saved = null;
   try { saved = localStorage.getItem('awan-lang'); } catch (err) {}

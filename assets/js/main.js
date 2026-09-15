@@ -1,490 +1,634 @@
-/* ============================================================
-   AWAN — interactions
-   One rAF ticker drives the cursor, the magnets and the
-   marquees; scroll work is throttled to a frame of its own.
-   ============================================================ */
+/* ═══════════════════════════════════════════════════════════════════
+   main.js — smooth scroll shell, layered parallax, one reveal moment
+   per section, language switch, gallery. No libraries.
+   ═══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
 
-  var doc = document.documentElement;
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var html = document.documentElement;
+  var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduced = mqReduce.matches;
+
+  /* ── 0. tiny helpers ─────────────────────────────────────────── */
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
-  var lerp  = function (a, b, n) { return a + (b - a) * n; };
+  /* expo out — the site's entrance curve, mirrored from CSS */
+  var easeOutExpo = function (t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); };
 
-  var y = $('#year');
-  if (y) y.textContent = new Date().getFullYear();
+  /* ═══ 1. Smooth scroll shell ═══════════════════════════════════
+     A fixed, transformed wrapper lerped toward the native scroll
+     position. Native scrolling stays intact (scrollbar, keyboard,
+     focus, anchors); we only soften how it lands. Pointer-fine and
+     wide viewports only — touch devices already scroll beautifully.  */
+  var scroller = $('#scroller');
+  var smooth = false, cur = 0, target = 0, energy = 0, lastY = 0;
 
-  /* ============================================================ 1. INTRO */
-  var intro = $('#intro');
-  var introFill = $('#introFill');
-  var introPct = $('#introPct');
-  var opened = false;
-
-  function openSite() {
-    if (opened) return;
-    opened = true;
-    document.body.classList.remove('is-loading');
-    doc.classList.add('is-ready');
-    if (intro) {
-      intro.classList.add('is-done');
-      setTimeout(function () { intro.style.display = 'none'; }, 1300);
-    }
-    // the hero copy comes in behind the curtain
-    setTimeout(function () {
-      $$('.hero [data-reveal], .hero .split').forEach(function (el) { el.classList.add('is-in'); });
-    }, 260);
-    onScroll();
+  function canSmooth() {
+    return !reduced &&
+           window.matchMedia('(pointer:fine)').matches &&
+           window.innerWidth >= 1024;
   }
 
-  if (intro && !reduced) {
-    var pct = 0, done = false;
-    window.addEventListener('load', function () { done = true; });
-    setTimeout(function () { done = true; }, 2400);           // never trap the visitor
-    (function tick() {
-      var target = done ? 100 : Math.min(92, pct + 1.6 + Math.random() * 3);
-      pct = lerp(pct, target, done ? 0.35 : 0.12);
-      if (introFill) introFill.style.width = pct.toFixed(1) + '%';
-      if (introPct) introPct.textContent = Math.round(pct);
-      if (pct > 99.3) { openSite(); return; }
-      requestAnimationFrame(tick);
-    })();
-  } else {
-    openSite();
-  }
-  // failsafe: if rAF is throttled (background tab, odd browser) the curtain
-  // must still lift — the site is never allowed to stay behind it.
-  setTimeout(openSite, 3000);
-
-  /* ============================================================ 2. SPLIT TEXT */
-  function splitEl(el) {
-    if (el.querySelector('.wm')) return;
-    var idx = 0;
-    var stagger = parseInt(el.getAttribute('data-stagger') || '30', 10);
-
-    function walk(node) {
-      if (node.nodeType === 3) {
-        if (!node.textContent.trim()) return;
-        var frag = document.createDocumentFragment();
-        node.textContent.split(/(\s+)/).forEach(function (word) {
-          if (!word) return;
-          if (!word.trim()) { frag.appendChild(document.createTextNode(word)); return; }
-          var mask = document.createElement('span');
-          mask.className = 'wm';
-          var inner = document.createElement('span');
-          inner.className = 'wi';
-          inner.textContent = word;
-          inner.style.setProperty('--wd', (idx++ * stagger) + 'ms');
-          mask.appendChild(inner);
-          frag.appendChild(mask);
-        });
-        node.parentNode.replaceChild(frag, node);
-      } else if (node.nodeType === 1) {
-        Array.prototype.slice.call(node.childNodes).forEach(walk);
-      }
-    }
-    Array.prototype.slice.call(el.childNodes).forEach(walk);
-  }
-  function splitAll() { $$('.split').forEach(splitEl); }
-
-  /* ---- the word-by-word lit paragraph ---- */
-  var wordBlocks = [];
-  function splitWords() {
-    wordBlocks = $$('.scroll-words');
-    wordBlocks.forEach(function (block) {
-      if (block.querySelector('.w')) return;
-      var text = block.textContent.trim();
-      block.textContent = '';
-      text.split(/\s+/).forEach(function (w) {
-        var span = document.createElement('span');
-        span.className = 'w';
-        span.textContent = w;
-        block.appendChild(span);
-        block.appendChild(document.createTextNode(' '));
-      });
-    });
+  function setBodyHeight() {
+    document.body.style.height = smooth ? scroller.offsetHeight + 'px' : '';
   }
 
-  splitAll();
-  splitWords();
-
-  /* ============================================================ 3. LANGUAGE */
-  var STORE = 'awan-lang';
-  var langToggle = $('#langToggle');
-
-  function applyLang(lang) {
-    var isEn = lang === 'en';
-    doc.setAttribute('lang', isEn ? 'en' : 'ar');
-    doc.setAttribute('dir', isEn ? 'ltr' : 'rtl');
-    document.title = isEn
-      ? 'Awan | Dubbing & Audio Post Studios'
-      : 'أوان | استوديوهات الدوبلاج والإنتاج الصوتي';
-
-    $$('[data-ar]').forEach(function (el) {
-      var txt = isEn ? el.getAttribute('data-en') : el.getAttribute('data-ar');
-      if (txt != null) el.textContent = txt;
-    });
-
-    splitAll();      // the masks were overwritten with the new strings
-    splitWords();
-    try { localStorage.setItem(STORE, lang); } catch (e) {}
+  function enableSmooth() {
+    if (smooth) return;
+    smooth = true;
+    html.classList.add('has-smooth');
+    cur = target = window.scrollY;
+    setBodyHeight();
+    measureParallax();
+  }
+  function disableSmooth() {
+    if (!smooth) return;
+    smooth = false;
+    html.classList.remove('has-smooth');
+    scroller.style.transform = '';
+    document.body.style.height = '';
+    measureParallax();
   }
 
-  var saved = null;
-  try { saved = localStorage.getItem(STORE); } catch (e) {}
-  if (saved === 'en') applyLang('en');
-
-  if (langToggle) {
-    langToggle.addEventListener('click', function () {
-      applyLang(doc.getAttribute('lang') === 'en' ? 'ar' : 'en');
-      onScroll();
-    });
-  }
-
-  /* ============================================================ 4. NAV */
-  var nav = $('#nav');
-  var navLinks = $('#navLinks');
-  var burger = $('#burger');
-
-  if (burger && navLinks) {
-    burger.addEventListener('click', function () {
-      var open = navLinks.classList.toggle('is-open');
-      burger.setAttribute('aria-expanded', String(open));
-      document.body.classList.toggle('is-locked', open);
-    });
-    navLinks.addEventListener('click', function (e) {
-      if (e.target.tagName !== 'A') return;
-      navLinks.classList.remove('is-open');
-      burger.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('is-locked');
-    });
-  }
-
-  var sections = $$('main section[id]');
-  var linkFor = {};
-  $$('#navLinks a').forEach(function (a) { linkFor[a.getAttribute('href').slice(1)] = a; });
-
-  function spy() {
-    var mark = window.scrollY + window.innerHeight * 0.35;
-    var current = null;
-    for (var i = 0; i < sections.length; i++) {
-      if (sections[i].offsetTop <= mark) current = sections[i].id;
-    }
-    $$('#navLinks a').forEach(function (a) { a.classList.remove('is-active'); });
-    if (current && linkFor[current]) linkFor[current].classList.add('is-active');
-  }
-
-  var toTop = $('#toTop');
-  if (toTop) toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
-  /* ============================================================ 5. REVEAL */
-  var revealTargets = $$('[data-reveal], .split, .stat, .svc');
-  if ('IntersectionObserver' in window) {
-    var revealIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var el = en.target;
-        var d = el.getAttribute('data-delay');
-        if (d) el.style.setProperty('--d', d + 'ms');
-        el.classList.add('is-in');
-        revealIO.unobserve(el);
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    revealTargets.forEach(function (el) { revealIO.observe(el); });
-  } else {
-    revealTargets.forEach(function (el) { el.classList.add('is-in'); });
-  }
-
-  /* ============================================================ 6. COUNTERS */
-  function runCounter(el) {
-    var to = parseFloat(el.getAttribute('data-to')) || 0;
-    var suffix = el.getAttribute('data-suffix') || '';
-    var dur = 1900, t0 = null;
-    var loc = doc.getAttribute('lang') === 'en' ? 'en-US' : 'ar-EG';
-    function tick(now) {
-      if (t0 === null) t0 = now;
-      var p = clamp((now - t0) / dur, 0, 1);
-      var eased = 1 - Math.pow(1 - p, 4);
-      el.textContent = Math.round(to * eased).toLocaleString(loc) + (p === 1 ? suffix : '');
-      if (p < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  var counters = $$('.counter');
-  if (counters.length && 'IntersectionObserver' in window && !reduced) {
-    var countIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        runCounter(en.target);
-        countIO.unobserve(en.target);
-      });
-    }, { threshold: 0.6 });
-    counters.forEach(function (c) { countIO.observe(c); });
-  } else {
-    counters.forEach(function (c) {
-      c.textContent = c.getAttribute('data-to') + (c.getAttribute('data-suffix') || '');
-    });
-  }
-
-  /* ============================================================ 7. FILTERS */
-  var grid = $('#workGrid');
-  var filters = $$('#filters .filter');
-  filters.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      filters.forEach(function (b) { b.classList.remove('is-active'); });
-      btn.classList.add('is-active');
-      var want = btn.getAttribute('data-filter');
-      $$('.work', grid).forEach(function (card, i) {
-        var cats = (card.getAttribute('data-cat') || '').split(/\s+/);
-        var show = want === 'all' || cats.indexOf(want) !== -1;
-        card.classList.toggle('is-hidden', !show);
-        card.classList.remove('is-fresh');
-        if (show) {
-          void card.offsetWidth;
-          card.style.animationDelay = (i * 45) + 'ms';
-          card.classList.add('is-fresh');
-        }
-      });
-    });
+  /* ── layered parallax (transform only, a few elements) ───────── */
+  var pars = $$('[data-par]').map(function (el) {
+    return { el: el, speed: parseFloat(el.getAttribute('data-par')) || 0, base: 0, h: 0, on: true };
   });
 
-  /* ============================================================ 8. TILT */
-  var tilts = [];
-  if (!reduced && fine) {
-    $$('.tilt').forEach(function (card) {
-      var st = { el: card, rx: 0, ry: 0, trx: 0, tryy: 0, on: false };
-      tilts.push(st);
-      card.addEventListener('pointerenter', function () { st.on = true; });
-      card.addEventListener('pointermove', function (e) {
-        var r = card.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width;
-        var py = (e.clientY - r.top) / r.height;
-        st.tryy = (px - 0.5) * 12;
-        st.trx = (0.5 - py) * 10;
-        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
-      });
-      card.addEventListener('pointerleave', function () {
-        st.trx = 0; st.tryy = 0;
-        setTimeout(function () { st.on = false; }, 700);
-      });
+  function measureParallax() {
+    var y = window.scrollY;
+    pars.forEach(function (p) {
+      p.el.style.transform = '';
+      var r = p.el.getBoundingClientRect();
+      p.base = r.top + (smooth ? cur : y);
+      p.h = r.height;
     });
   }
 
-  /* ============================================================ 9. MAGNETS */
-  var magnets = [];
-  if (!reduced && fine) {
-    $$('.magnet').forEach(function (el) {
-      magnets.push({ el: el, x: 0, y: 0, tx: 0, ty: 0 });
-    });
-  }
-
-  /* ============================================================ 10. CURSOR */
-  var cursor = $('#cursor');
-  var cursorLabel = $('#cursorLabel');
-  var cur = { x: 0, y: 0, rx: 0, ry: 0 };
-  var pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-
-  if (fine && !reduced) {
-    document.addEventListener('pointermove', function (e) {
-      pointer.x = e.clientX; pointer.y = e.clientY;
-
-      for (var i = 0; i < magnets.length; i++) {
-        var m = magnets[i];
-        var r = m.el.getBoundingClientRect();
-        var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        var dx = e.clientX - cx, dy = e.clientY - cy;
-        var dist = Math.hypot(dx, dy);
-        var reach = Math.max(r.width, r.height) * 0.9 + 40;
-        if (dist < reach) { m.tx = dx * 0.28; m.ty = dy * 0.32; }
-        else { m.tx = 0; m.ty = 0; }
-      }
-    }, { passive: true });
-
-    var hoverSel = 'a, button, .tilt, .filter';
-    document.addEventListener('pointerover', function (e) {
-      if (!cursor) return;
-      var hit = e.target.closest ? e.target.closest(hoverSel) : null;
-      if (!hit) return;
-      var card = e.target.closest('[data-cursor-ar]');
-      if (card) {
-        var isEn = doc.getAttribute('lang') === 'en';
-        if (cursorLabel) cursorLabel.textContent = card.getAttribute(isEn ? 'data-cursor-en' : 'data-cursor-ar') || '';
-        cursor.classList.add('is-label');
-      } else {
-        cursor.classList.add('is-hover');
-      }
-    });
-    document.addEventListener('pointerout', function (e) {
-      if (!cursor) return;
-      var hit = e.target.closest ? e.target.closest(hoverSel) : null;
-      if (!hit) return;
-      cursor.classList.remove('is-hover', 'is-label');
-    });
-  }
-
-  /* ============================================================ 11. MARQUEES */
-  var marquees = $$('.marquee').map(function (m) {
-    var track = m.firstElementChild;
-    track.innerHTML += track.innerHTML;                 // seamless loop
-    return {
-      track: track,
-      half: 0,
-      off: 0,
-      speed: parseFloat(m.getAttribute('data-speed') || '1')
-    };
-  });
-  function measureMarquees() {
-    marquees.forEach(function (m) { m.half = m.track.scrollWidth / 2 || 1; });
-  }
-  measureMarquees();
-  window.addEventListener('load', measureMarquees);
-
-  /* ============================================================ 12. SCROLL WORK */
-  var bar = $('#scrollProgress');
-  var barFill = bar ? bar.firstElementChild : null;
-  var processSec = $('#process');
-  var track = $('#processTrack');
-  var pBar = $('#processBar');
-  var steps = $$('.step');
-  var leaks = $$('#leaks i');
-  var booth = $('#booth');
-  var studios = $('#studios');
-
-  var lastY = window.scrollY, vel = 0, navHidden = false;
-
-  function paintWords() {
-    for (var b = 0; b < wordBlocks.length; b++) {
-      var block = wordBlocks[b];
-      var r = block.getBoundingClientRect();
-      var start = window.innerHeight * 0.88;
-      var end = window.innerHeight * 0.28;
-      var p = clamp((start - r.top) / (start - end), 0, 1);
-      var words = block.getElementsByClassName('w');
-      var lit = Math.round(p * words.length);
-      for (var i = 0; i < words.length; i++) words[i].classList.toggle('on', i < lit);
+  function renderParallax(y) {
+    var vh = window.innerHeight;
+    for (var i = 0; i < pars.length; i++) {
+      var p = pars[i];
+      var d = (y + vh / 2) - (p.base + p.h / 2);
+      if (Math.abs(d) > vh * 1.6) continue;              /* skip far-off layers */
+      var off = clamp(d * p.speed, -140, 140);
+      p.el.style.transform = 'translate3d(0,' + off.toFixed(2) + 'px,0)';
     }
   }
 
-  function paintProcess() {
-    if (!processSec || !track) return;
-    var rect = processSec.getBoundingClientRect();
-    var travel = processSec.offsetHeight - window.innerHeight;
-    var p = clamp(-rect.top / (travel || 1), 0, 1);
-    var overflow = Math.max(0, track.scrollWidth - window.innerWidth);
-    var factor = doc.getAttribute('dir') === 'rtl' ? 1 : -1;
-    track.style.transform = 'translate3d(' + (factor * p * overflow).toFixed(1) + 'px,0,0)';
-    if (pBar) pBar.style.width = (p * 100).toFixed(1) + '%';
+  var ticking = false, lastT = 0;
+  function frame(now) {
+    var dt = lastT ? Math.min((now - lastT) / 1000, 0.05) : 0.016;
+    lastT = now;
 
-    // give the cards depth as they pass the middle of the screen
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      var mid = window.innerWidth / 2;
-      for (var i = 0; i < steps.length; i++) {
-        var sr = steps[i].getBoundingClientRect();
-        var d = (sr.left + sr.width / 2 - mid) / window.innerWidth;   // -1 .. 1
-        steps[i].style.transform =
-          'perspective(1400px) rotateY(' + (-d * 16).toFixed(2) + 'deg) translateZ(' +
-          (-Math.abs(d) * 120).toFixed(1) + 'px) scale(' + (1 - Math.abs(d) * 0.07).toFixed(3) + ')';
-        steps[i].style.opacity = (1 - Math.min(0.55, Math.abs(d) * 0.7)).toFixed(3);
-      }
+    target = window.scrollY;
+
+    if (smooth) {
+      /* frame-rate independent damping — never a linear lerp */
+      var k = 1 - Math.exp(-dt * 9.5);
+      cur += (target - cur) * k;
+      if (Math.abs(target - cur) < 0.08) cur = target;
+      scroller.style.transform = 'translate3d(0,' + (-cur).toFixed(2) + 'px,0)';
+    } else {
+      cur = target;
+    }
+
+    /* scroll velocity → the hero wave's "energy" */
+    var v = Math.abs(cur - lastY) / (dt * 1000);
+    lastY = cur;
+    energy += (clamp(v * 0.55, 0, 1) - energy) * Math.min(1, dt * 6);
+    window.__awanEnergy = energy;
+
+    renderParallax(cur);
+    onScrollUI(cur);
+
+    if (smooth || Math.abs(target - cur) > 0.08 || energy > 0.004) {
+      requestAnimationFrame(frame);
+    } else {
+      ticking = false;
     }
   }
-
-  function paintParallax() {
-    var sy = window.scrollY;
-    for (var i = 0; i < leaks.length; i++) {
-      leaks[i].style.transform = 'translate3d(0,' + (sy * (0.05 + i * 0.045)).toFixed(1) + 'px,0)';
-    }
-    if (booth && studios) {
-      var r = studios.getBoundingClientRect();
-      var p = clamp((window.innerHeight - r.top) / (window.innerHeight + r.height), 0, 1);
-      booth.style.setProperty('--ry', ((p - 0.5) * 46).toFixed(2) + 'deg');
-    }
-  }
-
-  function onScroll() {
-    var sy = window.scrollY;
-    var max = document.body.scrollHeight - window.innerHeight;
-    vel = sy - lastY;
-
-    if (barFill) barFill.style.width = (clamp(sy / (max || 1), 0, 1) * 100).toFixed(2) + '%';
-    if (nav) {
-      nav.classList.toggle('is-stuck', sy > 24);
-      var menuOpen = navLinks && navLinks.classList.contains('is-open');
-      var shouldHide = sy > 500 && vel > 4 && !menuOpen;
-      if (shouldHide !== navHidden) { navHidden = shouldHide; nav.classList.toggle('is-hidden', shouldHide); }
-      if (vel < -4 && navHidden) { navHidden = false; nav.classList.remove('is-hidden'); }
-    }
-    paintProcess();
-    paintParallax();
-    paintWords();
-    spy();
-    lastY = sy;
-  }
-
-  var ticking = false;
-  window.addEventListener('scroll', function () {
+  function kick() {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(function () { onScroll(); ticking = false; });
-  }, { passive: true });
-  window.addEventListener('resize', function () { measureMarquees(); onScroll(); });
-  onScroll();
-
-  /* ============================================================ 13. TICKER */
-  var smoothVel = 0;
-  function ticker() {
-    smoothVel = lerp(smoothVel, vel, 0.1);
-
-    /* marquees drift, and lean into the scroll */
-    for (var i = 0; i < marquees.length; i++) {
-      var m = marquees[i];
-      m.off -= (m.speed * 0.6 + smoothVel * m.speed * 0.06);
-      if (m.half) {
-        if (m.off <= -m.half) m.off += m.half;
-        if (m.off >= 0) m.off -= m.half;
-      }
-      m.track.style.transform =
-        'translate3d(' + m.off.toFixed(2) + 'px,0,0) skewX(' + clamp(-smoothVel * 0.12, -6, 6).toFixed(2) + 'deg)';
-    }
-
-    if (fine && !reduced) {
-      /* cursor: dot snaps, ring lags */
-      cur.x = lerp(cur.x, pointer.x, 0.85);
-      cur.y = lerp(cur.y, pointer.y, 0.85);
-      cur.rx = lerp(cur.rx, pointer.x, 0.16);
-      cur.ry = lerp(cur.ry, pointer.y, 0.16);
-      if (cursor) {
-        var dot = cursor.firstElementChild.nextElementSibling;
-        cursor.style.transform = 'translate3d(' + cur.rx.toFixed(1) + 'px,' + cur.ry.toFixed(1) + 'px,0)';
-        if (dot) dot.style.transform =
-          'translate3d(' + (cur.x - cur.rx).toFixed(1) + 'px,' + (cur.y - cur.ry).toFixed(1) + 'px,0)';
-      }
-
-      /* magnets ease toward the pointer */
-      for (var j = 0; j < magnets.length; j++) {
-        var mg = magnets[j];
-        mg.x = lerp(mg.x, mg.tx, 0.16);
-        mg.y = lerp(mg.y, mg.ty, 0.16);
-        mg.el.style.transform = 'translate3d(' + mg.x.toFixed(2) + 'px,' + mg.y.toFixed(2) + 'px,0)';
-      }
-
-      /* tilt cards settle back on their own */
-      for (var k = 0; k < tilts.length; k++) {
-        var t = tilts[k];
-        if (!t.on && Math.abs(t.rx) < 0.01 && Math.abs(t.ry) < 0.01) continue;
-        t.rx = lerp(t.rx, t.trx, 0.12);
-        t.ry = lerp(t.ry, t.tryy, 0.12);
-        t.el.style.transform =
-          'perspective(1100px) rotateX(' + t.rx.toFixed(2) + 'deg) rotateY(' + t.ry.toFixed(2) + 'deg) translateZ(8px)';
-      }
-    }
-
-    vel *= 0.86;
-    requestAnimationFrame(ticker);
+    lastT = 0;
+    requestAnimationFrame(frame);
   }
-  requestAnimationFrame(ticker);
+
+  window.addEventListener('scroll', kick, { passive: true });
+
+  /* ═══ 2. Reveals — one distinct moment per section ═════════════ */
+  var revealed = new WeakSet();
+  function reveal(el) {
+    if (revealed.has(el)) return;
+    revealed.add(el);
+    el.classList.add('rv-in');
+    if (el.classList.contains('stats')) countUp(el);
+  }
+
+  /* An element that starts hidden by its own clipping is invisible to the
+     observer too: a masked line sits outside its overflow:hidden parent, and a
+     wipe is clipped to zero width. Both would wait forever for a callback that
+     never comes — so watch the parent and reveal the children it holds. */
+  var group = new WeakMap();
+  function watchTarget(el) {
+    var rv = el.getAttribute('data-rv');
+    if (rv === 'line' && el.parentNode.classList.contains('line')) return el.parentNode;
+    if (rv === 'wipe') return el.parentNode;
+    return el;
+  }
+
+  var io = 'IntersectionObserver' in window
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          (group.get(e.target) || [e.target]).forEach(reveal);
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 })
+    : null;
+
+  $$('[data-rv]').forEach(function (el) {
+    if (reduced || !io) { el.classList.add('rv-in'); if (el.classList.contains('stats')) countUp(el); }
+    else {
+      var t = watchTarget(el);
+      var members = group.get(t);
+      if (members) members.push(el);
+      else { group.set(t, [el]); io.observe(t); }
+    }
+  });
+
+  /* counters */
+  function countUp(list) {
+    $$('.num', list).forEach(function (n) {
+      var to = parseFloat(n.getAttribute('data-to')) || 0;
+      var suf = n.getAttribute('data-suffix') || '';
+      if (reduced) { n.textContent = to + suf; return; }
+      var t0 = 0, dur = 1500;
+      requestAnimationFrame(function step(ts) {
+        if (!t0) t0 = ts;
+        var p = clamp((ts - t0) / dur, 0, 1);
+        n.textContent = Math.round(to * easeOutExpo(p)) + (p === 1 ? suf : '');
+        if (p < 1) requestAnimationFrame(step);
+      });
+    });
+  }
+
+  /* ═══ 3. Nav ═══════════════════════════════════════════════════ */
+  var nav = $('#nav');
+  var navPrev = 0;
+  function onScrollUI(y) {
+    nav.classList.toggle('is-stuck', y > 20);
+    if (!menuOpen) {
+      var down = y > navPrev && y > 520;
+      nav.classList.toggle('is-hidden', down);
+    }
+    navPrev = y;
+  }
+
+  /* active section link */
+  if (io) {
+    var links = {};
+    $$('.nav__links a').forEach(function (a) { links[a.getAttribute('href')] = a; });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var a = links['#' + e.target.id];
+        if (a && e.isIntersecting) {
+          $$('.nav__links a').forEach(function (x) { x.classList.remove('is-active'); });
+          a.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    $$('main section[id]').forEach(function (s) { spy.observe(s); });
+  }
+
+  /* ── anchor navigation ───────────────────────────────────────── */
+  function scrollToY(y) {
+    y = Math.max(0, Math.min(y, document.body.scrollHeight - window.innerHeight));
+    if (reduced) { window.scrollTo(0, y); return; }
+    if (smooth) { window.scrollTo(0, y); kick(); return; }   /* shell eases it */
+    var from = window.scrollY, d = y - from, t0 = 0, dur = clamp(Math.abs(d) * 0.6, 420, 1100);
+    requestAnimationFrame(function step(ts) {
+      if (!t0) t0 = ts;
+      var p = clamp((ts - t0) / dur, 0, 1);
+      window.scrollTo(0, from + d * easeOutExpo(p));
+      if (p < 1) requestAnimationFrame(step);
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href');
+    if (id === '#' || id === '#main') return;
+    var el = document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    if (menuOpen) closeMenu();
+    var top = el.getBoundingClientRect().top + (smooth ? cur : window.scrollY);
+    scrollToY(id === '#home' ? 0 : top);
+    try { history.replaceState(null, '', id); } catch (err) {}
+  });
+
+  /* ── mobile menu ─────────────────────────────────────────────── */
+  var burger = $('#burger'), menu = $('#menu'), menuOpen = false;
+  function openMenu() {
+    menuOpen = true; menu.hidden = false;
+    requestAnimationFrame(function () { menu.classList.add('is-open'); });
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('no-scroll');
+    nav.classList.remove('is-hidden');
+  }
+  function closeMenu() {
+    menuOpen = false;
+    menu.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll');
+    setTimeout(function () { if (!menuOpen) menu.hidden = true; }, reduced ? 0 : 420);
+  }
+  burger.addEventListener('click', function () { menuOpen ? closeMenu() : openMenu(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menuOpen) { closeMenu(); burger.focus(); }
+  });
+
+  /* ═══ 4. Language ══════════════════════════════════════════════ */
+  var langBtn = $('#langBtn');
+  var COPY = {
+    ar: { title: 'أوان — استوديو دوبلاج وتعليق صوتي', btn: 'EN', aria: 'Switch to English', menu: 'القائمة' },
+    en: { title: 'Awan — Dubbing & Voice-over Studio', btn: 'ع',  aria: 'التبديل إلى العربية', menu: 'Menu' }
+  };
+  function setLang(lang) {
+    html.setAttribute('lang', lang);
+    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    $$('[data-ar]').forEach(function (el) {
+      var v = el.getAttribute('data-' + lang);
+      if (v != null) el.textContent = v;
+    });
+    document.title = COPY[lang].title;
+    langBtn.textContent = COPY[lang].btn;
+    langBtn.setAttribute('aria-label', COPY[lang].aria);
+    burger.setAttribute('aria-label', COPY[lang].menu);
+    $$('.rcard__hit').forEach(function (b) {
+      var t = b.getAttribute('data-title-' + lang) || '';
+      b.setAttribute('aria-label', t);
+      var img = $('img', b); if (img) img.alt = t;
+    });
+    try { localStorage.setItem('awan-lang', lang); } catch (err) {}
+    measureParallax();
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('awan-lang'); } catch (err) {}
+  setLang(saved === 'en' ? 'en' : 'ar');
+  langBtn.addEventListener('click', function () {
+    setLang(html.getAttribute('lang') === 'ar' ? 'en' : 'ar');
+  });
+
+  /* ═══ 5. Gallery ═══════════════════════════════════════════════ */
+
+  /* ── missing-image fallback: never show a broken poster ──────── */
+  function markMissing(img) {
+    var frame = img.closest('.rcard__frame');
+    if (!frame) return;
+    frame.classList.add('is-empty');
+    var item = img.closest('.rcard');
+    var cap = item && $('h3', item);
+    frame.setAttribute('data-glyph', cap ? cap.textContent.trim() : 'أوان');
+  }
+  $$('.rcard__frame img').forEach(function (img) {
+    if (img.complete && img.naturalWidth === 0) markMissing(img);
+    img.addEventListener('error', function () { markMissing(img); });
+  });
+  /* ── the hero reel ────────────────────────────────────────────
+     A missing or unplayable file must never leave a black rectangle:
+     the stage falls back to its poster, then to the paper gradient with
+     the sound wave drawn back over it. */
+  (function () {
+    var stage = $('.hero__media'), vid = $('#heroVideo'), hero = $('#home');
+    if (!stage || !vid || !hero) return;
+
+    var posterOk = false;
+    function haveReel() {
+      /* readyState climbs past 0 only once real data has arrived */
+      return vid.readyState > 0 || (vid.currentSrc && vid.videoWidth > 0);
+    }
+    function keep() { hero.classList.add('has-reel'); }
+    /* No video is not the same as nothing: the <video> keeps painting its
+       poster when the media fails, so only an empty stage falls back to the
+       gradient and the wave. */
+    function drop() {
+      try { vid.pause(); } catch (err) {}
+      if (posterOk) return;
+      stage.classList.add('is-empty');
+      hero.classList.remove('has-reel');
+    }
+
+    vid.addEventListener('loadeddata', keep);
+    vid.addEventListener('error', drop, true);
+    $$('source', vid).forEach(function (src) { src.addEventListener('error', drop); });
+    /* autoplay can be refused (data saver, a policy) — not a reason to hide */
+    var p = vid.play && vid.play();
+    if (p && p.catch) p.catch(function () {});
+    setTimeout(function () { if (!haveReel()) drop(); }, 2500);
+    if (vid.poster) {
+      var pi = new Image();
+      pi.onload = function () { posterOk = true; stage.classList.remove('is-empty'); keep(); };
+      pi.onerror = function () { if (!haveReel()) drop(); };
+      pi.src = vid.poster;
+    }
+  })();
+
+  $$('.brand__logo, .hero__bird, .foot__logo').forEach(function (img) {
+    var hide = function () { img.style.display = 'none'; };
+    if (img.complete && img.naturalWidth === 0) hide();
+    img.addEventListener('error', hide);
+  });
+
+  /* ── rails: native horizontal scroll, nothing hijacked ────────
+     Each row is a real scroll container, so a touch swipe, a trackpad
+     flick and the arrow keys all work for free. We only add what the
+     browser doesn't give us: a progress bar, two buttons that move by
+     exactly one card, pointer-drag on desktop, and a slight drift of
+     each photo inside its frame to build depth as the row moves.
+     Runs once per .rail — the studio photos and the work posters. */
+  $$('.rail').forEach(function (rail) {
+    /* the bar and the buttons live outside the scroller, below it */
+    var scope = rail.closest('section') || document;
+    var track = $('.rail__track', rail);
+    var cards = $$('.rcard', rail);
+    var fill = $('.rail__fill', scope);
+    var prev = $('.rail__btn--prev', scope), next = $('.rail__btn--next', scope);
+    if (!track || !cards.length) return;
+
+    /* RTL reports scrollLeft as 0 → -max, LTR as 0 → +max. */
+    function maxScroll() { return rail.scrollWidth - rail.clientWidth; }
+    function progress() {
+      var m = maxScroll();
+      return m > 1 ? Math.min(1, Math.abs(rail.scrollLeft) / m) : 1;
+    }
+    function sign() { return html.getAttribute('dir') === 'rtl' ? -1 : 1; }
+    /* Cards are not all the same width any more, so "one card along" means
+       the next card's leading edge, not a fixed number of pixels. */
+    function edges() {
+      var pad = parseFloat(getComputedStyle(track).paddingInlineStart) || 0;
+      var t = track.getBoundingClientRect(), rtl = sign() < 0;
+      return cards.map(function (c) {
+        var b = c.getBoundingClientRect();
+        return Math.round(Math.abs(rtl ? t.right - b.right : b.left - t.left) - pad);
+      });
+    }
+    function step(dir) {
+      var here = Math.abs(rail.scrollLeft), e = edges(), i;
+      if (dir > 0) {
+        for (i = 0; i < e.length; i++) if (e[i] > here + 4) return e[i] - here;
+      } else {
+        for (i = e.length - 1; i >= 0; i--) if (e[i] < here - 4) return here - e[i];
+      }
+      var r = cards[0].getBoundingClientRect();
+      return r.width + (parseFloat(getComputedStyle(track).columnGap) || 0);
+    }
+
+    /* Scroll the rail ourselves so it lands on the site's own curve
+       rather than the browser's built-in smooth-scroll easing. */
+    var anim = 0;
+    function glideTo(x) {
+      cancelAnimationFrame(anim);
+      var m = maxScroll(), s = sign();
+      x = s > 0 ? clamp(x, 0, m) : clamp(x, -m, 0);
+      if (reduced) { rail.scrollLeft = x; return; }
+      var from = rail.scrollLeft, d = x - from, t0 = 0;
+      var dur = clamp(Math.abs(d) * 0.7, 320, 900);
+      anim = requestAnimationFrame(function run(ts) {
+        if (!t0) t0 = ts;
+        var p = clamp((ts - t0) / dur, 0, 1);
+        rail.scrollLeft = from + d * easeOutExpo(p);
+        if (p < 1) anim = requestAnimationFrame(run);
+      });
+    }
+
+    function paint() {
+      var p = progress();
+      if (fill) fill.style.transform = 'scaleX(' + Math.max(0.08, p).toFixed(3) + ')';
+      if (prev) prev.disabled = p <= 0.001;
+      if (next) next.disabled = p >= 0.999;
+
+      if (reduced) return;
+      /* photo drifts the opposite way to the card, inside its frame */
+      var rr = rail.getBoundingClientRect(), mid = rr.left + rr.width / 2;
+      for (var i = 0; i < cards.length; i++) {
+        var b = cards[i].getBoundingClientRect();
+        if (b.right < rr.left - 200 || b.left > rr.right + 200) continue;
+        var img = cards[i].querySelector('.rcard__frame img');
+        if (!img) continue;
+        var off = clamp(((b.left + b.width / 2) - mid) / rr.width * -26, -26, 26);
+        img.style.transform = 'translate3d(' + off.toFixed(1) + 'px,0,0) scale(1.08)';
+      }
+    }
+
+    var queued = false;
+    rail.addEventListener('scroll', function () {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; paint(); });
+    }, { passive: true });
+
+    if (prev) prev.addEventListener('click', function () {
+      glideTo(rail.scrollLeft - sign() * step(-1));
+    });
+    if (next) next.addEventListener('click', function () {
+      glideTo(rail.scrollLeft + sign() * step(1));
+    });
+
+    /* drag to scroll (mouse/pen only — touch already scrolls natively) */
+    var down = false, startX = 0, startLeft = 0, moved = 0;
+    rail.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      down = true; moved = 0;
+      startX = e.clientX; startLeft = rail.scrollLeft;
+      cancelAnimationFrame(anim);
+      rail.style.scrollSnapType = 'none';       /* let the drag run free */
+      rail.classList.add('is-grabbing');
+    });
+    rail.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) {
+        if (!moved) rail.setPointerCapture(e.pointerId);
+        moved = Math.max(moved, Math.abs(dx));
+        rail.scrollLeft = startLeft - dx;
+      }
+    });
+    function endDrag() {
+      if (!down) return;
+      down = false;
+      rail.classList.remove('is-grabbing');
+      rail.style.scrollSnapType = '';           /* snap to the nearest card */
+    }
+    rail.addEventListener('pointerup', endDrag);
+    rail.addEventListener('pointercancel', endDrag);
+    /* a drag that moved is not a click on the photo underneath */
+    rail.addEventListener('click', function (e) {
+      if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
+
+    /* ── auto-drift: the work row moves on its own ──────────────
+       The cards are cloned once and the row is wrapped back by exactly
+       one set when it passes it, so the loop has no seam. It yields the
+       moment anyone touches it — hover, focus, drag — and never runs
+       off-screen, on a hidden tab, or under prefers-reduced-motion. */
+    var auto = parseFloat(rail.getAttribute('data-auto')) || 0;
+    if (auto > 0 && !reduced) {
+      if (fill && fill.parentNode) fill.parentNode.style.display = 'none';  /* a loop has no progress */
+
+      cards.forEach(function (card) {
+        var c = card.cloneNode(true);
+        c.classList.add('rail__item--clone', 'rv-in');    /* clones arrive already revealed */
+        c.setAttribute('aria-hidden', 'true');
+        $$('a, button', c).forEach(function (el) { el.tabIndex = -1; });
+        track.appendChild(c);
+      });
+      cards = $$('.rcard', rail);                          /* drift the clones too */
+
+      var lap = 0;                                         /* width of one full set */
+      function measure() {
+        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        lap = (track.scrollWidth - parseFloat(getComputedStyle(track).paddingInlineStart || 0)
+                                 - parseFloat(getComputedStyle(track).paddingInlineEnd || 0) + gap) / 2;
+      }
+      measure();
+
+      var pos = 0, held = 0, wrote = null, onScreen = true, raf = 0, prevTs = 0;
+      function hold(on) { held += on ? 1 : -1; if (held < 0) held = 0; }
+
+      rail.addEventListener('pointerenter', function () { hold(true); });
+      rail.addEventListener('pointerleave', function () { hold(false); });
+      rail.addEventListener('focusin', function () { hold(true); });
+      rail.addEventListener('focusout', function () { hold(false); });
+      rail.addEventListener('touchstart', function () { hold(true); }, { passive: true });
+      rail.addEventListener('touchend', function () { hold(false); }, { passive: true });
+
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) { onScreen = e[0].isIntersecting; },
+                                 { rootMargin: '120px' }).observe(rail);
+      }
+
+      function drift(ts) {
+        raf = requestAnimationFrame(drift);
+        var dt = prevTs ? Math.min((ts - prevTs) / 1000, 0.05) : 0.016;
+        prevTs = ts;
+        if (held || down || !onScreen || document.hidden || !lap) return;
+        /* if the row sits anywhere but where we last put it, someone else
+           moved it (a drag, the arrows, a wheel) — pick up from there
+           rather than yanking it back */
+        if (wrote !== null && Math.abs(rail.scrollLeft - wrote) > 1.5) pos = Math.abs(rail.scrollLeft);
+        pos += auto * dt;
+        while (pos >= lap) pos -= lap;                     /* seamless wrap: one full set */
+        rail.scrollLeft = sign() * pos;
+        wrote = rail.scrollLeft;                           /* read back what the browser kept */
+      }
+      raf = requestAnimationFrame(drift);
+
+      document.addEventListener('visibilitychange', function () { prevTs = 0; });
+      window.addEventListener('resize', function () {
+        setTimeout(function () { measure(); pos = Math.abs(rail.scrollLeft) % (lap || 1); }, 200);
+      }, { passive: true });
+    }
+
+    window.addEventListener('resize', function () { setTimeout(paint, 160); }, { passive: true });
+    paint();
+  });
+
+  /* ── lightbox ────────────────────────────────────────────────── */
+  var lb = $('#lb'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
+  var supportsDialog = lb && typeof lb.showModal === 'function';
+  /* delegated: the marquee clones its cards after this runs */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.rcard__hit');
+    if (!btn) return;
+    var img = $('img', btn);
+    if (!supportsDialog || !img || !img.naturalWidth) return;     /* nothing to enlarge */
+    var lang = html.getAttribute('lang');
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    lbCap.textContent = btn.getAttribute('data-title-' + lang) || '';
+    lb.showModal();
+  });
+  if (supportsDialog) {
+    $('#lbClose').addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+    lb.addEventListener('close', function () { lbImg.removeAttribute('src'); });
+  }
+
+  /* ── day / night ──────────────────────────────────────────────
+     The theme is already on <html> before first paint (see the inline
+     script in the head), so this only has to handle the button and
+     keep following the system until someone overrides it. */
+  (function () {
+    var btn = $('#themeBtn');
+    if (!btn) return;
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var chosen = null;
+    try { chosen = localStorage.getItem('awan-theme'); } catch (err) {}
+    if (chosen !== 'day' && chosen !== 'night') chosen = null;
+
+    function apply(t, remember) {
+      html.setAttribute('data-theme', t);
+      btn.setAttribute('aria-pressed', t === 'night' ? 'true' : 'false');
+      var meta = $('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content',
+        getComputedStyle(html).getPropertyValue('--paper').trim() || '#f4f1ec');
+      if (remember) { chosen = t; try { localStorage.setItem('awan-theme', t); } catch (err) {} }
+      /* the canvas wave picks its colour off --accent, so tell it to re-read */
+      window.dispatchEvent(new CustomEvent('awan:theme'));
+    }
+    apply(chosen || (mq.matches ? 'night' : 'day'), false);
+    btn.addEventListener('click', function () {
+      apply(html.getAttribute('data-theme') === 'night' ? 'day' : 'night', true);
+    });
+    var follow = function () { if (!chosen) apply(mq.matches ? 'night' : 'day', false); };
+    if (mq.addEventListener) mq.addEventListener('change', follow);
+    else if (mq.addListener) mq.addListener(follow);
+  })();
+
+  /* ═══ 6. Boot ══════════════════════════════════════════════════ */
+  $('#year').textContent = new Date().getFullYear();
+
+  /* This script is deferred, so the DOM is parsed and every box already has
+     its final height (images carry width/height, posters carry aspect-ratio).
+     Starting here instead of on `load` means no jolt when the last poster
+     finishes downloading — and the hero never waits on fonts or images. */
+  if (canSmooth()) enableSmooth(); else measureParallax();
+  kick();
+  requestAnimationFrame(function () { html.classList.add('is-ready'); });
+
+  window.addEventListener('load', function () {
+    if (smooth) setBodyHeight();
+    measureParallax();
+    kick();
+  });
+
+  /* ── resize / motion-preference ──────────────────────────────── */
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      if (canSmooth()) { enableSmooth(); setBodyHeight(); }
+      else disableSmooth();
+      measureParallax();
+      kick();
+    }, 150);
+  }, { passive: true });
+
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(function () { if (smooth) setBodyHeight(); }).observe(scroller);
+  }
+
+  var onPref = function () {
+    reduced = mqReduce.matches;
+    if (reduced) { disableSmooth(); $$('[data-rv]').forEach(function (el) { el.classList.add('rv-in'); }); }
+    else if (canSmooth()) enableSmooth();
+  };
+  if (mqReduce.addEventListener) mqReduce.addEventListener('change', onPref);
+  else if (mqReduce.addListener) mqReduce.addListener(onPref);
 })();

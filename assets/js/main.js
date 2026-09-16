@@ -160,16 +160,19 @@
   });
 
   /* counters */
+  /* 10,000 reads better than 10000 */
+  function commas(v) { return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
   function countUp(list) {
     $$('.num', list).forEach(function (n) {
       var to = parseFloat(n.getAttribute('data-to')) || 0;
       var suf = n.getAttribute('data-suffix') || '';
-      if (reduced) { n.textContent = to + suf; return; }
+      if (reduced) { n.textContent = commas(to) + suf; return; }
       var t0 = 0, dur = 1500;
       requestAnimationFrame(function step(ts) {
         if (!t0) t0 = ts;
         var p = clamp((ts - t0) / dur, 0, 1);
-        n.textContent = Math.round(to * easeOutExpo(p)) + (p === 1 ? suf : '');
+        n.textContent = commas(Math.round(to * easeOutExpo(p))) + (p === 1 ? suf : '');
         if (p < 1) requestAnimationFrame(step);
       });
     });

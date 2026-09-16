@@ -581,6 +581,68 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 }
 
 
+
+/* the group profile, as a download */
+.pf{ margin-block-start:clamp(2.25rem,4.5vw,3.25rem); }
+.pf__link{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-size:.92rem; color:var(--ink);
+  padding-block-end:.45rem; border-block-end:1px solid var(--rule);
+  transition:color .4s var(--e-soft), border-color .4s var(--e-soft);
+}
+.pf__link::after{
+  content:"↓"; font-size:1.05em; color:var(--accent);
+  transition:transform .5s var(--e-both);
+}
+.pf__link:hover{ color:var(--accent); border-color:var(--accent); }
+.pf__link:hover::after{ transform:translateY(3px); }
+
+/* the group's four arms — one card each, no boxes, just a hairline */
+.divs{
+  margin-block-start:clamp(3.5rem,7vw,5.5rem);
+  display:grid; gap:clamp(1.75rem,3.4vw,2.75rem);
+  grid-template-columns:1fr;
+}
+@media (min-width:760px){ .divs{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1180px){ .divs{ grid-template-columns:repeat(4,1fr); } }
+.divs__i{ padding-block-start:1.15rem; border-block-start:1px solid var(--rule); }
+.divs__i h3{
+  font-size:clamp(1.05rem,1.5vw,1.3rem); font-weight:400; letter-spacing:-.01em;
+  margin-block-end:.55rem;
+}
+.divs__i p{ font-size:.9rem; line-height:1.75; color:var(--ink-3); }
+
+/* the extra titles that don't have a poster yet */
+.more{ margin-block-start:clamp(2.5rem,5vw,4rem); }
+.more__k{ font-size:.86rem; color:var(--ink-3); margin-block-end:1.1rem; max-width:60ch; }
+.more__list{ display:flex; flex-wrap:wrap; gap:.6rem .7rem; }
+.more__list li{
+  font-size:.88rem; color:var(--ink-2); padding:.42rem .95rem;
+  border:1px solid var(--rule); border-radius:999px;
+  transition:color .4s var(--e-soft), border-color .4s var(--e-soft);
+}
+.more__list li:hover{ color:var(--ink); border-color:var(--accent); }
+
+/* channels: the same pill, a size up */
+.chan__list{
+  margin-block-start:clamp(2.5rem,5vw,3.5rem);
+  display:flex; flex-wrap:wrap; gap:.75rem .9rem;
+}
+.chan__list li{
+  font-size:clamp(.92rem,1.2vw,1.05rem); color:var(--ink-2);
+  padding:.6rem 1.25rem; border:1px solid var(--rule); border-radius:999px;
+  background:var(--paper-2);
+  transition:color .45s var(--e-soft), border-color .45s var(--e-soft), transform .45s var(--e-soft);
+}
+.chan__list li:hover{ color:var(--ink); border-color:var(--accent); transform:translateY(-2px); }
+
+/* the production city */
+.city__lead{
+  color:var(--ink-2); max-width:62ch;
+  margin-block:clamp(1.5rem,3vw,2.25rem) clamp(2.5rem,5vw,3.5rem);
+}
+.city__set .srv__name{ color:var(--accent); font-variant-numeric:tabular-nums; }
+
 /* ─── 8. Contact + footer ───────────────────────────────────────── */
 .contact{
   background:var(--deep); color:var(--on-deep);
@@ -636,6 +698,21 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .foot__logo{ height:30px; width:auto; object-fit:contain; opacity:.75; margin-inline-end:auto; }
 .foot__top{ transition:color var(--d1) var(--e-soft); }
 .foot__top:hover{ color:var(--paper); }
+
+
+/* the offices, under the mail link — on the deep surface */
+.reach{
+  margin-block-start:clamp(2.5rem,5vw,3.5rem);
+  display:grid; gap:clamp(1.5rem,3vw,2.25rem);
+  grid-template-columns:1fr;
+}
+@media (min-width:700px){ .reach{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1080px){ .reach{ grid-template-columns:repeat(4,1fr); } }
+.reach li{ display:flex; flex-direction:column; gap:.3rem; }
+.reach__k{ font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--on-deep-3); }
+.reach a{ font-size:1rem; color:var(--on-deep); }
+.reach a:hover{ color:var(--accent); }
+.reach__v{ font-size:.84rem; line-height:1.65; color:var(--on-deep-3); }
 
 /* ─── 9. Lightbox ───────────────────────────────────────────────── */
 .lb{

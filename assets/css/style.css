@@ -37,9 +37,9 @@
   --ink-2:rgba(23,21,15,.66);
   --ink-3:rgba(23,21,15,.50);
   --rule:rgba(23,21,15,.13);
-  --accent:#c9552f;
-  --accent-soft:rgba(201,85,47,.10);
-  --glow:rgba(201,85,47,.16);
+  --accent:#cc2f22;               /* a clear red, 4.66:1 on the paper */
+  --accent-soft:rgba(204,47,34,.10);
+  --glow:rgba(204,47,34,.15);
   --veil:rgba(244,241,236,.58);
   --deep:#17150f;                 /* the contact block, against the page  */
   --on-deep:#f4f1ec;
@@ -59,9 +59,9 @@
   --ink-2:rgba(242,232,218,.70);
   --ink-3:rgba(242,232,218,.54);
   --rule:rgba(242,232,218,.17);
-  --accent:#d39a5c;
-  --accent-soft:rgba(211,154,92,.12);
-  --glow:rgba(211,154,92,.14);
+  --accent:#f0675a;               /* the same red, lifted to read on brown */
+  --accent-soft:rgba(240,103,90,.12);
+  --glow:rgba(240,103,90,.14);
   --veil:rgba(30,22,15,.56);
   --deep:#f2e8da;                 /* inverted: the contact block goes light */
   --on-deep:#241a12;

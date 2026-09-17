@@ -259,7 +259,7 @@
   var langBtn = $('#langBtn');
   var COPY = {
     ar: { title: 'أوان — استوديو دوبلاج وتعليق صوتي', btn: 'EN', aria: 'Switch to English', menu: 'القائمة' },
-    en: { title: 'Awan — Dubbing & Voice-over Studio', btn: 'ع',  aria: 'التبديل إلى العربية', menu: 'Menu' }
+    en: { title: 'Awan — Dubbing & Voice-over Studio', btn: 'AR', aria: 'التبديل إلى العربية', menu: 'Menu' }
   };
   function setLang(lang) {
     html.setAttribute('lang', lang);
@@ -359,6 +359,7 @@
     var scope = rail.closest('section') || document;
     var track = $('.rail__track', rail);
     var cards = $$('.rcard', rail);
+    var posters = rail.classList.contains('rail--posters');
     var fill = $('.rail__fill', scope);
     var prev = $('.rail__btn--prev', scope), next = $('.rail__btn--next', scope);
     if (!track || !cards.length) return;
@@ -416,15 +417,21 @@
       if (next) next.disabled = p >= 0.999;
 
       if (reduced) return;
-      /* photo drifts the opposite way to the card, inside its frame */
+      /* photo drifts the opposite way to the card, inside its frame. On the
+         poster rail the artwork is shown whole, so the drift is handed to the
+         blurred fill behind it instead — moving the poster would crop it. */
       var rr = rail.getBoundingClientRect(), mid = rr.left + rr.width / 2;
       for (var i = 0; i < cards.length; i++) {
         var b = cards[i].getBoundingClientRect();
         if (b.right < rr.left - 200 || b.left > rr.right + 200) continue;
-        var img = cards[i].querySelector('.rcard__frame img');
-        if (!img) continue;
+        var frame = cards[i].querySelector('.rcard__frame');
+        if (!frame) continue;
         var off = clamp(((b.left + b.width / 2) - mid) / rr.width * -26, -26, 26);
-        img.style.transform = 'translate3d(' + off.toFixed(1) + 'px,0,0) scale(1.08)';
+        if (posters) frame.style.setProperty('--drift', off.toFixed(1) + 'px');
+        else {
+          var img = $('img', frame);
+          if (img) img.style.transform = 'translate3d(' + off.toFixed(1) + 'px,0,0) scale(1.08)';
+        }
       }
     }
 

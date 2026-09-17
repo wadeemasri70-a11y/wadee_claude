@@ -355,8 +355,9 @@
      each photo inside its frame to build depth as the row moves.
      Runs once per .rail — the studio photos and the work posters. */
   $$('.rail').forEach(function (rail) {
-    /* the bar and the buttons live outside the scroller, below it */
-    var scope = rail.closest('section') || document;
+    /* the bar and the buttons live outside the scroller, below it — and the
+       work section holds two rails, so scope to the group before the section */
+    var scope = rail.closest('.wgroup') || rail.closest('section') || document;
     var track = $('.rail__track', rail);
     var cards = $$('.rcard', rail);
     var posters = rail.classList.contains('rail--posters');
@@ -486,25 +487,34 @@
        one set when it passes it, so the loop has no seam. It yields the
        moment anyone touches it — hover, focus, drag — and never runs
        off-screen, on a hidden tab, or under prefers-reduced-motion. */
+    /* a negative rate drifts the other way — the two work rows run opposite */
     var auto = parseFloat(rail.getAttribute('data-auto')) || 0;
-    if (auto > 0 && !reduced) {
+    if (auto && !reduced) {
       if (fill && fill.parentNode) fill.parentNode.style.display = 'none';  /* a loop has no progress */
 
-      cards.forEach(function (card) {
-        var c = card.cloneNode(true);
-        c.classList.add('rail__item--clone', 'rv-in');    /* clones arrive already revealed */
-        c.setAttribute('aria-hidden', 'true');
-        $$('a, button', c).forEach(function (el) { el.tabIndex = -1; });
-        track.appendChild(c);
-      });
+      var originals = cards.slice();
+      function oneSet() {                                  /* width of one full set */
+        var gap = parseFloat(getComputedStyle(track).columnGap) || 0, w = 0;
+        originals.forEach(function (c) { w += c.getBoundingClientRect().width + gap; });
+        return w;
+      }
+      /* Enough copies that a lap is always wider than the window — a short
+         set (four posters, say) would otherwise run out of cards before it
+         wrapped, and the loop would show a gap at its seam. */
+      var sets = Math.max(1, Math.ceil((rail.clientWidth + 240) / Math.max(oneSet(), 1)));
+      for (var k = 0; k < sets; k++) {
+        originals.forEach(function (card) {
+          var c = card.cloneNode(true);
+          c.classList.add('rail__item--clone', 'rv-in');  /* clones arrive already revealed */
+          c.setAttribute('aria-hidden', 'true');
+          $$('a, button', c).forEach(function (el) { el.tabIndex = -1; });
+          track.appendChild(c);
+        });
+      }
       cards = $$('.rcard', rail);                          /* drift the clones too */
 
-      var lap = 0;                                         /* width of one full set */
-      function measure() {
-        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-        lap = (track.scrollWidth - parseFloat(getComputedStyle(track).paddingInlineStart || 0)
-                                 - parseFloat(getComputedStyle(track).paddingInlineEnd || 0) + gap) / 2;
-      }
+      var lap = 0;
+      function measure() { lap = oneSet(); }
       measure();
 
       var pos = 0, held = 0, wrote = null, onScreen = true, raf = 0, prevTs = 0;
@@ -534,6 +544,7 @@
         if (wrote !== null && Math.abs(rail.scrollLeft - wrote) > 1.5) pos = Math.abs(rail.scrollLeft);
         pos += auto * dt;
         while (pos >= lap) pos -= lap;                     /* seamless wrap: one full set */
+        while (pos < 0) pos += lap;                        /* …in either direction */
         rail.scrollLeft = sign() * pos;
         wrote = rail.scrollLeft;                           /* read back what the browser kept */
       }

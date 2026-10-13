@@ -18,28 +18,41 @@
   studio-05.jpg    كابينة التسجيل
   studio-06.jpg    المحطة الرئيسية
 
-  work-01.jpg      وردة شامية                        ← صفّ «أعمال»
+  work-01.jpg      وردة شامية              ← صفّ «أعمال المدينة الذهبية»
   work-02.jpg      سلاسل دهب
   work-03.jpg      النوايا
   work-04.jpg      العربجي
   work-05.jpg      العربجي ٢
-  work-06.jpg      التسعة
+  work-06.jpg      السبع
   work-07.jpg      سوق الحرير
+  work-08.jpg      مقامات العشق
+  work-10.jpg      باب الحارة
 
-ناقص لسّه (البطاقة بتبان مستطيل متدرّج مكتوب فيه الاسم لحدّ ما توصل):
+  work-09.jpg      رحلتي إلى الشهرة        ← صفّ «أعمال أوان للدوبلاج»
+  work-11.jpg      لم يكن حبيبي
+  work-12.jpg      ملخص كرة القدم
+  work-13.jpg      عهد الوفا
+  work-14.jpg      الشيف الصغير
+  work-15.jpg      الشيف الصغير — الموسم الثاني
+  work-16.jpg      القطط الصغيرة
+  work-17.jpg      ذئب مئة بالمئة — أسطورة حجر القمر
+  work-18.jpg      ذئب مئة بالمئة — كتاب هاث
+  work-19.jpg      ريمي وبو
+  work-20.jpg      أكاديمية الخوارق
+  work-21.jpg      ريا الأرنوبة
+  work-22.jpg      أودو
+  work-23.jpg      رحلة الحب
 
-  work-08.jpg  مقامات العشق      work-11.jpg  لم يكن حبيبي
-  work-09.jpg  رحلتي إلى الشهرة   work-12.jpg  ملخص كرة القدم
-  work-10.jpg  باب الحارة        work-13.jpg  عهد الوفا
-
-صور الاستوديو أفقية 3:2. بوسترات الأعمال بتقبل أي نسبة — الصفّ بيثبّت الارتفاع
-وبيعطي كل بوستر عرضه حسب شكله، فما في قصّ. بس لازم تحدّث `width` و`height`
-و`--ar` على الـ <img> بـ index.html لتطابق مقاس الصورة الجديدة.
+صور الاستوديو أفقية 3:2. بوسترات الأعمال بتقبل أي نسبة — كل بطاقة إطار 3:4
+بارتفاع واحد، والبوستر بيندرج جوّاته كامل وما بينقصّ منّه شي، وتعبئة ضبابية من
+نفس الملف بتسدّ الباقي (بتتعيّن من `src` الصورة بـ main.js، فما في تحميل تاني).
+وقت تبدّل بوستر، حدّث `width` و`height` على الـ <img> بـ index.html لتطابق
+مقاس الصورة الجديدة.
 
 ---
 
-Studio photos are 3:2; work posters may be any ratio — the row pins the height
-and lets each card take the width its artwork asks for, so nothing is cropped.
-When you swap a poster, update its width/height and --ar on the <img> in
-index.html. Six work posters (work-08 … work-13) are still missing; those cards
-show a gradient tile with the title until the files land.
+Studio photos are 3:2. Every work poster sits in the same 3:4 frame at one
+height: the artwork is fitted whole, never cropped, and a blurred copy of the
+same file fills what is left over — main.js reads that address off the card's
+own <img>, so the blur costs no second request. When you swap a poster, update
+its width/height on the <img> in index.html to match the new file.

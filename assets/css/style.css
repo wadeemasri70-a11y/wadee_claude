@@ -506,6 +506,8 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   width:auto; max-width:none;
   background:var(--paper-3);
 }
+/* --art is set from the card's own <img> in main.js, so the blur and the
+   artwork share one request — see the note there for why not in the markup. */
 .rail--posters .rcard__frame::before{
   content:""; position:absolute; inset:-8%;
   background:var(--art) center/cover no-repeat;

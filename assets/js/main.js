@@ -365,6 +365,18 @@
     var prev = $('.rail__btn--prev', scope), next = $('.rail__btn--next', scope);
     if (!track || !cards.length) return;
 
+    /* The blurred fill behind a poster is the same file as the poster, and the
+       frame names it in --art. A url() carried in a custom property is resolved
+       against the stylesheet that spends it, not the page, so a page-relative
+       path written in the markup would be looked for next to style.css. Take
+       the address off the <img> instead — the browser has already resolved that
+       one — so both the artwork and its blur share one request, wherever the
+       site is hosted. */
+    if (posters) cards.forEach(function (card) {
+      var frame = $('.rcard__frame', card), art = $('img', card);
+      if (frame && art && art.src) frame.style.setProperty('--art', 'url("' + art.src + '")');
+    });
+
     /* RTL reports scrollLeft as 0 → -max, LTR as 0 → +max. */
     function maxScroll() { return rail.scrollWidth - rail.clientWidth; }
     function progress() {

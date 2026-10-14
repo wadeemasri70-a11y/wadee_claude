@@ -432,11 +432,12 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 :root[dir="rtl"]{ --dir:-1; }
 :root[dir="ltr"]{ --dir:1; }
 
-/* ─── 7b. Rails (studio + work) ─────────────────────────────────── */
-/* One row-scroll component, used twice: landscape photos of the rooms,
-   and portrait posters in the work section. It is a real scroll
-   container, so a touch swipe, a trackpad flick and the arrow keys all
-   work without anything being hijacked. */
+/* ─── 7b. Rails (work) ──────────────────────────────────────────── */
+/* One row-scroll component, used by both poster rows in the work
+   section. It is a real scroll container, so a touch swipe, a trackpad
+   flick and the arrow keys all work without anything being hijacked.
+   The base below is the plain landscape card; .rail--posters further
+   down turns it into the uniform portrait frame. */
 
 .rail__lead{
   color:var(--ink-2); max-width:52ch;

@@ -11,13 +11,6 @@
   hero-poster.jpg       الكادر الثابت تحت الهيرو — بيبان لحدّ ما يشتغل الفيديو،
                         وبيضلّ ظاهر لو ما في فيديو أصلاً.
 
-  studio-01.jpg    غرفة الموسيقى والمؤثّرات          ← صفّ «الاستوديو»
-  studio-02.jpg    غرفة التحكّم
-  studio-03.jpg    غرفة المونتاج الصوتي
-  studio-04.jpg    غرفة الماستر
-  studio-05.jpg    كابينة التسجيل
-  studio-06.jpg    المحطة الرئيسية
-
   work-01.jpg      وردة شامية              ← صفّ «أعمال المدينة الذهبية»
   work-02.jpg      سلاسل دهب
   work-03.jpg      النوايا
@@ -43,16 +36,15 @@
   work-22.jpg      أودو
   work-23.jpg      رحلة الحب
 
-صور الاستوديو أفقية 3:2. بوسترات الأعمال بتقبل أي نسبة — كل بطاقة إطار 3:4
-بارتفاع واحد، والبوستر بيندرج جوّاته كامل وما بينقصّ منّه شي، وتعبئة ضبابية من
-نفس الملف بتسدّ الباقي (بتتعيّن من `src` الصورة بـ main.js، فما في تحميل تاني).
-وقت تبدّل بوستر، حدّث `width` و`height` على الـ <img> بـ index.html لتطابق
-مقاس الصورة الجديدة.
+بوسترات الأعمال بتقبل أي نسبة — كل بطاقة إطار 3:4 بارتفاع واحد، والبوستر
+بيندرج جوّاته كامل وما بينقصّ منّه شي، وتعبئة ضبابية من نفس الملف بتسدّ الباقي
+(بتتعيّن من `src` الصورة بـ main.js، فما في تحميل تاني). وقت تبدّل بوستر،
+حدّث `width` و`height` على الـ <img> بـ index.html لتطابق مقاس الصورة الجديدة.
 
 ---
 
-Studio photos are 3:2. Every work poster sits in the same 3:4 frame at one
-height: the artwork is fitted whole, never cropped, and a blurred copy of the
-same file fills what is left over — main.js reads that address off the card's
-own <img>, so the blur costs no second request. When you swap a poster, update
-its width/height on the <img> in index.html to match the new file.
+Every work poster sits in the same 3:4 frame at one height: the artwork is
+fitted whole, never cropped, and a blurred copy of the same file fills what is
+left over — main.js reads that address off the card's own <img>, so the blur
+costs no second request. When you swap a poster, update its width/height on the
+<img> in index.html to match the new file.

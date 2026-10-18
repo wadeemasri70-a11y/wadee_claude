@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أوان للدوبلاج — دوبلاج وتعليق صوتي</title>
+<meta name="description" content="أوان للدوبلاج: سبعة استوديوهات، شبكة أصوات محترفة، ودراما وأنمي ووثائقيات نُقلت إلى العربية.">
+<meta name="theme-color" content="#f4f1ec">
+<script>
+/* before first paint, so the page never flashes the wrong theme */
+(function () {
+  var t = null;
+  try { t = localStorage.getItem('awan-theme'); } catch (e) {}
+  if (t !== 'day' && t !== 'night')
+    t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="أوان للدوبلاج — دوبلاج وتعليق صوتي">
+<meta property="og:description" content="أوان للدوبلاج: سبعة استوديوهات، شبكة أصوات محترفة، ودراما وأنمي ووثائقيات نُقلت إلى العربية.">
+<meta property="og:image" content="assets/img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-ar="تخطَّ إلى المحتوى" data-en="Skip to content">تخطَّ إلى المحتوى</a>
+
+<div class="grain" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="brand" href="index.html" aria-label="Awan Group — الصفحة الرئيسية">
+      <img class="brand__logo mark--ink" src="assets/img/awan-group-ink.png"
+           alt="Awan Group" width="760" height="202" decoding="async">
+      <img class="brand__logo mark--cream" src="assets/img/awan-group-cream.png"
+           alt="Awan Group" width="760" height="202" decoding="async">
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="التنقّل الرئيسي">
+      <a href="index.html" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+      <a href="dubbing.html" class="is-active" aria-current="page" data-ar="أوان للدوبلاج" data-en="Awan Dubbing">أوان للدوبلاج</a>
+      <a href="golden-city.html" data-ar="المدينة الذهبية" data-en="Golden City">المدينة الذهبية</a>
+      <a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+    </nav>
+
+    <div class="nav__side">
+      <button class="theme" id="themeBtn" type="button" aria-pressed="false"
+              aria-label="التبديل بين النهاري والليلي" title="نهاري / ليلي">
+        <svg class="theme__sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/>
+        </svg>
+        <svg class="theme__moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/>
+        </svg>
+      </button>
+      <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav class="menu__nav" aria-label="التنقّل">
+    <a href="index.html" data-ar="الرئيسية" data-en="Home" style="--i:0">الرئيسية</a>
+    <a href="dubbing.html" data-ar="أوان للدوبلاج" data-en="Awan Dubbing" style="--i:1">أوان للدوبلاج</a>
+    <a href="golden-city.html" data-ar="المدينة الذهبية" data-en="Golden City" style="--i:2">المدينة الذهبية</a>
+    <a href="#contact" data-ar="تواصل" data-en="Contact" style="--i:3">تواصل</a>
+  </nav>
+</div>
+
+<div id="scroller">
+<main id="main">
+  <!-- ═══ PAGE HERO ═══ -->
+  <section class="phero" id="home">
+    <!-- The reel sits behind the title under a veil. No file yet → the poster
+         shows; no poster either → the paper colour carries it on its own. -->
+    <div class="phero__media" aria-hidden="true">
+      <video class="phero__video" id="heroVideo" poster="assets/img/hero-poster.jpg"
+             autoplay muted loop playsinline preload="metadata">
+        <source src="assets/video/dubbing.mp4" type="video/mp4">
+      </video>
+      <span class="phero__veil"></span>
+    </div>
+
+    <div class="wrap phero__in">
+      <p class="eyebrow" data-rv="up" style="--i:0">
+        <span class="dot" aria-hidden="true"></span>
+        <span data-ar="دوبلاج وتعليق صوتي" data-en="Dubbing &amp; voice-over">دوبلاج وتعليق صوتي</span>
+      </p>
+      <h1 class="phero__title">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:1"
+              data-ar="أوان للدوبلاج" data-en="Awan Dubbing">أوان للدوبلاج</span></span>
+      </h1>
+      <p class="phero__lead" data-rv="up" style="--i:3"
+         data-ar="من الترجمة والاقتباس إلى اختيار الأصوات والتسجيل والمزج النهائي — في سبعة استوديوهات مجهّزة." data-en="From translation and adaptation to casting, recording and the final mix — across seven equipped studios.">من الترجمة والاقتباس إلى اختيار الأصوات والتسجيل والمزج النهائي — في سبعة استوديوهات مجهّزة.</p>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="sec services" id="services">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="الخدمات" data-en="Services">الخدمات</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="كل ما بين النص والنسخة النهائية"
+          data-en="Everything between the script and the final master">كل ما بين النص والنسخة النهائية</h2>
+
+      <ol class="srv">
+        <li class="srv__row" data-rv="row" style="--i:0">
+          <span class="srv__no">01</span>
+          <h3 class="srv__name" data-ar="الدوبلاج" data-en="Dubbing">الدوبلاج</h3>
+          <p class="srv__txt" data-ar="مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة."
+             data-en="Full lip-sync for drama, anime and film, with a voice director on every session.">مزامنة شفاه كاملة للدراما والأنمي والأفلام، بإشراف مخرج صوتي على كل جلسة.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:1">
+          <span class="srv__no">02</span>
+          <h3 class="srv__name" data-ar="التعليق الصوتي" data-en="Voice-over">التعليق الصوتي</h3>
+          <p class="srv__txt" data-ar="إعلانات وأفلام وثائقية ومواد تعليمية وأدلّة صوتية، بأصوات تُختار وفق الطابع المطلوب."
+             data-en="Commercials, documentaries, e-learning and audio guides — cast to the mood you're after.">إعلانات وأفلام وثائقية ومواد تعليمية وأدلّة صوتية، بأصوات تُختار وفق الطابع المطلوب.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:2">
+          <span class="srv__no">03</span>
+          <h3 class="srv__name" data-ar="الترجمة والاقتباس" data-en="Translation &amp; adaptation">الترجمة والاقتباس</h3>
+          <p class="srv__txt" data-ar="نقل النص إلى العربية بلهجة تناسب العمل، ومعالجته ليتوافق مع حركة الشفاه والإيقاع."
+             data-en="Scripts moved into Arabic in the right dialect, then reshaped to land on the lip movement and the beat.">نقل النص إلى العربية بلهجة تناسب العمل، ومعالجته ليتوافق مع حركة الشفاه والإيقاع.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:3">
+          <span class="srv__no">04</span>
+          <h3 class="srv__name" data-ar="الكاستينغ" data-en="Casting">الكاستينغ</h3>
+          <p class="srv__txt" data-ar="بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل بدء الجلسات."
+             data-en="A deep roster and recorded auditions, so you pick the voices before a session is booked.">بنك أصوات واسع، وتجارب أداء مسجّلة تختار منها قبل بدء الجلسات.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:4">
+          <span class="srv__no">05</span>
+          <h3 class="srv__name" data-ar="الهندسة والمزج" data-en="Mixing &amp; mastering">الهندسة والمزج</h3>
+          <p class="srv__txt" data-ar="تنقية وتحرير صوتي ومزج ستيريو أو 5.1، مع التسليم بمواصفات المنصّات."
+             data-en="Clean-up, sound edit, stereo or 5.1 mix, delivered to platform spec.">تنقية وتحرير صوتي ومزج ستيريو أو 5.1، مع التسليم بمواصفات المنصّات.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ THE DUBBED WORK ═══ -->
+  <section class="sec work" id="work">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="الأعمال" data-en="Work">الأعمال</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="أعمال نقلناها إلى العربية" data-en="Brought into Arabic">أعمال نقلناها إلى العربية</h2>
+    </div>
+
+    <div class="wgroup">
+      <div class="wrap wgroup__head">
+        <h3 class="wgroup__h" data-rv="up"
+            data-ar="أعمال أوان للدوبلاج" data-en="Awan Dubbing">أعمال أوان للدوبلاج</h3>
+        <p class="wgroup__k" data-rv="up" style="--i:1"
+           data-ar="دوبلاج وتعليق صوتي ومزج" data-en="Dubbing, voice-over and mixing">دوبلاج وتعليق صوتي ومزج</p>
+      </div>
+
+      <div class="rail rail--posters" id="rail-dub" data-auto="-22" tabindex="0" role="region"
+           aria-label="أعمال أوان للدوبلاج">
+        <ul class="rail__track">
+        <li class="rcard" data-rv="img" style="--i:0">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="رحلتي إلى الشهرة" data-title-en="My Road to Fame">
+              <span class="rcard__frame">
+                <img src="assets/img/work-09.jpg" alt="رحلتي إلى الشهرة" loading="lazy" decoding="async" width="1270" height="1708">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="رحلتي إلى الشهرة" data-en="My Road to Fame">رحلتي إلى الشهرة</h3>
+              <p data-ar="2022 · تركي · أوان للدوبلاج" data-en="2022 · Turkish · Awan Dubbing">2022 · تركي · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:1">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="لم يكن حبيبي" data-title-en="Lam Yakun Habibi">
+              <span class="rcard__frame">
+                <img src="assets/img/work-11.jpg" alt="لم يكن حبيبي" loading="lazy" decoding="async" width="1260" height="1696">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="لم يكن حبيبي" data-en="Lam Yakun Habibi">لم يكن حبيبي</h3>
+              <p data-ar="2019 · باكستاني · أوان للدوبلاج" data-en="2019 · Pakistani · Awan Dubbing">2019 · باكستاني · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:2">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="ملخص كرة القدم" data-title-en="Football Roundup">
+              <span class="rcard__frame">
+                <img src="assets/img/work-12.jpg" alt="ملخص كرة القدم" loading="lazy" decoding="async" width="1270" height="1644">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="ملخص كرة القدم" data-en="Football Roundup">ملخص كرة القدم</h3>
+              <p data-ar="2012 · أمريكي · أوان للدوبلاج" data-en="2012 · American · Awan Dubbing">2012 · أمريكي · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:3">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="عهد الوفا" data-title-en="Ahd al-Wafa">
+              <span class="rcard__frame">
+                <img src="assets/img/work-13.jpg" alt="عهد الوفا" loading="lazy" decoding="async" width="1254" height="1680">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="عهد الوفا" data-en="Ahd al-Wafa">عهد الوفا</h3>
+              <p data-ar="2019 · باكستاني · أوان للدوبلاج" data-en="2019 · Pakistani · Awan Dubbing">2019 · باكستاني · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:4">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="الشيف الصغير" data-title-en="The Tiny Chef Show">
+              <span class="rcard__frame">
+                <img src="assets/img/work-14.jpg" alt="الشيف الصغير" loading="lazy" decoding="async" width="1240" height="1860">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="الشيف الصغير" data-en="The Tiny Chef Show">الشيف الصغير</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:5">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="الشيف الصغير — الموسم الثاني" data-title-en="The Tiny Chef Show — Season Two">
+              <span class="rcard__frame">
+                <img src="assets/img/work-15.jpg" alt="الشيف الصغير — الموسم الثاني" loading="lazy" decoding="async" width="1240" height="1726">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="الشيف الصغير — الموسم الثاني" data-en="The Tiny Chef Show — Season Two">الشيف الصغير — الموسم الثاني</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:6">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="القطط الصغيرة" data-title-en="Kid-E-Cats">
+              <span class="rcard__frame">
+                <img src="assets/img/work-16.jpg" alt="القطط الصغيرة" loading="lazy" decoding="async" width="1240" height="1768">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="القطط الصغيرة" data-en="Kid-E-Cats">القطط الصغيرة</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:7">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="ذئب مئة بالمئة — أسطورة حجر القمر" data-title-en="100% Wolf — Legend of the Moonstone">
+              <span class="rcard__frame">
+                <img src="assets/img/work-17.jpg" alt="ذئب مئة بالمئة — أسطورة حجر القمر" loading="lazy" decoding="async" width="1240" height="1860">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="ذئب مئة بالمئة — أسطورة حجر القمر" data-en="100% Wolf — Legend of the Moonstone">ذئب مئة بالمئة — أسطورة حجر القمر</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:8">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="ذئب مئة بالمئة — كتاب هاث" data-title-en="100% Wolf — The Book of Hath">
+              <span class="rcard__frame">
+                <img src="assets/img/work-18.jpg" alt="ذئب مئة بالمئة — كتاب هاث" loading="lazy" decoding="async" width="1240" height="1860">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="ذئب مئة بالمئة — كتاب هاث" data-en="100% Wolf — The Book of Hath">ذئب مئة بالمئة — كتاب هاث</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:9">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="ريمي وبو" data-title-en="Remy &amp; Boo">
+              <span class="rcard__frame">
+                <img src="assets/img/work-19.jpg" alt="ريمي وبو" loading="lazy" decoding="async" width="1240" height="1653">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="ريمي وبو" data-en="Remy &amp; Boo">ريمي وبو</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:10">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="أكاديمية الخوارق" data-title-en="Supernatural Academy">
+              <span class="rcard__frame">
+                <img src="assets/img/work-20.jpg" alt="أكاديمية الخوارق" loading="lazy" decoding="async" width="1240" height="1837">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="أكاديمية الخوارق" data-en="Supernatural Academy">أكاديمية الخوارق</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:11">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="ريا الأرنوبة" data-title-en="Ria Rabbit">
+              <span class="rcard__frame">
+                <img src="assets/img/work-21.jpg" alt="ريا الأرنوبة" loading="lazy" decoding="async" width="1240" height="1837">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="ريا الأرنوبة" data-en="Ria Rabbit">ريا الأرنوبة</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:12">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="أودو" data-title-en="Odo">
+              <span class="rcard__frame">
+                <img src="assets/img/work-22.jpg" alt="أودو" loading="lazy" decoding="async" width="1240" height="1550">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="أودو" data-en="Odo">أودو</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:13">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="رحلة الحب" data-title-en="Journey of Love">
+              <span class="rcard__frame">
+                <img src="assets/img/work-23.jpg" alt="رحلة الحب" loading="lazy" decoding="async" width="768" height="1376">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="رحلة الحب" data-en="Journey of Love">رحلة الحب</h3>
+              <p data-ar="دراما · أوان للدوبلاج" data-en="Drama · Awan Dubbing">دراما · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="rcard" data-rv="img" style="--i:14">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="مغامرات بادينغتون — الموسم الأول" data-title-en="The Adventures of Paddington — Season 1">
+              <span class="rcard__frame">
+                <img src="assets/img/work-24.jpg" alt="مغامرات بادينغتون — الموسم الأول" loading="lazy" decoding="async" width="1240" height="1860">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="مغامرات بادينغتون — الموسم الأول" data-en="The Adventures of Paddington — Season 1">مغامرات بادينغتون — الموسم الأول</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:15">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="كوكوميلون" data-title-en="CoComelon">
+              <span class="rcard__frame">
+                <img src="assets/img/work-25.jpg" alt="كوكوميلون" loading="lazy" decoding="async" width="1240" height="1514">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="كوكوميلون" data-en="CoComelon">كوكوميلون</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:16">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="واليكازام" data-title-en="Wallykazam!">
+              <span class="rcard__frame">
+                <img src="assets/img/work-26.jpg" alt="واليكازام" loading="lazy" decoding="async" width="1240" height="1844">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="واليكازام" data-en="Wallykazam!">واليكازام</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:17">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="نيلا الأميرة الفارسة" data-title-en="Nella the Princess Knight">
+              <span class="rcard__frame">
+                <img src="assets/img/work-27.jpg" alt="نيلا الأميرة الفارسة" loading="lazy" decoding="async" width="1240" height="1230">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="نيلا الأميرة الفارسة" data-en="Nella the Princess Knight">نيلا الأميرة الفارسة</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:18">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="صيّادو التنانين" data-title-en="Dragon Hunters">
+              <span class="rcard__frame">
+                <img src="assets/img/work-28.jpg" alt="صيّادو التنانين" loading="lazy" decoding="async" width="1240" height="1649">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="صيّادو التنانين" data-en="Dragon Hunters">صيّادو التنانين</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:19">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="ميري باس تم هو" data-title-en="Mere Paas Tum Ho">
+              <span class="rcard__frame">
+                <img src="assets/img/work-29.jpg" alt="ميري باس تم هو" loading="lazy" decoding="async" width="1240" height="1233">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="ميري باس تم هو" data-en="Mere Paas Tum Ho">ميري باس تم هو</h3>
+              <p data-ar="دراما · أوان للدوبلاج" data-en="Drama · Awan Dubbing">دراما · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:20">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="عشق تماشا" data-title-en="Ishq Tamasha">
+              <span class="rcard__frame">
+                <img src="assets/img/work-30.jpg" alt="عشق تماشا" loading="lazy" decoding="async" width="1240" height="1167">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="عشق تماشا" data-en="Ishq Tamasha">عشق تماشا</h3>
+              <p data-ar="دراما · أوان للدوبلاج" data-en="Drama · Awan Dubbing">دراما · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:21">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سوبا سترايكس" data-title-en="Supa Strikas">
+              <span class="rcard__frame">
+                <img src="assets/img/work-31.jpg" alt="سوبا سترايكس" loading="lazy" decoding="async" width="1240" height="1836">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سوبا سترايكس" data-en="Supa Strikas">سوبا سترايكس</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:22">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="رينبو رينجرز" data-title-en="Rainbow Rangers">
+              <span class="rcard__frame">
+                <img src="assets/img/work-32.jpg" alt="رينبو رينجرز" loading="lazy" decoding="async" width="1240" height="1824">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="رينبو رينجرز" data-en="Rainbow Rangers">رينبو رينجرز</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:23">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سبلاش وبابلز" data-title-en="Splash and Bubbles">
+              <span class="rcard__frame">
+                <img src="assets/img/work-33.jpg" alt="سبلاش وبابلز" loading="lazy" decoding="async" width="1240" height="1805">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سبلاش وبابلز" data-en="Splash and Bubbles">سبلاش وبابلز</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:24">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="بنسن الوحش" data-title-en="Bunsen Is a Beast">
+              <span class="rcard__frame">
+                <img src="assets/img/work-34.jpg" alt="بنسن الوحش" loading="lazy" decoding="async" width="1240" height="1861">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="بنسن الوحش" data-en="Bunsen Is a Beast">بنسن الوحش</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:25">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="تاك وقوّة الجوجو" data-title-en="Tak and the Power of Juju">
+              <span class="rcard__frame">
+                <img src="assets/img/work-35.jpg" alt="تاك وقوّة الجوجو" loading="lazy" decoding="async" width="1240" height="1836">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="تاك وقوّة الجوجو" data-en="Tak and the Power of Juju">تاك وقوّة الجوجو</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:26">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غرندايزر" data-title-en="Grendizer">
+              <span class="rcard__frame">
+                <img src="assets/img/work-36.jpg" alt="غرندايزر" loading="lazy" decoding="async" width="1240" height="1725">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غرندايزر" data-en="Grendizer">غرندايزر</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:27">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="هجوم العمالقة — الموسم الأول" data-title-en="Attack on Titan — Season 1">
+              <span class="rcard__frame">
+                <img src="assets/img/work-37.jpg" alt="هجوم العمالقة — الموسم الأول" loading="lazy" decoding="async" width="1240" height="1852">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="هجوم العمالقة — الموسم الأول" data-en="Attack on Titan — Season 1">هجوم العمالقة — الموسم الأول</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:28">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="هجوم العمالقة — الموسم الثاني" data-title-en="Attack on Titan — Season 2">
+              <span class="rcard__frame">
+                <img src="assets/img/work-38.jpg" alt="هجوم العمالقة — الموسم الثاني" loading="lazy" decoding="async" width="1232" height="1545">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="هجوم العمالقة — الموسم الثاني" data-en="Attack on Titan — Season 2">هجوم العمالقة — الموسم الثاني</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:29">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="هجوم العمالقة — الموسم الثالث" data-title-en="Attack on Titan — Season 3">
+              <span class="rcard__frame">
+                <img src="assets/img/work-39.jpg" alt="هجوم العمالقة — الموسم الثالث" loading="lazy" decoding="async" width="1240" height="1696">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="هجوم العمالقة — الموسم الثالث" data-en="Attack on Titan — Season 3">هجوم العمالقة — الموسم الثالث</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:30">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="مغامرات بادينغتون" data-title-en="The Adventures of Paddington">
+              <span class="rcard__frame">
+                <img src="assets/img/work-40.jpg" alt="مغامرات بادينغتون" loading="lazy" decoding="async" width="1240" height="1765">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="مغامرات بادينغتون" data-en="The Adventures of Paddington">مغامرات بادينغتون</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:31">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="حيّ كوكوميلون" data-title-en="CoComelon Lane">
+              <span class="rcard__frame">
+                <img src="assets/img/work-41.jpg" alt="حيّ كوكوميلون" loading="lazy" decoding="async" width="1240" height="1720">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="حيّ كوكوميلون" data-en="CoComelon Lane">حيّ كوكوميلون</h3>
+              <p data-ar="رسوم متحركة · أوان للدوبلاج" data-en="Animation · Awan Dubbing">رسوم متحركة · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:32">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سرقت زوجي" data-title-en="Saraqtu Zawji">
+              <span class="rcard__frame">
+                <img src="assets/img/work-42.jpg" alt="سرقت زوجي" loading="lazy" decoding="async" width="1240" height="1843">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سرقت زوجي" data-en="Saraqtu Zawji">سرقت زوجي</h3>
+              <p data-ar="دراما · أوان للدوبلاج" data-en="Drama · Awan Dubbing">دراما · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:33">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="غيث — الجزء الثالث" data-title-en="Ghaith — Part Three">
+              <span class="rcard__frame">
+                <img src="assets/img/work-43.jpg" alt="غيث — الجزء الثالث" loading="lazy" decoding="async" width="926" height="1699">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="غيث — الجزء الثالث" data-en="Ghaith — Part Three">غيث — الجزء الثالث</h3>
+              <p data-ar="دراما · أوان للدوبلاج" data-en="Drama · Awan Dubbing">دراما · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:34">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سلسلي" data-title-en="Silsilay">
+              <span class="rcard__frame">
+                <img src="assets/img/work-44.jpg" alt="سلسلي" loading="lazy" decoding="async" width="949" height="1657">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سلسلي" data-en="Silsilay">سلسلي</h3>
+              <p data-ar="دراما · أوان للدوبلاج" data-en="Drama · Awan Dubbing">دراما · أوان للدوبلاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        </ul>
+      </div>
+
+    <div class="wrap rail__ui">
+      <div class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></div>
+      <div class="rail__btns">
+        <button class="rail__btn rail__btn--prev" type="button" aria-label="السابق" aria-controls="rail-dub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button class="rail__btn rail__btn--next" type="button" aria-label="التالي" aria-controls="rail-dub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="wrap more">
+      <p class="more__k" data-rv="up"
+         data-ar="ومن أعمالنا أيضاً — أفلام روائية ودراما تركية وهندية وإيرانية، وأنمي وأفلام وثائقية"
+         data-en="And among our other work — feature films, Turkish, Indian and Iranian drama, anime and documentaries">ومن أعمالنا أيضاً — أفلام روائية ودراما تركية وهندية وإيرانية، وأنمي وأفلام وثائقية</p>
+      <ul class="more__list">
+        <li data-rv="up" style="--i:0" data-ar="خاتون" data-en="Khatoun">خاتون</li>
+        <li data-rv="up" style="--i:1" data-ar="يونس إمره" data-en="Yunus Emre">يونس إمره</li>
+        <li data-rv="up" style="--i:2" data-ar="شقّة الأمل" data-en="Umut Apartmanı">شقّة الأمل</li>
+        <li data-rv="up" style="--i:3" data-ar="بادينغتون ١+٢" data-en="Paddington 1+2">بادينغتون ١+٢</li>
+        <li data-rv="up" style="--i:4" data-ar="الموت عند الفجر" data-en="Dead by Dawn">الموت عند الفجر</li>
+        <li data-rv="up" style="--i:5" data-ar="غرندايزر" data-en="Grendizer">غرندايزر</li>
+        <li data-rv="up" style="--i:0" data-ar="الحسناء والعاصي" data-en="Al Hasnaa w Al Aasi">الحسناء والعاصي</li>
+        <li data-rv="up" style="--i:1" data-ar="ضرغام" data-en="Dirgham">ضرغام</li>
+      </ul>
+    </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="تواصل" data-en="Contact">تواصل</span></p>
+
+      <h2 class="contact__head">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:0" data-ar="لنصنع شيئاً" data-en="Let's make">لنصنع شيئاً</span></span>
+        <span class="line"><span class="line__in" data-rv="line" style="--i:1" data-ar="معاً" data-en="something">معاً</span></span>
+      </h2>
+
+      <p class="contact__note" data-rv="up"
+         data-ar="أرسل إلينا النص أو الحلقة، ونعود إليك بعيّنة صوتية وخطة تنفيذ."
+         data-en="Send us the script or one episode, and we'll come back with a voice sample and a plan.">
+        أرسل إلينا النص أو الحلقة، ونعود إليك بعيّنة صوتية وخطة تنفيذ.
+      </p>
+
+      <a class="mail" href="mailto:fatima.h@awan-group.com" data-rv="mail">
+        <span>fatima.h@awan-group.com</span>
+      </a>
+
+      <ul class="reach" data-rv="up">
+        <li>
+          <span class="reach__k" data-ar="بريد إضافي" data-en="Second inbox">بريد إضافي</span>
+          <a href="mailto:shmsalqurmllc@gmail.com"><bdi>shmsalqurmllc@gmail.com</bdi></a>
+        </li>
+        <li>
+          <span class="reach__k" data-ar="سوريا" data-en="Syria">سوريا</span>
+          <a href="tel:+963998327842"><bdi>+963 998 327 842</bdi></a>
+          <span class="reach__v" data-ar="المنطقة الحرّة في البرامكة، بلوك B (59–60)، دمشق"
+                data-en="Al-Baramkeh Free Zone, Block B (59–60), Damascus">المنطقة الحرّة في البرامكة، بلوك B (59–60)، دمشق</span>
+        </li>
+        <li>
+          <span class="reach__k" data-ar="الإمارات" data-en="UAE">الإمارات</span>
+          <a href="tel:+971505410450"><bdi>+971 50 541 0450</bdi></a>
+          <span class="reach__v" data-ar="أوان للإنتاج ش.ذ.م.م — مدينة الشارقة للإعلام، الشارقة"
+                data-en="Awan Production LLC — Sharjah Media City, Sharjah">أوان للإنتاج ش.ذ.م.م — مدينة الشارقة للإعلام، الشارقة</span>
+        </li>
+        <li>
+          <span class="reach__k" data-ar="سلطنة عُمان" data-en="Oman">سلطنة عُمان</span>
+          <a href="tel:+96892279041"><bdi>+968 9227 9041</bdi></a>
+          <span class="reach__v" data-ar="شمس القرم للأعمال ش.ذ.م.م — مسقط، الخوير"
+                data-en="Shams Al Qurm Business LLC — Muscat, Al Khuwair">شمس القرم للأعمال ش.ذ.م.م — مسقط، الخوير</span>
+        </li>
+      </ul>
+
+      <ul class="social" data-rv="up" style="--i:1">
+        <li><a href="https://www.instagram.com/awan_media_group/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/AwanGroupMedia" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://x.com/AwanGroupMedia" target="_blank" rel="noopener">X</a></li>
+        <li><a href="https://www.linkedin.com/company/awangroupartproductio/" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+
+    <footer class="foot">
+      <div class="wrap foot__in">
+        <img class="foot__logo mark--cream" src="assets/img/awan-group-cream.png" alt="" width="760" height="202" loading="lazy" decoding="async">
+        <img class="foot__logo mark--ink" src="assets/img/awan-group-ink.png" alt="" width="760" height="202" loading="lazy" decoding="async">
+        <span class="foot__c">© <span id="year">2026</span> <span data-ar="مجموعة أوان" data-en="Awan Group">مجموعة أوان</span></span>
+        <a class="foot__top" href="#home" data-ar="إلى الأعلى" data-en="Back to top">إلى الأعلى</a>
+      </div>
+    </footer>
+  </section>
+
+</main>
+</div>
+
+<dialog class="lb" id="lb" aria-label="عرض العمل">
+  <button class="lb__x" id="lbClose" type="button" aria-label="إغلاق">&times;</button>
+  <figure class="lb__fig">
+    <img id="lbImg" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+</dialog>
+
+<script src="assets/js/wave.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

@@ -198,7 +198,11 @@
       entries.forEach(function (e) {
         var a = links['#' + e.target.id];
         if (a && e.isIntersecting) {
-          $$('.nav__links a').forEach(function (x) { x.classList.remove('is-active'); });
+          /* the link to the page you are already on stays lit — only the
+             in-page anchors take turns as you scroll past their sections */
+          $$('.nav__links a').forEach(function (x) {
+            if (!x.hasAttribute('aria-current')) x.classList.remove('is-active');
+          });
           a.classList.add('is-active');
         }
       });
@@ -307,7 +311,10 @@
      the stage falls back to its poster, then to the paper gradient with
      the sound wave drawn back over it. */
   (function () {
-    var stage = $('.hero__media'), vid = $('#heroVideo'), hero = $('#home');
+    /* the home page opens on .hero, the two inner pages on .phero — same
+       stage, same fallbacks, so look for whichever one this page carries */
+    var stage = $('.hero__media') || $('.phero__media'),
+        vid = $('#heroVideo'), hero = $('#home');
     if (!stage || !vid || !hero) return;
 
     var posterOk = false;

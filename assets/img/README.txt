@@ -22,6 +22,14 @@
   brand-bostah-view.png لوغو بوسطة ڤيو. نفس الشي — الأبيض انصبغ غامق،
                         والوردي تبع «View» ضلّ متل ما هو.
 
+  ch-*.png              لوغوهات القنوات بقسم «أين تُعرض أعمالنا» — ١٣ ملف:
+                        ch-aljazeera-doc، ch-mbc3، ch-mbc4، ch-nickelodeon،
+                        ch-charisma، ch-trt، ch-discovery، ch-natgeo،
+                        ch-mbc-bollywood، ch-shahid، ch-et-bilarabi،
+                        ch-insider-bilarabi، ch-trending.
+                        PNG بخلفية شفّافة، أي مقاس — كل واحد بينحشر بلوحته
+                        كامل. لحدّ ما يوصلوا، اللوحة بتحمل اسم القناة.
+
   work-01.jpg      وردة شامية              ← صفّ «أعمال المدينة الذهبية»
   work-02.jpg      سلاسل دهب
   work-03.jpg      النوايا

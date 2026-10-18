@@ -298,6 +298,10 @@
     langBtn.textContent = COPY[lang].btn;
     langBtn.setAttribute('aria-label', COPY[lang].aria);
     burger.setAttribute('aria-label', COPY[lang].menu);
+    $$('.chan__plate.is-empty').forEach(function (pl) {
+      var n = $('.chan__n', pl.parentNode);
+      if (n) pl.setAttribute('data-glyph', n.textContent.trim());
+    });
     $$('.film__frame').forEach(function (f) {
       var t = f.getAttribute('data-glyph-' + lang);
       if (t) f.setAttribute('data-glyph', t);
@@ -331,6 +335,24 @@
   $$('.rcard__frame img').forEach(function (img) {
     if (img.complete && img.naturalWidth === 0) markMissing(img);
     img.addEventListener('error', function () { markMissing(img); });
+  });
+
+  /* ── the channel wall ─────────────────────────────────────────
+     Same idea for the channel logos: a plate with no file falls back to
+     the channel's own name, so the wall still reads while the marks are
+     being collected. The name is taken off the tile's caption, which the
+     language switch already keeps current. */
+  function markChannel(img) {
+    var plate = img.parentNode, tile = plate && plate.parentNode;
+    if (!plate || !tile) return;
+    var n = $('.chan__n', tile);
+    plate.setAttribute('data-glyph', n ? n.textContent.trim() : '');
+    plate.classList.add('is-empty');
+    tile.classList.add('is-noart');   /* the plate is carrying the name already */
+  }
+  $$('.chan__plate img').forEach(function (img) {
+    if (img.complete && img.naturalWidth === 0) markChannel(img);
+    img.addEventListener('error', function () { markChannel(img); });
   });
   /* ── the hero reel ────────────────────────────────────────────
      A missing or unplayable file must never leave a black rectangle:

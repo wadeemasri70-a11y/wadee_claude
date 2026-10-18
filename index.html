@@ -61,6 +61,20 @@
           <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/>
         </svg>
       </button>
+      <a class="nav__ico" href="https://wa.me/963998327842" target="_blank" rel="noopener"
+         aria-label="WhatsApp" title="WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.4 11.8a8.4 8.4 0 0 1-12.4 7.4l-4.4 1.3 1.3-4.3A8.4 8.4 0 1 1 20.4 11.8Z"/>
+          <path d="M9.1 8.9c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.7 1.6c0 .2 0 .4-.1.5l-.4.5c-.2.2-.3.3 0 .6a6 6 0 0 0 2.5 2.2c.3.1.4 0 .6-.1l.5-.6c.2-.2.3-.2.6 0l1.4.8c.3.2.4.3.4.5a1.9 1.9 0 0 1-1.5 1.7c-.8 0-2.6-.3-4.5-2.2a9 9 0 0 1-2.3-3.6c-.2-.9 0-1.5.4-2Z"/>
+        </svg>
+      </a>
+      <a class="nav__ico" href="https://www.linkedin.com/company/awangroupartproductio/" target="_blank" rel="noopener"
+         aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="3.6"/>
+          <path d="M7.4 10.3V17M7.4 7.3v.01M11.2 17v-3.9a1.9 1.9 0 0 1 3.8 0V17"/>
+        </svg>
+      </a>
       <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
       <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة">
         <span></span><span></span>
@@ -76,6 +90,20 @@
     <a href="golden-city.html" data-ar="المدينة الذهبية" data-en="Golden City" style="--i:2">المدينة الذهبية</a>
     <a href="#contact" data-ar="تواصل" data-en="Contact" style="--i:3">تواصل</a>
   </nav>
+  <div class="menu__side">
+    <a class="nav__ico" href="https://wa.me/963998327842" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.4 11.8a8.4 8.4 0 0 1-12.4 7.4l-4.4 1.3 1.3-4.3A8.4 8.4 0 1 1 20.4 11.8Z"/>
+        <path d="M9.1 8.9c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.7 1.6c0 .2 0 .4-.1.5l-.4.5c-.2.2-.3.3 0 .6a6 6 0 0 0 2.5 2.2c.3.1.4 0 .6-.1l.5-.6c.2-.2.3-.2.6 0l1.4.8c.3.2.4.3.4.5a1.9 1.9 0 0 1-1.5 1.7c-.8 0-2.6-.3-4.5-2.2a9 9 0 0 1-2.3-3.6c-.2-.9 0-1.5.4-2Z"/>
+      </svg>
+    </a>
+    <a class="nav__ico" href="https://www.linkedin.com/company/awangroupartproductio/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="3.6"/>
+        <path d="M7.4 10.3V17M7.4 7.3v.01M11.2 17v-3.9a1.9 1.9 0 0 1 3.8 0V17"/>
+      </svg>
+    </a>
+  </div>
 </div>
 
 <div id="scroller">
@@ -242,19 +270,84 @@
           data-ar="تُعرض أعمالنا على قنوات عربية وعالمية"
           data-en="Our work is featured on major Arab and international channels">تُعرض أعمالنا على قنوات عربية وعالمية</h2>
       <ul class="chan__list">
-          <li data-rv="up" style="--i:0">الجزيرة الوثائقية</li>
-          <li data-rv="up" style="--i:1">MBC3</li>
-          <li data-rv="up" style="--i:2">MBC4</li>
-          <li data-rv="up" style="--i:3">Nickelodeon</li>
-          <li data-rv="up" style="--i:4">Charisma TV</li>
-          <li data-rv="up" style="--i:5">TRT</li>
-          <li data-rv="up" style="--i:0">Discovery</li>
-          <li data-rv="up" style="--i:1">National Geographic</li>
-          <li data-rv="up" style="--i:2">MBC Bollywood</li>
-          <li data-rv="up" style="--i:3">شاهد</li>
-          <li data-rv="up" style="--i:4">ET بالعربي</li>
-          <li data-rv="up" style="--i:5">The Insider بالعربي</li>
-          <li data-rv="up" style="--i:0">Trending</li>
+        <li class="chan__i" data-rv="up" style="--i:0">
+          <span class="chan__plate">
+            <img src="assets/img/ch-aljazeera-doc.png" alt="Al Jazeera Documentary" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="الجزيرة الوثائقية" data-en="Al Jazeera Documentary">الجزيرة الوثائقية</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:1">
+          <span class="chan__plate">
+            <img src="assets/img/ch-mbc3.png" alt="MBC3" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="MBC3" data-en="MBC3">MBC3</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:2">
+          <span class="chan__plate">
+            <img src="assets/img/ch-mbc4.png" alt="MBC4" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="MBC4" data-en="MBC4">MBC4</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:3">
+          <span class="chan__plate">
+            <img src="assets/img/ch-nickelodeon.png" alt="Nickelodeon" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="Nickelodeon" data-en="Nickelodeon">Nickelodeon</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:4">
+          <span class="chan__plate">
+            <img src="assets/img/ch-charisma.png" alt="Charisma TV" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="Charisma TV" data-en="Charisma TV">Charisma TV</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:5">
+          <span class="chan__plate">
+            <img src="assets/img/ch-trt.png" alt="TRT" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="TRT" data-en="TRT">TRT</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:0">
+          <span class="chan__plate">
+            <img src="assets/img/ch-discovery.png" alt="Discovery" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="Discovery" data-en="Discovery">Discovery</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:1">
+          <span class="chan__plate">
+            <img src="assets/img/ch-natgeo.png" alt="National Geographic" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="National Geographic" data-en="National Geographic">National Geographic</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:2">
+          <span class="chan__plate">
+            <img src="assets/img/ch-mbc-bollywood.png" alt="MBC Bollywood" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="MBC Bollywood" data-en="MBC Bollywood">MBC Bollywood</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:3">
+          <span class="chan__plate">
+            <img src="assets/img/ch-shahid.png" alt="Shahid" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="شاهد" data-en="Shahid">شاهد</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:4">
+          <span class="chan__plate">
+            <img src="assets/img/ch-et-bilarabi.png" alt="ET Bil Arabi" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="ET بالعربي" data-en="ET Bil Arabi">ET بالعربي</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:5">
+          <span class="chan__plate">
+            <img src="assets/img/ch-insider-bilarabi.png" alt="The Insider Bil Arabi" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="The Insider بالعربي" data-en="The Insider Bil Arabi">The Insider بالعربي</span>
+        </li>
+        <li class="chan__i" data-rv="up" style="--i:0">
+          <span class="chan__plate">
+            <img src="assets/img/ch-trending.png" alt="Trending" loading="lazy" decoding="async">
+          </span>
+          <span class="chan__n" data-ar="Trending" data-en="Trending">Trending</span>
+        </li>
       </ul>
     </div>
   </section>

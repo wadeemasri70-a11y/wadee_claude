@@ -253,6 +253,34 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 [data-theme="night"] .theme__sun{ display:none; }
 [data-theme="night"] .theme__moon{ display:block; }
 
+/* WhatsApp and LinkedIn, drawn the same way the theme button is drawn and
+   inked from the same tokens — a brand green in this palette would be the
+   only colour on the page that answers to nobody. */
+.nav__ico{
+  width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--rule); color:var(--ink-2);
+  display:grid; place-items:center;
+  transition:background var(--d1) var(--e-soft), color var(--d1) var(--e-soft),
+             border-color var(--d1) var(--e-soft), transform var(--d2) var(--e-out);
+}
+.nav__ico svg{
+  width:19px; height:19px; fill:none; stroke:currentColor;
+  stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;
+}
+.nav__ico:hover{
+  background:var(--ink); border-color:var(--ink); color:var(--paper);
+  transform:translateY(-2px);
+}
+/* on the narrow nav they would crowd the mark, so they move into the menu */
+@media (max-width:860px){ .nav__side > .nav__ico{ display:none; } }
+.menu__side{
+  display:none; gap:.9rem; justify-content:center;
+  margin-block-start:clamp(2.5rem,7vh,4rem);
+}
+@media (max-width:860px){ .menu__side{ display:flex; } }
+.menu__side .nav__ico{ width:46px; height:46px; }
+.menu__side .nav__ico svg{ width:22px; height:22px; }
+
 .lang{
   font-size:.76rem; font-weight:500; letter-spacing:.1em;
   padding:.42rem .85rem; border:1px solid var(--rule); border-radius:100px;
@@ -274,7 +302,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 /* mobile menu */
 .menu{
   position:fixed; inset:0; z-index:45; background:var(--paper);
-  display:flex; align-items:center; justify-content:center;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
   opacity:0; transition:opacity var(--d2) var(--e-out);
 }
 .menu.is-open{ opacity:1; }
@@ -288,29 +316,31 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .menu.is-open .menu__nav a{ opacity:1; transform:none; }
 
 /* ─── 6. Hero ───────────────────────────────────────────────────── */
+/* The reel opens the page at full width and is shown whole — the films
+   carry their own titles and captions burned into the frame, so nothing
+   may be cropped off them and nothing may be laid over them. The copy
+   follows underneath. All that is left of the old veil is the melt at the
+   edges, which is what tied the reel to the paper in the first place. */
 .hero{
-  position:relative; min-height:100svh;
-  overflow:hidden; isolation:isolate;
+  position:relative; overflow:hidden; isolation:isolate;
+  display:flex; flex-direction:column;
+  padding-block:clamp(4.75rem,10vh,6rem) clamp(3rem,7vh,5rem);
 }
-.hero{ display:flex; align-items:center;
-       padding-block:clamp(6.5rem,13vh,9rem) clamp(4rem,9vh,6rem); }
-/* the reel, its veil, and the wave that stands in when there is no reel */
-.hero__media{ position:absolute; inset:0; z-index:-3; overflow:hidden; background:var(--paper-2); }
-.hero__video{ width:100%; height:100%; object-fit:cover; display:block; }
+.hero__media{
+  position:relative; z-index:0; width:100%; aspect-ratio:16/9;
+  max-height:78svh;                 /* a short screen fits the frame, never crops it */
+  overflow:hidden; background:var(--paper-2);
+}
+/* contain, not cover: the whole frame, captions and all */
+.hero__video{ width:100%; height:100%; object-fit:contain; display:block; background:var(--paper-2); }
 .hero__media.is-empty{ background:linear-gradient(140deg,var(--paper-2),var(--paper-3)); }
 .hero__media.is-empty .hero__video{ display:none; }
-.hero__veil{
-  position:absolute; inset:0;
-  background:var(--veil);
-}
-/* melt the reel into the page colour at the bottom edge, and lay a little
-   more of it under the nav so the links never sit on a bright frame */
+.hero__veil{ position:absolute; inset:0; pointer-events:none; }
 .hero__veil::after{
   content:""; position:absolute; inset:0;
   background:
-    linear-gradient(to bottom,var(--paper),transparent 20%),
-    linear-gradient(to bottom,transparent 34%,var(--paper) 100%);
-  opacity:.9;
+    linear-gradient(to bottom,transparent 76%,var(--paper) 100%),
+    linear-gradient(to right,var(--paper),transparent 7%,transparent 93%,var(--paper));
 }
 
 .hero__wave{
@@ -321,7 +351,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 /* with a reel playing the wave would only muddy it */
 .hero.has-reel .hero__wave,
 .hero.has-reel .hero__glow{ display:none; }
-.hero__media,.hero__wave,.hero__glow,.hero__perch,.cue{ position:absolute; }
+.hero__wave,.hero__glow,.hero__perch{ position:absolute; }
 .hero__glow{
   position:absolute; z-index:-2; inset-block-start:-18%; inset-inline-end:-10%;
   width:min(76vw,860px); aspect-ratio:1; border-radius:50%;
@@ -337,7 +367,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   margin-block-end:clamp(1.5rem,3.2vw,2.1rem);
   max-width:14ch;
 }
-.hero__in{ position:relative; z-index:2; padding-block-start:clamp(3.5rem,9vh,6rem); }
+.hero__in{ position:relative; z-index:2; padding-block-start:clamp(2rem,5vh,3.5rem); }
 .hero__name{ font-weight:300; letter-spacing:-.02em; unicode-bidi:isolate; }
 .hero__tag{
   font-size:clamp(1.3rem,.8rem + 2.2vw,2.5rem); font-weight:200;
@@ -359,8 +389,8 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .btn--ghost:hover{ border-color:var(--ink); transform:translateY(-3px); }
 
 .cue{
-  position:absolute; inset-block-end:clamp(1.75rem,4vh,3rem);
-  inset-inline-start:var(--gutter);
+  align-self:flex-start; margin-inline-start:var(--gutter);
+  margin-block-start:clamp(1.75rem,4vh,2.75rem);
   display:flex; align-items:center; gap:.7rem;
   font-size:.76rem; color:var(--ink-3);
   transition:color var(--d1) var(--e-soft);
@@ -635,18 +665,47 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 }
 .more__list li:hover{ color:var(--ink); border-color:var(--accent); }
 
-/* channels: the same pill, a size up */
+/* The channels as a logo wall: one plate per channel, every plate the same
+   box so thirteen marks of thirteen shapes line up, each fitted whole. The
+   name sits under its plate and carries the tile on its own until the logo
+   file lands — see .chan__plate.is-empty, set from main.js. */
 .chan__list{
   margin-block-start:clamp(2.5rem,5vw,3.5rem);
-  display:flex; flex-wrap:wrap; gap:.75rem .9rem;
+  display:grid; gap:clamp(1.25rem,2.6vw,2rem);
+  grid-template-columns:repeat(2,1fr);
 }
-.chan__list li{
-  font-size:clamp(.92rem,1.2vw,1.05rem); color:var(--ink-2);
-  padding:.6rem 1.25rem; border:1px solid var(--rule); border-radius:999px;
-  background:var(--paper-2);
-  transition:color .45s var(--e-soft), border-color .45s var(--e-soft), transform .45s var(--e-soft);
+@media (min-width:560px){ .chan__list{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:900px){ .chan__list{ grid-template-columns:repeat(5,1fr); } }
+.chan__i{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+.chan__plate{
+  width:100%; height:clamp(82px,9vw,110px); border-radius:9px;
+  background:var(--paper-2); border:1px solid var(--rule);
+  padding:clamp(.75rem,1.6vw,1.15rem);
+  transition:border-color .45s var(--e-soft), transform .45s var(--e-soft),
+             background .45s var(--e-soft);
 }
-.chan__list li:hover{ color:var(--ink); border-color:var(--accent); transform:translateY(-2px); }
+.chan__plate img{ width:100%; height:100%; object-fit:contain; }
+.chan__i:hover .chan__plate{ border-color:var(--accent); transform:translateY(-2px); background:var(--paper-3); }
+.chan__n{
+  font-size:.82rem; color:var(--ink-3); line-height:1.5;
+  margin-block-start:.7rem;
+  transition:color .45s var(--e-soft);
+}
+.chan__i:hover .chan__n{ color:var(--ink); }
+/* while a plate is standing in with the name, the caption under it would
+   only say the same thing twice */
+.chan__i.is-noart .chan__n{ display:none; }
+/* no logo file yet → the plate carries the name instead of a broken image */
+.chan__plate.is-empty img{ display:none; }
+.chan__plate.is-empty{
+  display:grid; place-items:center;
+  background:linear-gradient(135deg,var(--paper-2),var(--paper-3));
+}
+.chan__plate.is-empty::after{
+  content:attr(data-glyph); padding:.4rem;
+  font-size:clamp(.88rem,1.3vw,1.02rem); font-weight:400; line-height:1.4;
+  color:var(--ink-2);
+}
 
 /* the production city */
 .city__lead{
@@ -671,33 +730,37 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 /* ─── 7c. Page hero (the two inner pages) ───────────────────────── */
 /* Shorter than the home hero — it names the page and gets out of the
    way, because the substance starts one screen down, not three. */
+/* Same shape as the home hero: the reel at full width, shown whole, and
+   the line about the page underneath it. These two reels carry their own
+   titles burned into the frame — AWAN DUBBING, مدينة الإنتاج الفني — so the
+   page does not repeat them over the top; the heading stays in the markup
+   for the document and for a screen reader, and the reel speaks for it. */
 .phero{
   position:relative; isolation:isolate; overflow:hidden;
-  display:flex; align-items:flex-end;
-  min-height:min(72svh,640px);
-  padding-block:clamp(7rem,15vh,10rem) clamp(3rem,7vh,5rem);
+  display:flex; flex-direction:column;
+  padding-block:clamp(4.75rem,10vh,6rem) clamp(2.5rem,6vh,4rem);
 }
-.phero__media{ position:absolute; inset:0; z-index:-2; overflow:hidden; background:var(--paper-2); }
-.phero__video{ width:100%; height:100%; object-fit:cover; display:block; }
+.phero__media{
+  position:relative; z-index:0; width:100%; aspect-ratio:16/9;
+  max-height:78svh; overflow:hidden; background:var(--paper-2);
+}
+.phero__video{ width:100%; height:100%; object-fit:contain; display:block; background:var(--paper-2); }
 .phero__media.is-empty{ background:linear-gradient(140deg,var(--paper-2),var(--paper-3)); }
 .phero__media.is-empty .phero__video{ display:none; }
-.phero__veil{
-  position:absolute; inset:0; background:var(--veil);
-}
+.phero__veil{ position:absolute; inset:0; pointer-events:none; }
 .phero__veil::after{
   content:""; position:absolute; inset:0;
   background:
-    linear-gradient(to bottom,var(--paper),transparent 24%),
-    linear-gradient(to bottom,transparent 30%,var(--paper) 100%);
-  opacity:.92;
+    linear-gradient(to bottom,transparent 76%,var(--paper) 100%),
+    linear-gradient(to right,var(--paper),transparent 7%,transparent 93%,var(--paper));
 }
-.phero__in{ position:relative; z-index:2; }
+.phero__in{ position:relative; z-index:2; padding-block-start:clamp(1.75rem,4vh,2.75rem); }
+/* kept for the document outline and for assistive tech, off the screen */
 .phero__title{
-  font-size:clamp(2.3rem,1.1rem + 5.4vw,5rem);
-  line-height:1.2; font-weight:200; letter-spacing:-.03em;
-  margin-block-end:clamp(1.1rem,2.4vw,1.6rem);
+  position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap;
 }
-.phero__lead{ max-width:54ch; color:var(--ink-2); }
+.phero__lead{ max-width:54ch; color:var(--ink-2); font-size:clamp(1.05rem,1rem + .4vw,1.3rem); }
 
 /* ─── 7d. The two doors on the home page ────────────────────────── */
 .gate__grid{
@@ -1008,13 +1071,13 @@ body.no-scroll{ overflow:hidden; }
    the hero needs to give some height back or the buttons fall below the fold. */
 @media (min-width:861px) and (max-height:860px){
   .hero{ padding-block:clamp(5.5rem,11vh,7.5rem) clamp(2.5rem,6vh,4rem); }
-  .hero__title{ font-size:clamp(2.3rem,.8rem + 5.2vw,4.9rem); }
+  .hero__title{ font-size:clamp(2rem,.8rem + 3.6vw,3.6rem); }
   .hero__cta{ margin-block-start:clamp(1.3rem,2.6vw,1.9rem); }
 }
 
 /* shorter still — give up the scroll cue rather than the buttons */
 @media (min-width:861px) and (max-height:720px){
-  .hero__title{ font-size:clamp(2rem,.7rem + 4.5vw,4rem); }
+  .hero__title{ font-size:clamp(1.8rem,.7rem + 3.1vw,3.1rem); }
   .hero__sub{ font-size:1rem; }
   .hero__cta{ margin-block-start:1.15rem; }
   .cue{ display:none; }

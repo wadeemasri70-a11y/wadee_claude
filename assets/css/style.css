@@ -385,6 +385,25 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 }
 .hero__in .eyebrow,
 .hero__in .hero__tag{ justify-content:center; }
+
+/* The kit either side of the name, drawn in line rather than photographed:
+   the mic on its stand and the headphones to one side, the screen, the
+   interface and a length of the perforated strip the goldfinch carries in
+   its beak to the other. Decoration, so it is hidden from the reader and
+   steps aside the moment the copy needs the width. Left and right are
+   physical here on purpose — the objects do not read, so they do not
+   change sides with the language. */
+.hero__deco{
+  position:absolute; inset-block-start:50%; translate:0 -50%;
+  width:clamp(128px,13.5vw,205px); height:auto;
+  color:var(--ink-3); opacity:.5; pointer-events:none;
+  fill:none; stroke:currentColor; stroke-width:1.5;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.hero__deco--right{ right:clamp(0px,2vw,56px); }
+.hero__deco--left { left: clamp(0px,2vw,56px); }
+/* below this the copy wants the whole line */
+@media (max-width:1150px){ .hero__deco{ display:none; } }
 .hero__sub{ margin-inline:auto; }
 .hero__cta{ justify-content:center; }
 .hero__name{ font-weight:300; letter-spacing:-.02em; unicode-bidi:isolate; }

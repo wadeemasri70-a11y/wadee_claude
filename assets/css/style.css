@@ -94,6 +94,10 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 img{ max-width:100%; display:block; }
+/* A class with a display of its own outranks the browser's own
+   [hidden]{display:none}, which left the closed mobile menu stretched over
+   the page swallowing every click under the nav. Hidden means hidden. */
+[hidden]{ display:none !important; }
 a{ color:inherit; text-decoration:none; }
 button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
 h1,h2,h3{ font-weight:300; margin:0; letter-spacing:-.015em; }
@@ -620,21 +624,6 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 .pf__link:hover{ color:var(--accent); border-color:var(--accent); }
 .pf__link:hover::after{ transform:translateY(3px); }
 
-/* the group's four arms — one card each, no boxes, just a hairline */
-.divs{
-  margin-block-start:clamp(3.5rem,7vw,5.5rem);
-  display:grid; gap:clamp(1.75rem,3.4vw,2.75rem);
-  grid-template-columns:1fr;
-}
-@media (min-width:760px){ .divs{ grid-template-columns:repeat(2,1fr); } }
-@media (min-width:1180px){ .divs{ grid-template-columns:repeat(4,1fr); } }
-.divs__i{ padding-block-start:1.15rem; border-block-start:1px solid var(--rule); }
-.divs__i h3{
-  font-size:clamp(1.05rem,1.5vw,1.3rem); font-weight:400; letter-spacing:-.01em;
-  margin-block-end:.55rem;
-}
-.divs__i p{ font-size:.9rem; line-height:1.75; color:var(--ink-3); }
-
 /* the extra titles that don't have a poster yet */
 .more{ margin-block-start:clamp(2.5rem,5vw,4rem); }
 .more__k{ font-size:.86rem; color:var(--ink-3); margin-block-end:1.1rem; max-width:60ch; }
@@ -754,7 +743,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
    colours that do matter (the bird, the pink script) stay true in both
    themes instead of being recoloured twice. */
 .brands__grid{
-  display:grid; gap:clamp(1.5rem,3vw,2.5rem);
+  display:grid; gap:clamp(2.75rem,7vw,5.5rem);
   grid-template-columns:1fr;
   align-items:start;
 }
@@ -762,14 +751,20 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 
 .bcard{ display:flex; flex-direction:column; align-items:center; text-align:center; }
 .bcard__plate{
-  width:100%; aspect-ratio:3/2; border-radius:10px;
+  /* a definite height, not an aspect ratio: the marks are 349×131, 601×685
+     and 760×767, and against an aspect-ratio box the images' max-height:100%
+     has no height to measure against, so each plate grew to its own mark */
+  width:100%; height:clamp(190px,22vw,280px); border-radius:10px;
   background:#f7f4ef; border:1px solid var(--rule);
-  display:grid; place-items:center; padding:clamp(1.25rem,3vw,2rem);
+  padding:clamp(1.5rem,3.2vw,2.5rem);
 }
-.bcard__plate img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
-/* every plate is the same box so the three names and their link lists
-   line up across the row — the marks inside it are different shapes, and
-   each one is fitted whole rather than cropped to match its neighbours */
+/* the image fills the plate's box and is fitted inside it, rather than being
+   centred at its own size: a percentage max-height on a centred grid item
+   has no definite row to measure against, and the taller marks spilled out */
+.bcard__plate img{ width:100%; height:100%; object-fit:contain; }
+/* every plate is the same box so the three names and their buttons line up
+   across the row — the marks inside it are different shapes, and each one is
+   fitted whole rather than cropped to match its neighbours */
 
 .bcard__h{
   font-size:clamp(1.1rem,1.4vw,1.3rem); font-weight:400;
@@ -777,9 +772,38 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 }
 .bcard__k{ font-size:.84rem; color:var(--ink-3); margin-block-start:.15rem; }
 
+/* «للتواصل» — a mark first, its handles only when asked for, so the row
+   reads as three logos and not as three lists. */
+.bcard__more{
+  display:inline-flex; align-items:center; gap:.5rem;
+  margin-block-start:1.25rem; padding:.55rem 1.3rem;
+  border:1px solid var(--rule); border-radius:999px;
+  font-size:.88rem; color:var(--ink-2);
+  transition:background var(--d1) var(--e-soft), color var(--d1) var(--e-soft),
+             border-color var(--d1) var(--e-soft);
+}
+.bcard__more svg{
+  width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.7;
+  stroke-linecap:round; stroke-linejoin:round;
+  transition:transform var(--d2) var(--e-both);
+}
+.bcard__more[aria-expanded="true"]{ color:var(--ink); border-color:var(--accent); }
+.bcard__more[aria-expanded="true"] svg{ transform:rotate(180deg); }
+@media (hover:hover){
+  .bcard__more:hover{ background:var(--paper-2); color:var(--ink); border-color:var(--ink); }
+}
+
+/* the panel is unfolded by height — five rows at most, so a ceiling in rem
+   is enough and nothing has to be measured in script */
+.bcard__panel{
+  width:100%; overflow:hidden; max-height:0; opacity:0;
+  transition:max-height var(--d3) var(--e-both), opacity var(--d2) var(--e-soft);
+}
+.bcard__panel.is-open{ max-height:26rem; opacity:1; }
+
 .bcard__links{
   display:flex; flex-direction:column; align-items:stretch; gap:.15rem;
-  margin-block-start:1.1rem; width:100%;
+  margin-block-start:1rem; width:100%;
 }
 .bcard__links a{
   display:flex; align-items:center; gap:.65rem;
@@ -797,6 +821,46 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 @media (hover:hover){
   .bcard__links a:hover{ background:var(--paper-2); color:var(--accent); }
 }
+
+/* ─── 7f. The three briefs on the home page ─────────────────────── */
+/* One column per name — the group, the city, the digital arm. The rule
+   above each one is the section's reveal: it draws out from the reading
+   edge as the column arrives (see [data-rv="row"]). */
+.brief__grid{
+  display:grid; gap:clamp(2.5rem,5vw,4rem);
+  grid-template-columns:1fr;
+}
+@media (min-width:980px){ .brief__grid{ grid-template-columns:repeat(3,1fr); } }
+
+.brief__i{ position:relative; padding-block-start:1.4rem; }
+.brief__i::before{
+  content:""; position:absolute; inset-block-start:0; inset-inline:0;
+  height:1px; background:var(--accent);
+}
+.brief__k{ font-size:.76rem; color:var(--ink-3); }
+:root[lang="en"] .brief__k{ letter-spacing:.18em; text-transform:uppercase; }
+.brief__h{
+  font-size:clamp(1.35rem,1rem + 1.1vw,1.9rem); font-weight:300;
+  letter-spacing:-.02em; margin-block:.45rem .85rem;
+}
+.brief__t{ color:var(--ink-2); font-size:.97rem; }
+
+.brief__go{
+  display:inline-flex; align-items:center; gap:.5rem;
+  margin-block-start:1.2rem; font-size:.9rem; color:var(--ink);
+  padding-block-end:.35rem; border-block-end:1px solid var(--rule);
+  transition:color .4s var(--e-soft), border-color .4s var(--e-soft);
+}
+.brief__go svg{
+  width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.7;
+  stroke-linecap:round; stroke-linejoin:round;
+  transition:transform var(--d2) var(--e-out);
+}
+/* the arrow points the way the language reads, and nudges that way on hover */
+:root[dir="rtl"] .brief__go svg{ transform:scaleX(-1); }
+.brief__go:hover{ color:var(--accent); border-color:var(--accent); }
+.brief__go:hover svg{ transform:translateX(5px); }
+:root[dir="rtl"] .brief__go:hover svg{ transform:scaleX(-1) translateX(5px); }
 
 /* ─── 8. Contact + footer ───────────────────────────────────────── */
 .contact{

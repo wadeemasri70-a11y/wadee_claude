@@ -259,6 +259,28 @@
     if (e.key === 'Escape' && menuOpen) { closeMenu(); burger.focus(); }
   });
 
+  /* ── «للتواصل» — each mark's channels, folded until asked for ──
+     Same shape as the menu above: the attribute carries the state for
+     assistive tech, the class carries the motion, and `hidden` goes back
+     on once the fold has finished so the links leave the tab order. */
+  $$('.bcard__more').forEach(function (btn) {
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel) return;
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      if (open) {
+        panel.classList.remove('is-open');
+        setTimeout(function () {
+          if (btn.getAttribute('aria-expanded') !== 'true') panel.hidden = true;
+        }, reduced ? 0 : 480);
+      } else {
+        panel.hidden = false;
+        requestAnimationFrame(function () { panel.classList.add('is-open'); });
+      }
+    });
+  });
+
   /* ═══ 4. Language ══════════════════════════════════════════════ */
   var langBtn = $('#langBtn');
   var COPY = {

@@ -50,6 +50,28 @@ tools/                سكربت سحب الصور من الموقع القدي�
 
 ---
 
+## معاينة حيّة / Live preview
+
+الموقع HTML و CSS و JS عاديين بلا خطوة بناء، فأي استضافة ملفّات ساكنة بتكفي.
+الأسرع GitHub Pages من نفس هالمستودع:
+
+**Settings ← Pages ← Build and deployment ← Source: Deploy from a branch**،
+وبعدها اختار الفرع `claude/eloquent-volta-1gltl6` والمجلّد `/ (root)` واضغط
+Save. بعد دقيقة–دقيقتين بيصير الموقع على:
+
+```
+https://wadeemasri70-a11y.github.io/wadee_claude/
+```
+
+كل دفعة جديدة على نفس الفرع بتنشر لحالها. ملف `.nojekyll` بجذر المستودع
+بيخلّي غيتهاب ينشر الملفّات متل ما هي بلا ما يمرّرها على Jekyll.
+
+محلّياً: `python3 -m http.server 8099` من جذر المستودع، وبعدها
+`http://127.0.0.1:8099/`. لازم سيرفر — فتح الملف بـ `file://` بيكسر
+المسارات النسبية.
+
+---
+
 ## الصور / Images
 
 كل الصور موجودة بـ `assets/img/` — لوغو المجموعة بنسختيه، لوغوهات العلامات
@@ -65,13 +87,20 @@ tools/                سكربت سحب الصور من الموقع القدي�
 
 | الملف | شو | ملاحظة |
 |---|---|---|
-| `assets/video/awan-reel.mp4` | فيديو الشركة بالهيرو | H.264، **بلا صوت** (المتصفّح ما بيشغّل فيديو فيه صوت لحاله)، ١٠–٢٠ ثانية، تحت ٨MB. لحدّ ما يوصل، `hero-poster.jpg` بيملا محلّه. |
+| `assets/video/awan-reel.mp4` | فيديو المجموعة بهيرو الرئيسية | H.264، **بلا صوت** (المتصفّح ما بيشغّل فيديو فيه صوت لحاله)، ١٠–٢٥ ثانية وبيلفّ على حالو، تحت ٨MB. |
+| `assets/video/dubbing.mp4` | فيديو هيرو صفحة الدوبلاج | نفس المواصفات. |
+| `assets/video/golden-city.mp4` | فيديو هيرو صفحة المدينة | نفس المواصفات. |
+| صور المدينة الذهبية | معرض جوّا صفحة المدينة | مكانه محجوز بتعليق جوّا `golden-city.html`. أي نسبة أبعاد بتمشي. |
+
+لحدّ ما يوصل أي فيديو، `hero-poster.jpg` بيملا محلّه. التفاصيل بـ
+`assets/video/README.txt`.
 
 **لو صورة ناقصة الموقع ما بينكسر** — البطاقة بتصير مستطيل متدرّج فيه الاسم،
 واللوغو بينخفي ويبقى الاسم النصّي، والهيرو بيرجع لتدرّج لوني مع موجة الصوت.
 
 Every image is in `assets/img/`; see `assets/img/README.txt` for which is which.
-Still missing: the hero reel at `assets/video/awan-reel.mp4` (muted).
+Still missing: the three hero reels under `assets/video/` (muted), and the
+Golden City gallery photographs.
 
 ---
 

@@ -302,7 +302,7 @@
       var t = f.getAttribute('data-glyph-' + lang);
       if (t) f.setAttribute('data-glyph', t);
     });
-    $$('.rcard__hit').forEach(function (b) {
+    $$('.rcard__hit, .shot__hit').forEach(function (b) {
       var t = b.getAttribute('data-title-' + lang) || '';
       b.setAttribute('aria-label', t);
       var img = $('img', b); if (img) img.alt = t;
@@ -625,7 +625,7 @@
   var supportsDialog = lb && typeof lb.showModal === 'function';
   /* delegated: the marquee clones its cards after this runs */
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest && e.target.closest('.rcard__hit');
+    var btn = e.target.closest && e.target.closest('.rcard__hit, .shot__hit');
     if (!btn) return;
     var img = $('img', btn);
     if (!supportsDialog || !img || !img.naturalWidth) return;     /* nothing to enlarge */

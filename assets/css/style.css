@@ -716,6 +716,44 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   transition:color .45s var(--e-soft), border-color .45s var(--e-soft), transform .45s var(--e-soft);
 }
 .chan__list li:hover{ color:var(--ink); border-color:var(--accent); transform:translateY(-2px); }
+/* ─── 7h. The city in pictures ──────────────────────────────────── */
+/* Three to a row, every frame the same 3:2 box so the wall is even however
+   the photographs were shot. They were taken on a phone over several
+   visits, so they are cropped to one ratio and graded to one warmth —
+   otherwise the row reads as a folder, not a place. */
+.shots__grid{
+  display:grid; gap:clamp(1rem,2.2vw,1.75rem);
+  grid-template-columns:1fr;
+}
+@media (min-width:620px){ .shots__grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:980px){ .shots__grid{ grid-template-columns:repeat(3,1fr); } }
+
+.shot{ margin:0; }
+.shot__hit{ display:block; width:100%; }
+.shot__frame{
+  position:relative; display:block; overflow:hidden;
+  aspect-ratio:3/2; border-radius:8px; background:var(--paper-3);
+}
+.shot__frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+@media (hover:hover){
+  .shot__frame img{ transition:transform .9s var(--e-soft), filter var(--d2) var(--e-soft); }
+  .shot__hit:hover .shot__frame img{ transform:scale(1.04); filter:brightness(1.05); }
+}
+
+/* its reveal: the card rises while the picture settles out of a slow zoom,
+   the way a print comes up in the tray */
+[data-rv="shot"]{
+  opacity:0; transform:translate3d(0,22px,0);
+  transition:opacity var(--d2) var(--e-out) var(--dl),
+             transform var(--d3) var(--e-out) var(--dl);
+}
+[data-rv="shot"] .shot__frame img{
+  transform:scale(1.1);
+  transition:transform 1.5s var(--e-out) var(--dl);
+}
+.rv-in[data-rv="shot"]{ opacity:1; transform:none; }
+.rv-in[data-rv="shot"] .shot__frame img{ transform:none; }
+
 /* the production city */
 .city__lead{
   color:var(--ink-2); max-width:62ch;
@@ -1121,6 +1159,7 @@ body.no-scroll{ overflow:hidden; }
   [data-rv]::before,[data-rv]::after{ transform:scaleX(1) !important; }
   [data-rv="img"] .rcard__frame{ clip-path:none !important; }
   [data-rv="film"] .film__frame{ clip-path:none !important; }
+  [data-rv="shot"] .shot__frame img{ transform:none !important; }
   .rcard__frame img{ transform:none !important; }
 
   .rcard__eq{ opacity:1; transform:none; }

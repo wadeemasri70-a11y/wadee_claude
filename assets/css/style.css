@@ -722,17 +722,22 @@ ul,ol{ margin:0; padding:0; list-style:none; }
    visits, so they are cropped to one ratio and graded to one warmth —
    otherwise the row reads as a folder, not a place. */
 .shots__grid{
-  display:grid; gap:clamp(1rem,2.2vw,1.75rem);
-  grid-template-columns:1fr;
+  display:grid; gap:clamp(.65rem,1.5vw,1.1rem);
+  grid-template-columns:repeat(2,1fr);
 }
-@media (min-width:620px){ .shots__grid{ grid-template-columns:repeat(2,1fr); } }
-@media (min-width:980px){ .shots__grid{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:620px){ .shots__grid{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:980px){ .shots__grid{ grid-template-columns:repeat(4,1fr); } }
+@media (min-width:1280px){ .shots__grid{ grid-template-columns:repeat(5,1fr); } }
 
 .shot{ margin:0; }
 .shot__hit{ display:block; width:100%; }
+/* Square, and the same square whatever the photograph is — the wall reads
+   as one grid. Each file is still the wider 3:2 crop underneath, so a click
+   does not just scale the tile up: it gives back the part of the frame the
+   square was holding out of view. */
 .shot__frame{
   position:relative; display:block; overflow:hidden;
-  aspect-ratio:3/2; border-radius:8px; background:var(--paper-3);
+  aspect-ratio:1; border-radius:7px; background:var(--paper-3);
 }
 .shot__frame img{ width:100%; height:100%; object-fit:cover; display:block; }
 @media (hover:hover){

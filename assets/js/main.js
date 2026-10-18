@@ -381,9 +381,11 @@
     var fig = $('.film__fig'), vid = $('.film__video');
     if (!fig || !vid) return;
     function drop() { fig.classList.add('is-empty'); }
+    /* only a real failure counts: a slow connection that has not handed over
+       the metadata yet is not a missing file, and a timer here would cover a
+       working video with a "coming soon" note on a weak line */
     vid.addEventListener('error', drop, true);
     $$('source', vid).forEach(function (src) { src.addEventListener('error', drop); });
-    setTimeout(function () { if (vid.readyState === 0) drop(); }, 4000);
   })();
 
   $$('.brand__logo, .hero__bird, .foot__logo').forEach(function (img) {

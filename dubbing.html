@@ -87,7 +87,7 @@
     <div class="phero__media" aria-hidden="true">
       <video class="phero__video" id="heroVideo" poster="assets/img/hero-poster.jpg"
              autoplay muted loop playsinline preload="metadata">
-        <source src="assets/video/dubbing.mp4" type="video/mp4">
+        <source src="assets/video/awan-studio.mp4" type="video/mp4">
       </video>
       <span class="phero__veil"></span>
     </div>
@@ -146,6 +146,32 @@
              data-en="Clean-up, sound edit, stereo or 5.1 mix, delivered to platform spec.">تنقية وتحرير صوتي ومزج ستيريو أو 5.1، مع التسليم بمواصفات المنصّات.</p>
         </li>
       </ol>
+    </div>
+  </section>
+
+  <!-- ═══ THE FILM ═══ -->
+  <!-- The one video on the site meant to be watched rather than looked at.
+       It carries sound, so it never starts on its own: controls, a poster,
+       and only its metadata fetched until someone presses play. -->
+  <section class="sec film" id="film">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="من الاستوديو" data-en="From the studio">من الاستوديو</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="شاهد كيف يُصنع الصوت" data-en="See how the sound is made">شاهد كيف يُصنع الصوت</h2>
+
+      <figure class="film__fig" data-rv="film">
+        <div class="film__frame"
+             data-glyph-ar="الفيديو في طريقه" data-glyph-en="The film is on its way"
+             data-glyph="الفيديو في طريقه">
+          <video class="film__video" controls playsinline preload="metadata"
+                 poster="assets/img/hero-poster.jpg">
+            <source src="assets/video/awan-feature.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption class="film__cap"
+                    data-ar="هذا الفيديو بصوته — شغّله حين تشاء."
+                    data-en="This one plays with sound — press play when you like.">هذا الفيديو بصوته — شغّله حين تشاء.</figcaption>
+      </figure>
     </div>
   </section>
 

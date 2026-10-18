@@ -298,6 +298,10 @@
     langBtn.textContent = COPY[lang].btn;
     langBtn.setAttribute('aria-label', COPY[lang].aria);
     burger.setAttribute('aria-label', COPY[lang].menu);
+    $$('.film__frame').forEach(function (f) {
+      var t = f.getAttribute('data-glyph-' + lang);
+      if (t) f.setAttribute('data-glyph', t);
+    });
     $$('.rcard__hit').forEach(function (b) {
       var t = b.getAttribute('data-title-' + lang) || '';
       b.setAttribute('aria-label', t);
@@ -368,6 +372,18 @@
       pi.onerror = function () { if (!haveReel()) drop(); };
       pi.src = vid.poster;
     }
+  })();
+
+  /* ── the film ─────────────────────────────────────────────────
+     Unlike the hero reels this one is a player, so a missing file has to
+     say so: the poster alone would offer a play button that goes nowhere. */
+  (function () {
+    var fig = $('.film__fig'), vid = $('.film__video');
+    if (!fig || !vid) return;
+    function drop() { fig.classList.add('is-empty'); }
+    vid.addEventListener('error', drop, true);
+    $$('source', vid).forEach(function (src) { src.addEventListener('error', drop); });
+    setTimeout(function () { if (vid.readyState === 0) drop(); }, 4000);
   })();
 
   $$('.brand__logo, .hero__bird, .foot__logo').forEach(function (img) {

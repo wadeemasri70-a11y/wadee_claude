@@ -238,6 +238,25 @@
     try { history.replaceState(null, '', id); } catch (err) {}
   });
 
+  /* An address that arrives with a hash — dubbing.html#work, from the
+     button on the home page. The shell holds the page under a transform,
+     so the browser's own jump has nothing dependable to land on; place it
+     once the page has settled instead. */
+  (function () {
+    var id = window.location.hash;
+    if (!id || id === '#' || id === '#main') return;
+    var el;
+    try { el = document.querySelector(id); } catch (err) { return; }
+    if (!el) return;
+    window.addEventListener('load', function () {
+      requestAnimationFrame(function () {
+        var top = Math.max(0, el.getBoundingClientRect().top + (smooth ? cur : window.scrollY));
+        window.scrollTo(0, top);
+        if (smooth) { cur = target = top; }
+      });
+    });
+  })();
+
   /* ── mobile menu ─────────────────────────────────────────────── */
   var burger = $('#burger'), menu = $('#menu'), menuOpen = false;
   function openMenu() {

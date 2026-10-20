@@ -40,6 +40,7 @@
   --accent:#cc2f22;               /* a clear red, 4.66:1 on the paper */
   --accent-deep:#e4574a;          /* the same red, lifted for the dark block */
   --accent-soft:rgba(204,47,34,.10);
+  --accent-2:#cc2f22;             /* second colour; in day it is the same red */
   --glow:rgba(204,47,34,.15);
   --veil:rgba(244,241,236,.58);
   --deep:#17150f;                 /* the contact block, against the page  */
@@ -60,10 +61,12 @@
   --ink-2:rgba(255,255,255,.74);
   --ink-3:rgba(255,255,255,.58);
   --rule:rgba(255,255,255,.15);
-  --accent:#ffffff;               /* black and white only: highlights are white, set apart by weight */
-  --accent-deep:#ffffff;
-  --accent-soft:rgba(255,255,255,.10);
-  --glow:rgba(255,255,255,.06);
+  /* the goldfinch's two colours: its wing yellow and its face red, on black */
+  --accent:#F2C230;               /* wing yellow — links, highlights, lines */
+  --accent-2:#E5484D;             /* face red — the big numbers and the small dots */
+  --accent-deep:#F2C230;
+  --accent-soft:rgba(242,194,48,.12);
+  --glow:rgba(242,194,48,.10);
   --veil:rgba(0,0,0,.66);
   --deep:#161616;                 /* contact block: a step up from the page, still black */
   --on-deep:#ffffff;
@@ -1229,3 +1232,8 @@ body.no-scroll{ overflow:hidden; }
   .peek__view{ height:72vh; }
 }
 [data-theme="night"] .peek__fallback img{ filter:invert(1); }
+
+/* the second bird colour: the stat numbers and the eyebrow dots */
+.stats .num{ color:var(--accent-2); }
+.dot{ background:var(--accent-2); }
+[data-theme="night"] .brief__k, [data-theme="night"] .bcard__k{ color:var(--accent); }

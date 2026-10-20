@@ -1229,9 +1229,3 @@ body.no-scroll{ overflow:hidden; }
   .peek__view{ height:72vh; }
 }
 [data-theme="night"] .peek__fallback img{ filter:invert(1); }
-
-/* night: the footage behind the titles goes black-and-white, so no warm cast shows through */
-[data-theme="night"] .hero__video,
-[data-theme="night"] .phero__video,
-[data-theme="night"] .hero__media img,
-[data-theme="night"] .phero__media img{ filter:grayscale(1) brightness(.8); }

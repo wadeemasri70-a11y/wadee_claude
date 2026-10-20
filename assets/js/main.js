@@ -640,25 +640,125 @@
   });
 
   /* ── lightbox ────────────────────────────────────────────────── */
+  /* Opens on any gallery picture and steps through the rest of that same
+     gallery: arrow buttons, the keyboard arrows, or a swipe on a phone.
+     Marquee clones are skipped so each picture appears once in the run. */
   var lb = $('#lb'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
   var supportsDialog = lb && typeof lb.showModal === 'function';
+  var lbSet = [], lbAt = 0, lbPrev = null, lbNext = null, lbCount = null;
+
+  function lbIsAr() { return (html.getAttribute('lang') || 'ar') === 'ar'; }
+  function lbShow(i) {
+    if (!lbSet.length) return;
+    lbAt = (i + lbSet.length) % lbSet.length;
+    var btn = lbSet[lbAt], img = $('img', btn);
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    var lang = html.getAttribute('lang');
+    lbCap.textContent = btn.getAttribute('data-title-' + lang) || '';
+    var many = lbSet.length > 1;
+    lbPrev.hidden = lbNext.hidden = !many;
+    /* the city captions already say "3 of 22"; only add a counter where they don't */
+    lbCount.hidden = !many || /\d+\s*(من|of)\s*\d+/.test(lbCap.textContent);
+    lbCount.textContent = (lbAt + 1) + ' / ' + lbSet.length;
+    lbPrev.setAttribute('aria-label', lbIsAr() ? 'الصورة السابقة' : 'Previous picture');
+    lbNext.setAttribute('aria-label', lbIsAr() ? 'الصورة التالية' : 'Next picture');
+    /* warm the neighbours so stepping feels instant */
+    [lbAt + 1, lbAt - 1].forEach(function (k) {
+      var n = lbSet[(k + lbSet.length) % lbSet.length], im = n && $('img', n);
+      if (im) { var pre = new Image(); pre.src = im.currentSrc || im.src; }
+    });
+  }
+  function lbStep(d) { lbShow(lbAt + d); }
+
+  if (supportsDialog) {
+    var fig = $('.lb__fig', lb);
+    var mk = function (cls, path) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'lb__nav ' + cls;
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + path + '"/></svg>';
+      lb.appendChild(b); return b;
+    };
+    /* the arrows point the way the pictures move; in RTL "next" sits on the left */
+    lbPrev = mk('lb__nav--prev', 'M9 5l7 7-7 7');
+    lbNext = mk('lb__nav--next', 'M15 5l-7 7 7 7');
+    lbCount = document.createElement('span'); lbCount.className = 'lb__count';
+    if (fig) fig.appendChild(lbCount);
+    lbPrev.addEventListener('click', function (e) { e.stopPropagation(); lbStep(-1); });
+    lbNext.addEventListener('click', function (e) { e.stopPropagation(); lbStep(1); });
+  }
+
   /* delegated: the marquee clones its cards after this runs */
   document.addEventListener('click', function (e) {
     var btn = e.target.closest && e.target.closest('.rcard__hit, .shot__hit');
     if (!btn) return;
     var img = $('img', btn);
     if (!supportsDialog || !img || !img.naturalWidth) return;     /* nothing to enlarge */
-    var lang = html.getAttribute('lang');
-    lbImg.src = img.currentSrc || img.src;
-    lbImg.alt = img.alt;
-    lbCap.textContent = btn.getAttribute('data-title-' + lang) || '';
+    var sel = btn.classList.contains('shot__hit') ? '.shot__hit' : '.rcard__hit';
+    var scope = btn.closest('ul') || document;
+    var seen = {};
+    lbSet = $$(sel, scope).filter(function (b) {
+      if (b.closest('.rail__item--clone')) return false;
+      var im = $('img', b); if (!im) return false;
+      var key = im.getAttribute('src'); if (seen[key]) return false;
+      seen[key] = 1; return true;
+    });
+    var key0 = img.getAttribute('src');
+    var at = 0;
+    lbSet.forEach(function (b, i) { if ($('img', b).getAttribute('src') === key0) at = i; });
+    if (!lbSet.length) lbSet = [btn];
+    lbShow(at);
     lb.showModal();
   });
+
   if (supportsDialog) {
     $('#lbClose').addEventListener('click', function () { lb.close(); });
     lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
-    lb.addEventListener('close', function () { lbImg.removeAttribute('src'); });
+    lb.addEventListener('close', function () { lbImg.removeAttribute('src'); lbSet = []; });
+    lb.addEventListener('keydown', function (e) {
+      if (!lb.open || lbSet.length < 2) return;
+      /* in Arabic the next picture is to the left */
+      if (e.key === 'ArrowLeft') { e.preventDefault(); lbStep(lbIsAr() ? 1 : -1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); lbStep(lbIsAr() ? -1 : 1); }
+    });
+    /* swipe: drag the picture sideways to move through the gallery */
+    var sx = null, sy = null;
+    lb.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { sx = null; return; }
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+    }, { passive: true });
+    lb.addEventListener('touchend', function (e) {
+      if (sx === null || lbSet.length < 2) return;
+      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      sx = null;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+      /* finger moves left → the picture on the left comes in */
+      var towardLeft = dx < 0;
+      lbStep(towardLeft ? (lbIsAr() ? -1 : 1) : (lbIsAr() ? 1 : -1));
+    }, { passive: true });
   }
+
+  /* ── browse Bostah: swap the frame for a link card where framing is refused ── */
+  (function () {
+    var fr = $('#bostahFrame'), fb = $('#bostahFallback');
+    if (!fr || !fb) return;
+    function fail() { fb.hidden = false; fr.hidden = true; var f = $('#bostahFull'); if (f) f.hidden = true; }
+    var full = $('#bostahFull'), win = fr.closest('.peek__win');
+    if (full && win) {
+      if (!win.requestFullscreen) full.hidden = true;
+      full.addEventListener('click', function () {
+        if (document.fullscreenElement) document.exitFullscreen(); else win.requestFullscreen().catch(function () {});
+      });
+      document.addEventListener('fullscreenchange', function () {
+        var on = document.fullscreenElement === win, ar = (html.getAttribute('lang') || 'ar') === 'ar';
+        full.textContent = on ? (ar ? 'إغلاق ملء الشاشة' : 'Exit full screen') : (ar ? 'ملء الشاشة' : 'Full screen');
+      });
+    }
+    document.addEventListener('securitypolicyviolation', function (e) {
+      var d = e.effectiveDirective || e.violatedDirective || '';
+      if (/frame-src|child-src|default-src/.test(d) && /bostah/.test(e.blockedURI || '')) fail();
+    });
+  })();
 
   /* ── day / night ──────────────────────────────────────────────
      The theme is already on <html> before first paint (see the inline

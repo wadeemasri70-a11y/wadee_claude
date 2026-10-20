@@ -51,26 +51,26 @@
   color-scheme:light;
 }
 
-/* ── ليلي · night — beige on deep brown ──────────────────────────── */
+/* ── ليلي · night — white on black ──────────────────────────────── */
 :root[data-theme="night"]{
-  --paper:#241a12;
-  --paper-2:#2e2218;
-  --paper-3:#3a2c20;
-  --ink:#f2e8da;
-  --ink-2:rgba(242,232,218,.70);
-  --ink-3:rgba(242,232,218,.54);
-  --rule:rgba(242,232,218,.17);
+  --paper:#0a0a0a;
+  --paper-2:#141414;
+  --paper-3:#1f1f1f;
+  --ink:#ffffff;
+  --ink-2:rgba(255,255,255,.74);
+  --ink-3:rgba(255,255,255,.58);
+  --rule:rgba(255,255,255,.15);
   --accent:#d39a5c;
-  --accent-deep:#8a6a1f;          /* the same gold, darkened for the light block */
+  --accent-deep:#d39a5c;          /* the contact block stays dark too, so the gold stays bright */
   --accent-soft:rgba(211,154,92,.12);
-  --glow:rgba(211,154,92,.14);
-  --veil:rgba(30,22,15,.56);
-  --deep:#f2e8da;                 /* inverted: the contact block goes light */
-  --on-deep:#241a12;
-  --on-deep-2:rgba(36,26,18,.70);
-  --on-deep-3:rgba(36,26,18,.54);
-  --deep-rule:rgba(36,26,18,.17);
-  --grain:.16;                    /* the paper grain reads louder on dark  */
+  --glow:rgba(211,154,92,.12);
+  --veil:rgba(0,0,0,.58);
+  --deep:#161616;                 /* contact block: a step up from the page, still black */
+  --on-deep:#ffffff;
+  --on-deep-2:rgba(255,255,255,.72);
+  --on-deep-3:rgba(255,255,255,.56);
+  --deep-rule:rgba(255,255,255,.14);
+  --grain:.12;
   color-scheme:dark;
 }
 
@@ -222,8 +222,6 @@ ul,ol{ margin:0; padding:0; list-style:none; }
 [data-theme="night"] .brand__logo.mark--cream{ display:block; }
 .foot__logo.mark--ink{ display:none; }
 .foot__logo.mark--cream{ display:block; }
-[data-theme="night"] .foot__logo.mark--cream{ display:none; }
-[data-theme="night"] .foot__logo.mark--ink{ display:block; }
 .brand__name{ font-size:1.05rem; font-weight:500; letter-spacing:.01em; }
 .nav__links{ display:flex; gap:clamp(1.4rem,3vw,2.6rem); font-size:.95rem; }
 .nav__links a{ position:relative; color:var(--ink-2); transition:color var(--d1) var(--e-soft); }
@@ -1115,6 +1113,32 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   transition:transform var(--d1) var(--e-out), color var(--d1) var(--e-soft);
 }
 .lb__x:hover{ transform:rotate(90deg); color:var(--accent); }
+.lb__nav{
+  position:absolute; inset-block-start:calc(50% - 1.4rem); transform:translateY(-50%);
+  width:48px; height:48px; border-radius:50%; display:grid; place-items:center;
+  color:var(--paper); background:rgba(12,11,8,.45); border:1px solid rgba(244,241,236,.22);
+  transition:background var(--d1) var(--e-soft), color var(--d1) var(--e-soft), transform var(--d1) var(--e-out);
+  z-index:2; cursor:pointer;
+}
+.lb__nav svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.lb__nav:hover{ background:rgba(12,11,8,.7); color:var(--accent); }
+.lb__nav:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.lb__nav[hidden]{ display:none; }
+/* physical sides: "previous" on the right, "next" on the left (Arabic reading order) */
+.lb__nav--prev{ right:14px; }
+.lb__nav--next{ left:14px; }
+html[lang="en"] .lb__nav--prev{ right:auto; left:14px; }
+html[lang="en"] .lb__nav--next{ left:auto; right:14px; }
+html[lang="en"] .lb__nav svg{ transform:scaleX(-1); }
+.lb__count{ display:block; margin-block-start:.35rem; font-size:.8rem; letter-spacing:.06em; color:rgba(244,241,236,.55); direction:ltr; unicode-bidi:isolate; }
+@media (max-width:640px){
+  .lb{ padding-block-end:64px; }
+  .lb__nav{ width:44px; height:44px; inset-block-start:auto; inset-block-end:4px; transform:none; }
+  .lb__nav--prev{ right:calc(50% - 56px); }
+  .lb__nav--next{ left:calc(50% - 56px); }
+  html[lang="en"] .lb__nav--prev{ right:auto; left:calc(50% - 56px); }
+  html[lang="en"] .lb__nav--next{ left:auto; right:calc(50% - 56px); }
+}
 
 /* ─── 10. Smooth scroll shell ───────────────────────────────────── */
 #scroller{ display:flow-root; }
@@ -1169,3 +1193,39 @@ body.no-scroll{ overflow:hidden; }
 
   .rcard__eq{ opacity:1; transform:none; }
 }
+
+/* ─── Browse Bostah: the live site in a window frame ─────────────── */
+.peek__win{
+  margin-block-start:clamp(1.5rem,4vw,2.5rem);
+  border:1px solid var(--rule); border-radius:14px; overflow:hidden;
+  background:var(--paper-2);
+}
+.peek__bar{
+  display:flex; align-items:center; gap:.9rem; padding:.7rem 1rem;
+  border-block-end:1px solid var(--rule); background:var(--paper-3);
+}
+.peek__dots{ display:flex; gap:6px; }
+.peek__dots i{ width:10px; height:10px; border-radius:50%; background:var(--rule); }
+.peek__addr{
+  flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-size:.85rem; color:var(--ink-2); background:var(--paper); border-radius:999px;
+  padding:.3rem .9rem; text-align:center;
+}
+.peek__out{ font-size:.85rem; color:var(--accent); white-space:nowrap; }
+.peek__out:hover{ text-decoration:underline; }
+.peek__view{ position:relative; height:clamp(560px,88vh,1100px); background:#fff; }
+.peek__win:fullscreen{ border-radius:0; display:flex; flex-direction:column; }
+.peek__win:fullscreen .peek__view{ flex:1; height:auto; }
+.peek__full{ background:none; border:0; padding:0; cursor:pointer; font:inherit; }
+.peek__frame{ display:block; width:100%; height:100%; border:0; background:#fff; }
+.peek__fallback{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:1.1rem; padding:2rem; text-align:center; background:var(--paper-2); color:var(--ink-2);
+}
+.peek__fallback[hidden]{ display:none; }
+.peek__fallback img{ width:96px; height:auto; }
+@media (max-width:640px){
+  .peek__out:not(.peek__full){ display:none; }
+  .peek__view{ height:72vh; }
+}
+[data-theme="night"] .peek__fallback img{ filter:invert(1); }

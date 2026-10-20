@@ -60,11 +60,11 @@
   --ink-2:rgba(255,255,255,.74);
   --ink-3:rgba(255,255,255,.58);
   --rule:rgba(255,255,255,.15);
-  --accent:#d39a5c;
-  --accent-deep:#d39a5c;          /* the contact block stays dark too, so the gold stays bright */
-  --accent-soft:rgba(211,154,92,.12);
-  --glow:rgba(211,154,92,.12);
-  --veil:rgba(0,0,0,.58);
+  --accent:#ffffff;               /* black and white only: highlights are white, set apart by weight */
+  --accent-deep:#ffffff;
+  --accent-soft:rgba(255,255,255,.10);
+  --glow:rgba(255,255,255,.06);
+  --veil:rgba(0,0,0,.66);
   --deep:#161616;                 /* contact block: a step up from the page, still black */
   --on-deep:#ffffff;
   --on-deep-2:rgba(255,255,255,.72);
@@ -1229,3 +1229,9 @@ body.no-scroll{ overflow:hidden; }
   .peek__view{ height:72vh; }
 }
 [data-theme="night"] .peek__fallback img{ filter:invert(1); }
+
+/* night: the footage behind the titles goes black-and-white, so no warm cast shows through */
+[data-theme="night"] .hero__video,
+[data-theme="night"] .phero__video,
+[data-theme="night"] .hero__media img,
+[data-theme="night"] .phero__media img{ filter:grayscale(1) brightness(.8); }

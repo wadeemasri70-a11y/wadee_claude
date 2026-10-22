@@ -27,8 +27,9 @@
 /* ── نهاري · day — warm paper, one red accent ─────────────────────
    Two themes only. Everything else in the file reads these tokens and
    never names a colour, so the whole site — the canvas wave included —
-   turns over when data-theme changes. */
-:root,
+   turns over when data-theme changes. Night is the default, so the bare
+   :root below carries it and this block overrides: a page rendered with
+   scripting blocked still opens dark rather than light. */
 :root[data-theme="day"]{
   --paper:#f4f1ec;
   --paper-2:#ece7df;
@@ -52,7 +53,8 @@
   color-scheme:light;
 }
 
-/* ── ليلي · night — white on black ──────────────────────────────── */
+/* ── ليلي · night — white on black, and the site's default ──────── */
+:root,
 :root[data-theme="night"]{
   --paper:#0a0a0a;
   --paper-2:#141414;

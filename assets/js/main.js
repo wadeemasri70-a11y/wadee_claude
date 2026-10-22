@@ -767,7 +767,6 @@
   (function () {
     var btn = $('#themeBtn');
     if (!btn) return;
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
     var chosen = null;
     try { chosen = localStorage.getItem('awan-theme'); } catch (err) {}
     if (chosen !== 'day' && chosen !== 'night') chosen = null;
@@ -782,13 +781,10 @@
       /* the canvas wave picks its colour off --accent, so tell it to re-read */
       window.dispatchEvent(new CustomEvent('awan:theme'));
     }
-    apply(chosen || (mq.matches ? 'night' : 'day'), false);
+    apply(chosen || 'night', false);   /* night unless the visitor picked day */
     btn.addEventListener('click', function () {
       apply(html.getAttribute('data-theme') === 'night' ? 'day' : 'night', true);
     });
-    var follow = function () { if (!chosen) apply(mq.matches ? 'night' : 'day', false); };
-    if (mq.addEventListener) mq.addEventListener('change', follow);
-    else if (mq.addListener) mq.addListener(follow);
   })();
 
   /* ═══ 6. Boot ══════════════════════════════════════════════════ */

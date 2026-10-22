@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>أوان للدوبلاج — دوبلاج وتعليق صوتي</title>
 <meta name="description" content="أوان للدوبلاج: سبعة استوديوهات، شبكة أصوات محترفة، ودراما وأنمي ووثائقيات نُقلت إلى العربية.">
-<meta name="theme-color" content="#f4f1ec">
+<meta name="theme-color" content="#0a0a0a">
 <script>
 /* before first paint, so the page never flashes the wrong theme */
 (function () {
   var t = null;
   try { t = localStorage.getItem('awan-theme'); } catch (e) {}
   if (t !== 'day' && t !== 'night')
-    t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+    t = 'night';   /* night is the default; the visitor's own choice is remembered */
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
@@ -856,6 +856,6 @@
 </dialog>
 
 <script src="assets/js/wave.js" defer></script>
-<script src="assets/js/main.js?v=4" defer></script>
+<script src="assets/js/main.js?v=5" defer></script>
 </body>
 </html>

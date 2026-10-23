@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مدينة الإنتاج السينمائي والتلفزيوني — مجموعة أوان</title>
+<meta name="description" content="مدينة الإنتاج السينمائي والتلفزيوني: خمسة وأربعون ألف متر مربّع من الديكورات والحارات وأربعة استوديوهات كبيرة في ريف دمشق.">
+<meta name="theme-color" content="#0a0a0a">
+<script>
+/* before first paint, so the page never flashes the wrong theme */
+(function () {
+  var t = null;
+  try { t = localStorage.getItem('awan-theme'); } catch (e) {}
+  if (t !== 'day' && t !== 'night')
+    t = 'night';   /* night is the default; the visitor's own choice is remembered */
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="مدينة الإنتاج السينمائي والتلفزيوني — مجموعة أوان">
+<meta property="og:description" content="مدينة الإنتاج السينمائي والتلفزيوني: خمسة وأربعون ألف متر مربّع من الديكورات والحارات وأربعة استوديوهات كبيرة في ريف دمشق.">
+<meta property="og:image" content="assets/img/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/style.css?v=7">
+</head>
+<body>
+
+<a class="skip" href="#main" data-ar="تخطَّ إلى المحتوى" data-en="Skip to content">تخطَّ إلى المحتوى</a>
+
+<div class="grain" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="brand" href="index.html" aria-label="Awan Group — الصفحة الرئيسية">
+      <img class="brand__logo mark--ink" src="assets/img/awan-group-ink.webp"
+           alt="Awan Group" width="760" height="202" decoding="async">
+      <img class="brand__logo mark--cream" src="assets/img/awan-group-cream.webp"
+           alt="Awan Group" width="760" height="202" decoding="async">
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="التنقّل الرئيسي">
+      <a href="index.html" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+      <a href="dubbing.html" data-ar="أوان للدوبلاج" data-en="Awan Dubbing">أوان للدوبلاج</a>
+      <a href="golden-city.html" class="is-active" aria-current="page" data-ar="مدينة الإنتاج" data-en="Production City">مدينة الإنتاج</a>
+      <a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+    </nav>
+
+    <div class="nav__side">
+      <button class="theme" id="themeBtn" type="button" aria-pressed="false"
+              aria-label="التبديل بين النهاري والليلي" title="نهاري / ليلي">
+        <svg class="theme__sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/>
+        </svg>
+        <svg class="theme__moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/>
+        </svg>
+      </button>
+      <a class="nav__ico" href="https://wa.me/963998327842" target="_blank" rel="noopener"
+         aria-label="WhatsApp" title="WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.4 11.8a8.4 8.4 0 0 1-12.4 7.4l-4.4 1.3 1.3-4.3A8.4 8.4 0 1 1 20.4 11.8Z"/>
+          <path d="M9.1 8.9c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.7 1.6c0 .2 0 .4-.1.5l-.4.5c-.2.2-.3.3 0 .6a6 6 0 0 0 2.5 2.2c.3.1.4 0 .6-.1l.5-.6c.2-.2.3-.2.6 0l1.4.8c.3.2.4.3.4.5a1.9 1.9 0 0 1-1.5 1.7c-.8 0-2.6-.3-4.5-2.2a9 9 0 0 1-2.3-3.6c-.2-.9 0-1.5.4-2Z"/>
+        </svg>
+      </a>
+      <a class="nav__ico" href="https://www.linkedin.com/company/awangroupartproductio/" target="_blank" rel="noopener"
+         aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="3.6"/>
+          <path d="M7.4 10.3V17M7.4 7.3v.01M11.2 17v-3.9a1.9 1.9 0 0 1 3.8 0V17"/>
+        </svg>
+      </a>
+      <button class="lang" id="langBtn" type="button" aria-label="Switch to English">EN</button>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="القائمة">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav class="menu__nav" aria-label="التنقّل">
+    <a href="index.html" data-ar="الرئيسية" data-en="Home" style="--i:0">الرئيسية</a>
+    <a href="dubbing.html" data-ar="أوان للدوبلاج" data-en="Awan Dubbing" style="--i:1">أوان للدوبلاج</a>
+    <a href="golden-city.html" data-ar="مدينة الإنتاج" data-en="Production City" style="--i:2">مدينة الإنتاج</a>
+    <a href="#contact" data-ar="تواصل" data-en="Contact" style="--i:3">تواصل</a>
+  </nav>
+  <div class="menu__side">
+    <a class="nav__ico" href="https://wa.me/963998327842" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.4 11.8a8.4 8.4 0 0 1-12.4 7.4l-4.4 1.3 1.3-4.3A8.4 8.4 0 1 1 20.4 11.8Z"/>
+        <path d="M9.1 8.9c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.7 1.6c0 .2 0 .4-.1.5l-.4.5c-.2.2-.3.3 0 .6a6 6 0 0 0 2.5 2.2c.3.1.4 0 .6-.1l.5-.6c.2-.2.3-.2.6 0l1.4.8c.3.2.4.3.4.5a1.9 1.9 0 0 1-1.5 1.7c-.8 0-2.6-.3-4.5-2.2a9 9 0 0 1-2.3-3.6c-.2-.9 0-1.5.4-2Z"/>
+      </svg>
+    </a>
+    <a class="nav__ico" href="https://www.linkedin.com/company/awangroupartproductio/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="3.6"/>
+        <path d="M7.4 10.3V17M7.4 7.3v.01M11.2 17v-3.9a1.9 1.9 0 0 1 3.8 0V17"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<div id="scroller">
+<main id="main">
+  <!-- ═══ PAGE HERO ═══ -->
+  <section class="phero" id="home">
+    <!-- The reel sits behind the title under a veil. No file yet → the poster
+         shows; no poster either → the paper colour carries it on its own. -->
+    <div class="phero__media" aria-hidden="true">
+      <video class="phero__video" id="heroVideo" poster="assets/img/poster-city.webp"
+             autoplay muted loop playsinline preload="metadata">
+        <source src="assets/video/golden-city.mp4" type="video/mp4">
+      </video>
+      <span class="phero__veil"></span>
+    </div>
+
+    <div class="wrap phero__in">
+      <p class="eyebrow" data-rv="up" style="--i:0">
+        <span class="dot" aria-hidden="true"></span>
+        <span data-ar="مدينة الإنتاج" data-en="Production city">مدينة الإنتاج</span>
+      </p>
+      <h1 class="phero__title">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:1"
+              data-ar="مدينة الإنتاج السينمائي والتلفزيوني" data-en="The Cinema and Television Production City">مدينة الإنتاج السينمائي والتلفزيوني</span></span>
+      </h1>
+      <p class="phero__lead" data-rv="up" style="--i:3"
+         data-ar="خمسة وأربعون ألف متر مربّع من الديكورات والحارات والأسواق، على أربعة استوديوهات كبيرة في ريف دمشق." data-en="Forty-five thousand square meters of sets, alleyways and markets across four large studios outside Damascus.">خمسة وأربعون ألف متر مربّع من الديكورات والحارات والأسواق، على أربعة استوديوهات كبيرة في ريف دمشق.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PRODUCTION CITY ═══ -->
+  <section class="sec city" id="city">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="مدينة الإنتاج" data-en="Production city">مدينة الإنتاج</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="مدينة الإنتاج السينمائي والتلفزيوني"
+          data-en="The Cinema and Television Production City for Film and Television">مدينة الإنتاج السينمائي والتلفزيوني</h2>
+
+      <p class="city__lead" data-rv="up"
+         data-ar="مدينة إنتاج تملكها مجموعة أوان في ريف دمشق، تمتدّ على ٤٥٬٠٠٠ متر مربّع، وتضمّ ديكورات تناسب مختلف الحقب وبيئات تصوير متنوّعة، موزّعة على أربعة استوديوهات كبيرة."
+         data-en="A production city owned by Awan Group outside Damascus. It spans 45,000 square meters with sets suitable for all eras and a variety of environments, across four large studios.">
+        مدينة إنتاج تملكها مجموعة أوان في ريف دمشق، تمتدّ على ٤٥٬٠٠٠ متر مربّع، وتضمّ ديكورات تناسب مختلف الحقب وبيئات تصوير متنوّعة، موزّعة على أربعة استوديوهات كبيرة.
+      </p>
+
+      <ol class="srv city__set">
+        <li class="srv__row" data-rv="row" style="--i:0">
+          <span class="srv__no">01</span>
+          <h3 class="srv__name" data-ar="٤٠٠ م²" data-en="400 m²">٤٠٠ م²</h3>
+          <p class="srv__txt" data-ar="الاستوديو الأوّل، ومعه استوديو إعلانات مستقلّ بمساحة ١٠٠ متر مربّع."
+             data-en="Studio 1, with an additional 100-square-meter advertising studio alongside it.">الاستوديو الأوّل، ومعه استوديو إعلانات مستقلّ بمساحة ١٠٠ متر مربّع.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:1">
+          <span class="srv__no">02</span>
+          <h3 class="srv__name" data-ar="٣٬٠٠٠ م²" data-en="3,000 m²">٣٬٠٠٠ م²</h3>
+          <p class="srv__txt" data-ar="الاستوديو الثاني، مصمّم ليحاكي الأزقّة والباحات والأسواق."
+             data-en="Studio 2, designed to replicate alleyways, courtyards and marketplaces.">الاستوديو الثاني، مصمّم ليحاكي الأزقّة والباحات والأسواق.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:2">
+          <span class="srv__no">03</span>
+          <h3 class="srv__name" data-ar="١٠٬٠٠٠ م²" data-en="10,000 m²">١٠٬٠٠٠ م²</h3>
+          <p class="srv__txt" data-ar="الأكبر: قرية تراثية كاملة بباحاتها وأزقّتها ودكاكينها، مثالية للتصوير الداخلي."
+             data-en="The largest: a complete heritage village with courtyards, alleyways and shops, ideal for indoor filming.">الأكبر: قرية تراثية كاملة بباحاتها وأزقّتها ودكاكينها، مثالية للتصوير الداخلي.</p>
+        </li>
+        <li class="srv__row" data-rv="row" style="--i:3">
+          <span class="srv__no">04</span>
+          <h3 class="srv__name" data-ar="٧٬٠٠٠ م²" data-en="7,000 m²">٧٬٠٠٠ م²</h3>
+          <p class="srv__txt" data-ar="استوديوهات «باب الحارة»: حارات وأسواق شامية كلاسيكية على مساحة واسعة."
+             data-en="The Bab Al-Hara studios: traditional alleyways and markets in the classic Damascene style.">استوديوهات «باب الحارة»: حارات وأسواق شامية كلاسيكية على مساحة واسعة.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ THE CITY IN PICTURES ═══ -->
+  <!-- Its own section, under the city itself: three to a row, every frame the
+       same 3:2 box, and each one opens full size in the lightbox. -->
+  <section class="sec shots" id="pictures">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="صور المدينة" data-en="The city in pictures">صور المدينة</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="حارات وقصور وأسواق، واقفة على مدار السنة"
+          data-en="Alleys, palaces and markets, standing all year round">حارات وقصور وأسواق، واقفة على مدار السنة</h2>
+
+      <ul class="shots__grid">
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 1 من 27"
+                  data-title-en="The Cinema and Television Production City — 1 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-01.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 2 من 27"
+                  data-title-en="The Cinema and Television Production City — 2 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-02.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 3 من 27"
+                  data-title-en="The Cinema and Television Production City — 3 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-03.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 4 من 27"
+                  data-title-en="The Cinema and Television Production City — 4 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-04.webp" alt="" loading="lazy" decoding="async" width="1080" height="720">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 5 من 27"
+                  data-title-en="The Cinema and Television Production City — 5 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-05.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 6 من 27"
+                  data-title-en="The Cinema and Television Production City — 6 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-06.webp" alt="" loading="lazy" decoding="async" width="810" height="540">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 7 من 27"
+                  data-title-en="The Cinema and Television Production City — 7 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-07.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 8 من 27"
+                  data-title-en="The Cinema and Television Production City — 8 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-08.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 9 من 27"
+                  data-title-en="The Cinema and Television Production City — 9 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-09.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 10 من 27"
+                  data-title-en="The Cinema and Television Production City — 10 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-10.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 11 من 27"
+                  data-title-en="The Cinema and Television Production City — 11 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-11.webp" alt="" loading="lazy" decoding="async" width="1080" height="720">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 12 من 27"
+                  data-title-en="The Cinema and Television Production City — 12 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-12.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 13 من 27"
+                  data-title-en="The Cinema and Television Production City — 13 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-13.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 14 من 27"
+                  data-title-en="The Cinema and Television Production City — 14 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-14.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 15 من 27"
+                  data-title-en="The Cinema and Television Production City — 15 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-15.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 16 من 27"
+                  data-title-en="The Cinema and Television Production City — 16 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-16.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 17 من 27"
+                  data-title-en="The Cinema and Television Production City — 17 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-17.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 18 من 27"
+                  data-title-en="The Cinema and Television Production City — 18 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-18.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 19 من 27"
+                  data-title-en="The Cinema and Television Production City — 19 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-19.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 20 من 27"
+                  data-title-en="The Cinema and Television Production City — 20 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-20.webp" alt="" loading="lazy" decoding="async" width="719" height="479">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 21 من 27"
+                  data-title-en="The Cinema and Television Production City — 21 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-21.webp" alt="" loading="lazy" decoding="async" width="1079" height="719">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 22 من 27"
+                  data-title-en="The Cinema and Television Production City — 22 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-22.webp" alt="" loading="lazy" decoding="async" width="911" height="607">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 23 من 27"
+                  data-title-en="The Cinema and Television Production City — 23 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-23.webp" alt="" loading="lazy" decoding="async" width="1100" height="734">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 24 من 27"
+                  data-title-en="The Cinema and Television Production City — 24 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-24.webp" alt="" loading="lazy" decoding="async" width="1100" height="734">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:0">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 25 من 27"
+                  data-title-en="The Cinema and Television Production City — 25 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-25.webp" alt="" loading="lazy" decoding="async" width="1100" height="734">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:1">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 26 من 27"
+                  data-title-en="The Cinema and Television Production City — 26 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-26.webp" alt="" loading="lazy" decoding="async" width="1100" height="734">
+            </span>
+          </button>
+        </li>
+        <li class="shot" data-rv="shot" style="--i:2">
+          <button class="shot__hit" type="button"
+                  data-title-ar="مدينة الإنتاج السينمائي والتلفزيوني — 27 من 27"
+                  data-title-en="The Cinema and Television Production City — 27 of 27">
+            <span class="shot__frame">
+              <img src="assets/img/city-27.webp" alt="" loading="lazy" decoding="async" width="1100" height="733">
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ WHAT WAS FILMED HERE ═══ -->
+  <section class="sec work" id="work">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="الأعمال" data-en="Work">الأعمال</span></p>
+      <h2 class="sec__title" data-rv="up"
+          data-ar="أعمال أُنتجت وصُوّرت هنا" data-en="Produced and filmed here">أعمال أُنتجت وصُوّرت هنا</h2>
+    </div>
+
+    <div class="wgroup">
+      <div class="wrap wgroup__head">
+        <h3 class="wgroup__h" data-rv="up"
+            data-ar="أعمال مدينة الإنتاج" data-en="Production City films">أعمال مدينة الإنتاج</h3>
+        <p class="wgroup__k" data-rv="up" style="--i:1"
+           data-ar="إنتاج وتصوير" data-en="Produced and filmed">إنتاج وتصوير</p>
+      </div>
+
+      <div class="rail rail--posters" id="rail-city" data-auto="26" tabindex="0" role="region"
+           aria-label="أعمال مدينة الإنتاج السينمائي والتلفزيوني">
+        <ul class="rail__track">
+        <li class="rcard" data-rv="img" style="--i:0">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="وردة شامية" data-title-en="Warda Shamiya">
+              <span class="rcard__frame">
+                <img src="assets/img/work-01.webp" alt="وردة شامية" loading="lazy" decoding="async" width="1086" height="1448">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="وردة شامية" data-en="Warda Shamiya">وردة شامية</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:1">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سلاسل دهب" data-title-en="Salasel Dahab">
+              <span class="rcard__frame">
+                <img src="assets/img/work-02.webp" alt="سلاسل دهب" loading="lazy" decoding="async" width="1000" height="1500">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سلاسل دهب" data-en="Salasel Dahab">سلاسل دهب</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:2">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="النوايا" data-title-en="Al Nawaya">
+              <span class="rcard__frame">
+                <img src="assets/img/work-03.webp" alt="النوايا" loading="lazy" decoding="async" width="1080" height="1346">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="النوايا" data-en="Al Nawaya">النوايا</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:3">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="العربجي" data-title-en="Al Arabji">
+              <span class="rcard__frame">
+                <img src="assets/img/work-04.webp" alt="العربجي" loading="lazy" decoding="async" width="960" height="1200">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="العربجي" data-en="Al Arabji">العربجي</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:4">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="العربجي ٢" data-title-en="Al Arabji 2">
+              <span class="rcard__frame">
+                <img src="assets/img/work-05.webp" alt="العربجي ٢" loading="lazy" decoding="async" width="940" height="1672">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="العربجي ٢" data-en="Al Arabji 2">العربجي ٢</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:5">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="السبع" data-title-en="Al Sabaa">
+              <span class="rcard__frame">
+                <img src="assets/img/work-06.webp" alt="السبع" loading="lazy" decoding="async" width="1100" height="1261">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="السبع" data-en="Al Sabaa">السبع</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:6">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="سوق الحرير" data-title-en="Souq al-Harir">
+              <span class="rcard__frame">
+                <img src="assets/img/work-07.webp" alt="سوق الحرير" loading="lazy" decoding="async" width="940" height="1672">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="سوق الحرير" data-en="Souq al-Harir">سوق الحرير</h3>
+              <p data-ar="سوري · مدينة الإنتاج" data-en="Syrian · Production City">سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:7">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="مقامات العشق" data-title-en="Maqamat al-Ishq">
+              <span class="rcard__frame">
+                <img src="assets/img/work-08.webp" alt="مقامات العشق" loading="lazy" decoding="async" width="1264" height="1652">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="مقامات العشق" data-en="Maqamat al-Ishq">مقامات العشق</h3>
+              <p data-ar="2019 · سوري · مدينة الإنتاج" data-en="2019 · Syrian · Production City">2019 · سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="rcard" data-rv="img" style="--i:8">
+          <figure class="rcard__fig">
+            <button class="rcard__hit" type="button"
+                    data-title-ar="باب الحارة" data-title-en="Bab al-Hara">
+              <span class="rcard__frame">
+                <img src="assets/img/work-10.webp" alt="باب الحارة" loading="lazy" decoding="async" width="1260" height="1702">
+                <span class="rcard__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              </span>
+            </button>
+            <figcaption class="rcard__cap">
+              <h3 data-ar="باب الحارة" data-en="Bab al-Hara">باب الحارة</h3>
+              <p data-ar="2008 · سوري · مدينة الإنتاج" data-en="2008 · Syrian · Production City">2008 · سوري · مدينة الإنتاج</p>
+            </figcaption>
+          </figure>
+        </li>
+
+        </ul>
+      </div>
+
+    <div class="wrap rail__ui">
+      <div class="rail__bar" aria-hidden="true"><span class="rail__fill"></span></div>
+      <div class="rail__btns">
+        <button class="rail__btn rail__btn--prev" type="button" aria-label="السابق" aria-controls="rail-city">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button class="rail__btn rail__btn--next" type="button" aria-label="التالي" aria-controls="rail-city">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+    </div>
+
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="sec contact" id="contact">
+    <div class="wrap">
+      <p class="label" data-rv="up"><span data-ar="تواصل" data-en="Contact">تواصل</span></p>
+
+      <h2 class="contact__head">
+        <span class="line"><span class="line__in" data-rv="line" style="--i:0" data-ar="لنصنع شيئاً" data-en="Let's make">لنصنع شيئاً</span></span>
+        <span class="line"><span class="line__in" data-rv="line" style="--i:1" data-ar="معاً" data-en="something">معاً</span></span>
+      </h2>
+
+      <p class="contact__note" data-rv="up"
+         data-ar="أرسل إلينا النص أو الحلقة، ونعود إليك بعيّنة صوتية وخطة تنفيذ."
+         data-en="Send us the script or one episode, and we'll come back with a voice sample and a plan.">
+        أرسل إلينا النص أو الحلقة، ونعود إليك بعيّنة صوتية وخطة تنفيذ.
+      </p>
+
+      <a class="mail" href="mailto:fatima.h@awan-group.com" data-rv="mail">
+        <span>fatima.h@awan-group.com</span>
+      </a>
+
+      <ul class="reach" data-rv="up">
+        <li>
+          <span class="reach__k" data-ar="بريد إضافي" data-en="Second inbox">بريد إضافي</span>
+          <a href="mailto:shmsalqurmllc@gmail.com"><bdi>shmsalqurmllc@gmail.com</bdi></a>
+        </li>
+        <li>
+          <span class="reach__k" data-ar="سوريا" data-en="Syria">سوريا</span>
+          <a href="tel:+963998327842"><bdi>+963 998 327 842</bdi></a>
+          <span class="reach__v" data-ar="المنطقة الحرّة في البرامكة، بلوك B (59–60)، دمشق"
+                data-en="Al-Baramkeh Free Zone, Block B (59–60), Damascus">المنطقة الحرّة في البرامكة، بلوك B (59–60)، دمشق</span>
+        </li>
+        <li>
+          <span class="reach__k" data-ar="الإمارات" data-en="UAE">الإمارات</span>
+          <a href="tel:+971505410450"><bdi>+971 50 541 0450</bdi></a>
+          <span class="reach__v" data-ar="أوان للإنتاج ش.ذ.م.م — مدينة الشارقة للإعلام، الشارقة"
+                data-en="Awan Production LLC — Sharjah Media City, Sharjah">أوان للإنتاج ش.ذ.م.م — مدينة الشارقة للإعلام، الشارقة</span>
+        </li>
+        <li>
+          <span class="reach__k" data-ar="سلطنة عُمان" data-en="Oman">سلطنة عُمان</span>
+          <a href="tel:+96892279041"><bdi>+968 9227 9041</bdi></a>
+          <span class="reach__v" data-ar="شمس القرم للأعمال ش.ذ.م.م — مسقط، الخوير"
+                data-en="Shams Al Qurm Business LLC — Muscat, Al Khuwair">شمس القرم للأعمال ش.ذ.م.م — مسقط، الخوير</span>
+        </li>
+      </ul>
+
+      <ul class="social" data-rv="up" style="--i:1">
+        <li><a href="https://www.instagram.com/awan_media_group/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/AwanGroupMedia" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://x.com/AwanGroupMedia" target="_blank" rel="noopener">X</a></li>
+        <li><a href="https://www.linkedin.com/company/awangroupartproductio/" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+
+    <footer class="foot">
+      <div class="wrap foot__in">
+        <img class="foot__logo mark--cream" src="assets/img/awan-group-cream.webp" alt="" width="760" height="202" loading="lazy" decoding="async">
+        <img class="foot__logo mark--ink" src="assets/img/awan-group-ink.webp" alt="" width="760" height="202" loading="lazy" decoding="async">
+        <span class="foot__c">© <span id="year">2026</span> <span data-ar="مجموعة أوان" data-en="Awan Group">مجموعة أوان</span></span>
+        <a class="foot__top" href="#home" data-ar="إلى الأعلى" data-en="Back to top">إلى الأعلى</a>
+      </div>
+    </footer>
+  </section>
+
+</main>
+</div>
+
+<dialog class="lb" id="lb" aria-label="عرض العمل">
+  <button class="lb__x" id="lbClose" type="button" aria-label="إغلاق">&times;</button>
+  <figure class="lb__fig">
+    <img id="lbImg" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+</dialog>
+
+<script src="assets/js/wave.js" defer></script>
+<script src="assets/js/main.js?v=5" defer></script>
+</body>
+</html>
